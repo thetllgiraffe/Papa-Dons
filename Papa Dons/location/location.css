@@ -1,0 +1,81 @@
+/******************************************
+/* CSS
+/*******************************************/
+
+/* Box Model Hack */
+*{
+  box-sizing: border-box;
+}
+a{
+  text-decoration: none;
+}
+
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+nav{
+  height: 185px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: space-around;
+  align-items:center ;
+  
+}
+#logoAndTitle{
+  width: 50%;
+  display: flex;
+  align-items:center ;
+}
+#logo{
+  width: 130px;
+  height: 100px;
+  transform: scaleX(-1);
+}
+#title{
+font: 70px solid ;
+margin-left: 10px;
+}
+#bar{
+  width: 50%;
+  display: flex;
+     gap: 100px;
+    list-style: none;
+    /* margin-left: 190px; */
+}
+nav a{
+  color: black;
+  font-size: 30px;
+}
+#mainSentence{
+  text-align: center;
+  font-size:40px;
+}
+iframe{
+  height: 400px;
+  width: 80%;
+  margin-left: 130px;
+  margin-bottom: 15px;
+}
+#viewScheduleButton{
+    margin-left: 39%;
+    padding: 26px;
+    font-size: 20px;
+    background-color: black;
+    border: none;
+    color: #0859d1;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+#viewScheduleButton a:hover{
+  color: rgb(66, 128, 168);
+}
+#viewScheduleButton a{
+  color: beige;
+}
+
+
+/******************************************
+/* ADDITIONAL STYLES
+/*******************************************/
