@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Calendar</title>
+    <link href="../CSS/calender.css" rel="stylesheet"></link>
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <div class="month-display" id="monthDisplay"></div>
+            <div class="calendar-nav">
+                <button id="prevMonth">&lt;</button>
+                <button id="today">Today</button>
+                <button id="nextMonth">&gt;</button>
+                <button id="addEventBtn">+ Event</button>
+            </div>
+        </div>
+        
+        <div class="week-days">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        
+        <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+    
+    <div class="event-list">
+        <h2>Upcoming Events</h2>
+        <div id="eventsList"></div>
+    </div>
+    
+    <!-- Event Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModal">&times;</span>
+            <h2 id="modalTitle">Add New Event</h2>
+            <form id="eventForm" method="POST" action="/">
+                <input type="hidden" id="eventId">
+                <div class="form-group">
+                    <label for="eventTitle">Event Title</label>
+                    <input type="text" id="eventTitle" name="eventTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Date</label>
+                    <input type="date" id="eventDate" name="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventTime">Time</label>
+                    <input type="time" id="eventTime" name="eventTime">
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Description</label>
+                    <textarea id="eventDescription" rows="3" name="eventDescription"></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="button" id="deleteEventBtn" class="btn btn-danger" style="display: none;">Delete</button>
+                    <button type="button" id="cancelBtn" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- View Event Modal -->
+    <div id="viewEventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeViewModal">&times;</span>
+            <h2 id="viewEventTitle"></h2>
+            <p><strong>Date:</strong> <span id="viewEventDate"></span></p>
+            <p><strong>Time:</strong> <span id="viewEventTime"></span></p>
+            <p><strong>Description:</strong></p>
+            <p id="viewEventDescription"></p>
+            <div class="button-group">
+                <!-- <button type="button" id="editEventBtn" class="btn btn-primary">Edit</button> -->
+                <button type="button" id="closeViewBtn" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../JS/calender.js"></script>
+</body>
+</html>
