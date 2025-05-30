@@ -68,7 +68,8 @@ const fetchlist = () => {fetch('/admin/list', {
       <td>${event.id}</td>
       <td>${event.title}</td>
       <td>${event.date}</td>
-      <td>${event.time}</td>
+      <td>${event.starttime}</td>
+      <td>${event.endtime}</td>
       <td>${event.description}</td>
     `;
     const approveBtn = document.createElement('button');
@@ -95,7 +96,8 @@ const fetchlist = () => {fetch('/admin/list', {
         <td>${event.id}</td>
         <td>${event.title}</td>
         <td>${event.date}</td>
-        <td>${event.time}</td>
+        <td>${event.starttime}</td>
+        <td>${event.endtime}</td>
         <td>${event.description}</td>
       `;
       const removeBtn = document.createElement('button');

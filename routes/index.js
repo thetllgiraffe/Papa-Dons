@@ -12,12 +12,12 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const {title, date, time, description} = req.body
+  const {title, date, starttime, endtime, description} = req.body
   const stmt = db.prepare(`
-    INSERT INTO events (title, date, time, description, status)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO events (title, date, starttime, endtime, description, status)
+    VALUES (?, ?, ?, ?, ?, ?)
   `);
-  stmt.run(title, date, time, description, 'pending')
+  stmt.run(title, date, starttime, endtime, description, 'pending')
   res.send('data saved');
   transporter.sendMail({
     from: '"Scott" <scottlynnfwa@gmail.com>',
@@ -34,14 +34,10 @@ router.post('/', (req, res) => {
 });
 
 router.get('/retrieve', (req, res) => {
-  const rows = db.prepare("SELECT * FROM events WHERE status='approved' ORDER BY date, time").all();
+  const rows = db.prepare("SELECT * FROM events WHERE status='approved' ORDER BY date, starttime").all();
   res.json(rows);
 });
 
-// router.delete('/admin', (req, res) => {
-//   const {id, action} = req.body
-//   const stmt = db.prepare('UPDATE table_name SET status = ? WHERE condition;')
-//   stmt.run(id, action)
-// })
+
 
 module.exports = router;

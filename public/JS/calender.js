@@ -158,7 +158,6 @@ function createDayElement(day, dateStr, inactive) {
           openAddEventModal(dateStr);
       });
     }
-		// events = await fetchEvents();
 		// Add events for this day
 		const dayEvents = events.filter(e => e.date === dateStr);
 		dayEvents.forEach(event => {
@@ -202,13 +201,10 @@ function openAddEventModal(dateStr = '') {
 		document.getElementById('eventId').value = '';
 		document.getElementById('eventTitle').value = '';
 		document.getElementById('eventDate').value = dateStr || formatDate(new Date());
-		document.getElementById('eventTime').value = '';
+		document.getElementById('startTime').value = '';
+    document.getElementById('endTime').value = '';
 		document.getElementById('eventDescription').value = '';
-		// document.getElementById('eventColor').value = '#4361ee';
-		
-		// // Set the default color
-		// colorOptions.forEach(opt => opt.classList.remove('selected'));
-		// document.querySelector('.color-option[data-color="#4361ee"]').classList.add('selected');
+
 		
 		// Hide the delete button
 		deleteEventBtn.style.display = 'none';
@@ -216,31 +212,6 @@ function openAddEventModal(dateStr = '') {
 		eventModal.style.display = 'block';
 }
 
-// Open the edit event modal
-// function openEditEventModal(eventId) {
-// 		const event = events.find(e => e.id == eventId);
-// 		if (!event) return;
-		
-// 		document.getElementById('modalTitle').textContent = 'Edit Event';
-// 		document.getElementById('eventId').value = event.id;
-// 		document.getElementById('eventTitle').value = event.title;
-// 		document.getElementById('eventDate').value = event.date;
-// 		document.getElementById('eventTime').value = event.time || '';
-// 		document.getElementById('eventDescription').value = event.description || '';
-// 		// document.getElementById('eventColor').value = event.color;
-		
-// 		// // Set the selected color
-// 		// colorOptions.forEach(opt => opt.classList.remove('selected'));
-// 		// const colorOption = document.querySelector(`.color-option[data-color="${event.color}"]`);
-// 		// if (colorOption) {
-// 		// 		colorOption.classList.add('selected');
-// 		// }
-		
-// 		// Show the delete button
-// 		deleteEventBtn.style.display = 'block';
-		
-// 		eventModal.style.display = 'block';
-// }
 
 // Open the view event modal
 function openViewEventModal(eventId) {
@@ -251,7 +222,9 @@ function openViewEventModal(eventId) {
 		
 		document.getElementById('viewEventTitle').textContent = event.title;
 		document.getElementById('viewEventDate').textContent = formatDateForDisplay(event.date);
-		document.getElementById('viewEventTime').textContent = event.time || 'All day';
+    const start = formatTime(event.starttime);
+    const end = formatTime(event.endtime);
+		document.getElementById('viewEventTime').textContent = `from ${start} to ${end}`;
 		document.getElementById('viewEventDescription').textContent = event.description || 'No description';
 		viewEventModal.dataset.eventId = event.id;
 		viewEventModal.style.display = 'block';
@@ -261,34 +234,23 @@ function openViewEventModal(eventId) {
 function saveEvent() {
 		const title = document.getElementById('eventTitle').value;
 		const date = document.getElementById('eventDate').value;
-		const time = document.getElementById('eventTime').value;
+		const starttime = document.getElementById('startTime').value;
+    console.log(starttime)
+    const endtime = document.getElementById('endTime').value;
 		const description = document.getElementById('eventDescription').value;
-		// const color = document.getElementById('eventColor').value;
 		
 		if (!title || !date) {
 				alert('Please enter a title and date');
 				return;
 		}
-		
-		// if (eventId) {
-		//     // Update existing event
-		//     const index = events.findIndex(e => e.id === eventId);
-		//     if (index !== -1) {
-		//         events[index] = {
-		//             id: eventId,
-		//             title,
-		//             date,
-		//             time,
-		//             description,
-		//             color
-		//         };
-		//     }
+
 		else {
 				// Add new event
 				const newEvent = {
 						title,
 						date,
-						time,
+						starttime,
+            endtime,
 						description,
 				};
 				fetch('/', {
@@ -303,9 +265,7 @@ function saveEvent() {
 								console.error('Fetch error:', err);
 						});
 		}
-			
-		// Save events to localStorage
-			
+						
 		// Close the modal
 		eventModal.style.display = 'none';
 		
@@ -329,13 +289,6 @@ function deleteEvent() {
 		}
 }
 
-function approveEvent() {
-
-}
-
-function denyEvent() {
-
-}
 
 // Render the events list
 function renderEventsList() {
@@ -388,7 +341,9 @@ function renderEventsList() {
 						eventColorDot.style.backgroundColor = '#4361ee';
 						
 						const eventTitle = document.createElement('div');
-						eventTitle.textContent = `${event.title} ${event.time ? `(${event.time})` : ''}`;
+            const start = formatTime(event.starttime);
+            const end = formatTime(event.endtime);
+						eventTitle.textContent = `${event.title} from ${start} to ${end}`;
 						
 						eventInfo.appendChild(eventColorDot);
 						eventInfo.appendChild(eventTitle);
@@ -402,13 +357,6 @@ function renderEventsList() {
 						viewBtn.addEventListener('click', () => {
 								openViewEventModal(event.id);
 						});
-						
-						// const editBtn = document.createElement('button');
-						// editBtn.textContent = 'Edit';
-						// editBtn.classList.add('btn', 'btn-primary');
-						// editBtn.addEventListener('click', () => {
-						// 		openEditEventModal(event.id);
-						// });
 						
 						eventActions.appendChild(viewBtn);
 						// eventActions.appendChild(editBtn);
@@ -440,6 +388,14 @@ function formatDateForDisplay(dateStr) {
 		});
 }
 
+// Helper function to format time
+function formatTime(input) {
+  const [hour, minute] = input.split(":");
+      let h = parseInt(hour, 10);
+      const ampm = h >= 12 ? "PM" : "AM";
+      h = h % 12 || 12;
+      return `${h}:${minute} ${ampm}`
+}
 
 async function fetchEvents() {
 	try {

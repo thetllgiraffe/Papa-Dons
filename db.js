@@ -9,7 +9,8 @@ db.prepare(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     date TEXT NOT NULL,
-    time TEXT,
+    starttime TEXT NOT NULL,
+    endtime TEXT NOT NULL,
     description TEXT,
     status TEXT
   )

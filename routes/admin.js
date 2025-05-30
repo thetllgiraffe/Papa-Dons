@@ -44,7 +44,7 @@ router.get('/events', requireAdmin, (req, res) => {
 });
 
 router.post('/list', requireAdmin, (req, res) => {
-  const rows = db.prepare('SELECT * FROM events ORDER BY date, time').all();
+  const rows = db.prepare('SELECT * FROM events ORDER BY date, starttime').all();
   res.json(rows);
 });
 
