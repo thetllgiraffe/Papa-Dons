@@ -152,9 +152,12 @@ function createDayElement(day, dateStr, inactive) {
 		dayEl.appendChild(dateNum);
 		
 		// Add event for opening the add event modal
-		dayEl.addEventListener('click', () => {
-				openAddEventModal(dateStr);
-		});
+    if (!inactive) {
+      dayEl.classList.add('clickable');
+      dayEl.addEventListener('click', () => {
+          openAddEventModal(dateStr);
+      });
+    }
 		// events = await fetchEvents();
 		// Add events for this day
 		const dayEvents = events.filter(e => e.date === dateStr);

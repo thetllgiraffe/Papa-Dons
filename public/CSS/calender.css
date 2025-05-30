@@ -268,3 +268,14 @@ input, select, textarea {
       margin: 20% auto;
   }
 }
+
+.clickable {
+    background-color: #6d8dd4;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+.clickable:hover {
+  background-color: #576cb3;
+  cursor: pointer;
+}
