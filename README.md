@@ -20,4 +20,4 @@ If you want to test out the automatic email function for emails sent to the admi
 
 My email is currently the one sending out automatic replies but a noreply email can be set up for the admin in production, as well as a create account and password retrieval logic.
 
-### if switching back over to another branch, run `git clean -fX` to clear untracked node_modules and data.db
+### if switching back over to another branch, run `git clean -fd` to clear untracked node_modules and data.db
