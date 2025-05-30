@@ -1,11 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Papa Don's Burgers and Wings</title>
+  <link rel="stylesheet" href="../CSS/styles.css">
 </head>
+
 <body>
+
+  <!-- Navigation Section -->
+  <nav>
+    <img src="#" alt="logo" />
+    <ul>
+        <li><a href="landing.html">Home</a></li>
+      <li><a href="aboutMe.html">About</a></li>
+      <li><a href="location.html">Find Us</a></li>
+      <li><a href="calendar.html">Book Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section (put a background img for food truck for this section and center everything below)-->
+  <section class="hero">
+    <h1>Papa Don's Burgers and Wings</h1>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. .</p>
+    <div class="btn-group">
+        <a href=#menu class="btn btn-primary">Menu</a>
+      <a href="calendar.html" class="btn btn-primary">Book Us</a>
+      <a href="location.html" class="btn btn-secondary">Find Us</a>
+    </div>
+  </section>
+
+  <!-- Highlights Section -->
+<section class="highlights">
+  <!-- Menu Section (Same Page) -->
+  <div class="highlight">
+    <h3>🍔 Menu</h3>
+    <img src="images/menu.jpg" alt="Delicious Burgers" style="width:100%; max-width:300px;">
+    <p>Craving the best burgers & wings? Dive into our delicious menu crafted for every craving!</p>
+    <a href="#menu" class="btn">Explore the Menu 🍟</a>
+  </div>
+
+  <!-- Location Section (Separate Page) -->
+  <div class="highlight">
+    <h3>📍 Find Us Today!</h3>
+    <img src="images/location.jpg" alt="Food Truck Location" style="width:100%; max-width:300px;">
+    <p>We're on the move! Catch Papa Don's food truck at a new spot every day. Don’t miss out!</p>
+    <a href="location.html" class="btn">See Today’s Spot 🗺️</a>
+  </div>
+
+  <!-- About Us Section (Separate Page) -->
+  <div class="highlight">
+    <h3>👨‍🍳 Meet Papa Don</h3>
+    <img src="images/meet-papa-don.jpg" alt="Papa Don Cooking" style="width:100%; max-width:300px;">
+    <p>Discover the story behind passion that drives every bite.</p>
+    <a href="about.html" class="btn">Get to Know Us ❤️</a>
+  </div>
+</section>
+
+
+
+   <!-- Menu Section -->
+  <section id="menu">
+    <h2>Our Menu</h2>
+    <ul>
+      <li>Bacon Cheeseburger</li>
+      <li>Spicy Buffalo Wings</li>
+      <li>Vegetarian Burger</li>
+      <li>Loaded Fries</li>
+    </ul>
+  </section>
+
+
+   <!-- Catering Section -->
+  <section class="catering">
+  <h2>Planning an Event?</h2>
+  <p> Whether you're celebrating a graduation, tying the knot, hosting a festival, or organizing a corporate lunch, Papa Don's Burgers and Wings has you covered. We bring delicious, freshly made food right to your event, wherever it may be. From brew pubs to any life celebration, let us take care of the food while you enjoy the moment. </p>
     
+    <h3>Ready to make your event unforgettable?</h3>
+    <a href="about.html" class="btn">Book Us</a>
+</section>
+
+
+  <!-- Location & Booking Section -->
+  <section id="location">
+    <h2>Find Us & Book a Spot</h2>
+    <p>We change locations daily! Check our schedule below and book your spot to skip the line.</p>
+    <div id="schedule">
+      <!-- Schedule will be dynamically loaded here -->
+    </div>
+    <form id="booking-form">
+      <label for="date">Select Date:</label>
+      <input type="date" id="date" name="date">
+      <label for="time">Select Time:</label>
+      <input type="time" id="time" name="time">
+      <button type="submit">Book Now</button>
+    </form>
+  </section>
+
+  <!-- Call To Action -->
+  <section class="cta">
+    <h2>Ready to taste something unforgettable?</h2>
+    <a href="location.html">See Our Location & Schedule</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Papa Don's Burgers and Wings &nbsp;|&nbsp; contact@papadons.com &nbsp;|&nbsp; @PapaDonsTruck
+  </footer>
+
 </body>
 </html>
