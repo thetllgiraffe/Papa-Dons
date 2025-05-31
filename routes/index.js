@@ -19,18 +19,18 @@ router.get('/calendar.html', (req, res) => {
   res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'calendar.html'));
 });
 
-router.get('/', (req, res) => {
+router.get('/location.html', (req, res) => {
   res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'location', 'location.html'));
 });
 
 
 router.post('/', (req, res) => {
-  const {title, date, starttime, endtime, description} = req.body
+  const {title, date, starttime, endtime, location, description} = req.body
   const stmt = db.prepare(`
-    INSERT INTO events (title, date, starttime, endtime, description, status)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO events (title, date, starttime, endtime, description, location, status)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
-  stmt.run(title, date, starttime, endtime, description, 'pending')
+  stmt.run(title, date, starttime, endtime, location, description, 'pending')
   res.send('data saved');
   transporter.sendMail({
     from: '"Scott" <scottlynnfwa@gmail.com>',

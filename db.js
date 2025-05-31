@@ -1,7 +1,7 @@
 const Database = require('better-sqlite3');
 
 // This creates or opens the database file
-const db = new Database('./data.db');
+const db = new Database('./data/data.db');
 
 // Optional: create table if it doesn't exist
 db.prepare(`
@@ -11,6 +11,7 @@ db.prepare(`
     date TEXT NOT NULL,
     starttime TEXT NOT NULL,
     endtime TEXT NOT NULL,
+    location TEXT,
     description TEXT,
     status TEXT
   )

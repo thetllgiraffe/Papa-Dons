@@ -203,6 +203,7 @@ function openAddEventModal(dateStr = '') {
 		document.getElementById('eventDate').value = dateStr || formatDate(new Date());
 		document.getElementById('startTime').value = '';
     document.getElementById('endTime').value = '';
+    document.getElementById('eventLocation').value = '';
 		document.getElementById('eventDescription').value = '';
 
 		
@@ -235,8 +236,8 @@ function saveEvent() {
 		const title = document.getElementById('eventTitle').value;
 		const date = document.getElementById('eventDate').value;
 		const starttime = document.getElementById('startTime').value;
-    console.log(starttime)
     const endtime = document.getElementById('endTime').value;
+    const location = document.getElementById('eventLocation').value;
 		const description = document.getElementById('eventDescription').value;
 		
 		if (!title || !date) {
@@ -251,6 +252,7 @@ function saveEvent() {
 						date,
 						starttime,
             endtime,
+            location,
 						description,
 				};
 				fetch('/', {
@@ -344,9 +346,13 @@ function renderEventsList() {
             const start = formatTime(event.starttime);
             const end = formatTime(event.endtime);
 						eventTitle.textContent = `${event.title} from ${start} to ${end}`;
+
+            const eventLocation = document.createElement('div');
+            eventLocation.textContent = event.location ? `Location: ${event.location}` : 'No location specified';
 						
 						eventInfo.appendChild(eventColorDot);
 						eventInfo.appendChild(eventTitle);
+            eventInfo.appendChild(eventLocation);
 						
 						const eventActions = document.createElement('div');
 						eventActions.classList.add('event-actions');
