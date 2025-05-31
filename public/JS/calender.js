@@ -386,13 +386,14 @@ function formatDate(date) {
 
 // Format date for display
 function formatDateForDisplay(dateStr) {
-		const date = new Date(dateStr);
-		return date.toLocaleDateString('en-US', { 
-				weekday: 'short', 
-				month: 'short', 
-				day: 'numeric',
-				year: 'numeric'
-		});
+  const [year, month, day] = dateStr.split('-').map(Number);
+	const date = new Date(year, month - 1, day); // month is 0-based
+	return date.toLocaleDateString('en-US', { 
+		weekday: 'short', 
+		month: 'short', 
+		day: 'numeric',
+		year: 'numeric'
+	});
 }
 
 // Helper function to format time
