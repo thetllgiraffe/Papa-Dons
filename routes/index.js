@@ -11,6 +11,19 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'landing.html'));
 });
 
+router.get('/aboutMe.html', (req, res) => {
+  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'aboutMe.html'));
+});
+
+router.get('/calendar.html', (req, res) => {
+  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'calendar.html'));
+});
+
+router.get('/', (req, res) => {
+  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'location', 'location.html'));
+});
+
+
 router.post('/', (req, res) => {
   const {title, date, starttime, endtime, description} = req.body
   const stmt = db.prepare(`
