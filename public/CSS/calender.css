@@ -11,9 +11,44 @@ body {
   color: #333;
 }
 
+.navbar {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  background-color: #333;
+  padding: 10px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  padding: 1.5rem;
+  background: #222;
+  color: white;
+}
+
+nav ul {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
 .calendar-container {
+  margin: 20px auto;
   max-width: 900px;
-  margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
