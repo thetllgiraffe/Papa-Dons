@@ -225,8 +225,9 @@ function openViewEventModal(eventId) {
 		document.getElementById('viewEventDate').textContent = formatDateForDisplay(event.date);
     const start = formatTime(event.starttime);
     const end = formatTime(event.endtime);
+    document.getElementById('viewEventLocation').textContent = event.location || 'No location specified';
+    document.getElementById('viewEventDescription').textContent = event.description || 'No description';
 		document.getElementById('viewEventTime').textContent = `from ${start} to ${end}`;
-		document.getElementById('viewEventDescription').textContent = event.description || 'No description';
 		viewEventModal.dataset.eventId = event.id;
 		viewEventModal.style.display = 'block';
 }
@@ -347,12 +348,12 @@ function renderEventsList() {
             const end = formatTime(event.endtime);
 						eventTitle.textContent = `${event.title} from ${start} to ${end}`;
 
-            const eventLocation = document.createElement('div');
-            eventLocation.textContent = event.location ? `Location: ${event.location}` : 'No location specified';
+            // const eventLocation = document.createElement('div');
+            // eventLocation.textContent = event.location ? `${event.location}` : 'No location specified';
 						
 						eventInfo.appendChild(eventColorDot);
 						eventInfo.appendChild(eventTitle);
-            eventInfo.appendChild(eventLocation);
+            // eventInfo.appendChild(eventLocation);
 						
 						const eventActions = document.createElement('div');
 						eventActions.classList.add('event-actions');

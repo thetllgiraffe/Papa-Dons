@@ -27,7 +27,7 @@ router.get('/location.html', (req, res) => {
 router.post('/', (req, res) => {
   const {title, date, starttime, endtime, location, description} = req.body
   const stmt = db.prepare(`
-    INSERT INTO events (title, date, starttime, endtime, description, location, status)
+    INSERT INTO events (title, date, starttime, endtime, location, description, status)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
   stmt.run(title, date, starttime, endtime, location, description, 'pending')
