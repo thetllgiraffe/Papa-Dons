@@ -4,8 +4,15 @@
   box-sizing: border-box;
 }
 
+
+
+.calendly-embed {
+  margin: auto;
+}
+
 .navbar {
   display: flex;
+  align-self: stretch;
   justify-content: end;
   align-items: center;
   background-color: #333;
@@ -13,9 +20,17 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
-  background-color: #fff;
+  background-image: url(../images/calendarbg.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
   color: #333;
 }
 
@@ -39,5 +54,12 @@ nav a {
   font-weight: 600;
 }
 
-
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #222;
+  color: white;
+  justify-self: end;
+  width: 100%;
+}
 
