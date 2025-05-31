@@ -8,7 +8,7 @@ const receiverEmail = process.env.receiver_email;
 
 
 router.get('/', (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'calendar.html'));
+  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'landing.html'));
 });
 
 router.post('/', (req, res) => {

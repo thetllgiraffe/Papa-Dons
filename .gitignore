@@ -2,3 +2,5 @@ node_modules/
 data.db
 Dockerfile
 .dockerignore
+fly.toml
+.github/
