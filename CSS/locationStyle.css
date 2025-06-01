@@ -49,13 +49,26 @@ main{
   display: flex;
   flex-flow: column;
   align-items: center;
-  width: 100%;
 }
-#mainSentence{
+#mainSentence {
+  background-image: url(../images/bgImage1.jpg);
+  background-size: cover;          
+  background-repeat: no-repeat;
+  background-position: center;    
+
+  width: 100vw;                  
+  height: 400px;                  
   text-align: center;
-  font-size:40px;
+  font-size: 40px;
   margin-top: -6px;
+
+  color: white;                    
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+
 #googleMapsBox{
   display: flex;
   flex-flow: column wrap;
@@ -82,6 +95,7 @@ iframe{
     transition: 0.3s;
     width: 200px;
     align-self: center;
+    margin-top: 30px;
 }
 #viewScheduleButton a:hover{
   color: rgb(66, 128, 168);
@@ -93,71 +107,4 @@ iframe{
 
 /******************************************
 /* ADDITIONAL STYLES
-/*******************************************/
-@media screen and (max-width : 430px ) {
- nav  {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  height: 360px;
-
-  }
-  nav *{
-  margin: 20px 0 0 0;
-
-  }
-  #logoAndTitle{
-  
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  
-  }
-  #logo{
-
-
-  }
-  #title{
-  font-size: 50px;
-  }
-  #bar{
-  gap: 20px;
-  }
-  #bar a{
-  font-size: 24px;
-  margin-right: 11px;
-  order: 1;
-  }
-  #bar a:hover{
-  color: aqua;
-  }
-  #mainSentence{
-  font-size: 20px;
-  margin-top: 50px;
-  }
-  h1{ 
-  width: 332px;
-  margin-top: 70px;
-  margin-left: -17px;
-  }
-  #currentLocation{
-
-  }
-  iframe{
-  width: 238px;
-  height: 222px;
-    
-  }
-  #googleMapsBox{
-   width: 273px;
-  }
-  #viewScheduleButton{
-  width: 193px;
-  margin-top: 40px;
-  }
-
-
-
-
-
-}
+/*******************************************/  
