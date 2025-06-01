@@ -9,9 +9,9 @@ If you have node already installed then just run `npm -i` Then `node app.js` to 
 
 Events can be scheduled but will not show up on the calender until an admin approved the event
 
-The Calender UI for users wanting to schedule an event can be found at http://localhost:3000
+The Calender UI for users wanting to schedule an event can be found at http://localhost:8080
 
-The Admin side for an owner wanting to approve or deny an event can be found at http://localhost:3000/admin The username and password is for now set at: username: admin password: secret
+The Admin side for an owner wanting to approve or deny an event can be found at http://localhost:8080/admin The username and password is for now set at: username: admin password: secret
 
 If you want to have a clear picture of what is going on, have both routes in seperate tabs and hit refresh to see updates when events are submitted and approved
 
