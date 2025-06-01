@@ -1,92 +1,80 @@
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: var(--white);
   color: #333;
 }
-
-/* Navigation */
-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 1.5rem;
-  background: #222;
-  color: white;
-}
-
-nav ul {
-  display: flex;
-  gap: 3rem;
-  list-style: none;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-
 
 /* Main Section */
 .main {
   background: url('../images/bgImage1.jpg') no-repeat center center/cover;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100dvh;
+  display: grid;
+  place-items: start center;
   text-align: center;
-  color: white;
+  color: var(--white);
   position: relative;
+  border-image: fill 0 linear-gradient(transparent, transparent, black 90%);
 }
-
-.main::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3); /* Dark overlay */
-  z-index: 0;
-}
-
-.main h1,
-.main .btn-group {
-  z-index: 1;
-  position: relative;
+.main > * {
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .main h1 {
-  font-size: 3rem;
   margin-bottom: 1rem;
+  font-family: 'Yellowtail', cursive;
+  font-weight: 400;
+  font-size: clamp(3.5rem, 12vw, 7rem);
+  text-wrap-style: balance;
+  font-style: normal;
+  position: relative;
+  margin-block-start: 50px;
+
+  @media (width > 1024px) {
+    max-width: 70vw;
+  }
 }
 
+.main h1::before {
+  content: "Papa Don's Burgers & Wings";
+  position: absolute;
+  inset: 0;
+  color: var(--white);
+  filter: drop-shadow(5px 5px 2px #000);
+  -webkit-text-stroke: 2px var(--white);
+}
 
-
+.btn-group {
+  margin-block-end: 12rem;
+  place-self: end center;
+}
 .btn {
   display: inline-block;
+  position: relative;
   padding: 10px 20px;
-  background-color: #e0e0e0;;
-  color: #333;
+  background-color: var(--accent);
+  color: var(--white);
+  font-family: 'Sriracha';
   text-decoration: none;
   border-radius: 6px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-}
+  box-shadow: 2px 4px 5px var(--gray);
+  transition: background-color 0.2s ease;
 
-.btn:hover {
-  background-color: #c0c0c0;
+  &:hover {
+    background-color: var(--accent-hover);
+  }
+}
+.btn::before {
+  content: attr(data-link);
+  position: absolute;
+  inset: 1;
+  color: var(--white);
+  filter: drop-shadow(2px 2px 1px #000);
+  -webkit-text-stroke: 0.5px var(--white);
 }
 
 .icon-large {
   font-size: 80px;
   margin: 10px 0;
 }
-
