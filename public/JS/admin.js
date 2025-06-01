@@ -2,6 +2,18 @@
 
 const table = document.getElementById('pending-body');
 const schedule = document.getElementById('approved-body');
+const eventModal = document.getElementById('eventModal');
+const cancelBtn = document.getElementById('cancelBtn');
+const closeModal = document.getElementById('closeModal');
+
+closeModal.addEventListener('click', () => {
+  eventModal.style.display = 'none';
+});
+
+cancelBtn.addEventListener('click', () => {
+  		eventModal.style.display = 'none';
+  });
+
 
 approvedenyEvent = (e) => {
   fetch('/admin/events', {
@@ -46,6 +58,19 @@ removeEvent = (e) => {
 })}
 
 
+
+const openEditEventModal = (e) => {
+  document.getElementById('eventId').value = e.target.dataset.id;
+  document.getElementById('eventTitle').value = e.target.dataset.title;
+  document.getElementById('eventDate').value = e.target.dataset.date;
+  document.getElementById('startTime').value = e.target.dataset.starttime;
+  document.getElementById('endTime').value = e.target.dataset.endtime;
+  document.getElementById('eventLocation').value = e.target.dataset.location;
+  document.getElementById('eventDescription').value = e.target.dataset.description;
+  
+  eventModal.style.display = 'block';
+}
+
   
 const fetchlist = () => {fetch('/admin/list', {
   method: 'POST',
@@ -70,6 +95,7 @@ const fetchlist = () => {fetch('/admin/list', {
       <td>${event.date}</td>
       <td>${event.starttime}</td>
       <td>${event.endtime}</td>
+      <td>${event.location}</td>
       <td>${event.description}</td>
     `;
     const approveBtn = document.createElement('button');
@@ -98,9 +124,20 @@ const fetchlist = () => {fetch('/admin/list', {
         <td>${event.date}</td>
         <td>${event.starttime}</td>
         <td>${event.endtime}</td>
+        <td>${event.location}</td>
         <td>${event.description}</td>
       `;
       const removeBtn = document.createElement('button');
+      const editBtn = document.createElement('button');
+      editBtn.textContent = 'Edit';
+      editBtn.dataset.id = event.id;
+      editBtn.dataset.title = event.title;
+      editBtn.dataset.date = event.date;
+      editBtn.dataset.starttime = event.starttime;
+      editBtn.dataset.endtime = event.endtime;
+      editBtn.dataset.location = event.location;
+      editBtn.dataset.description = event.description;
+      editBtn.addEventListener('click', openEditEventModal);
       removeBtn.textContent = 'Remove';
       removeBtn.dataset.id = event.id;
       removeBtn.addEventListener('click', removeEvent);
@@ -108,6 +145,7 @@ const fetchlist = () => {fetch('/admin/list', {
       schedule.appendChild(row);
       const td = document.createElement('td');
       td.appendChild(removeBtn);
+      td.appendChild(editBtn);
       row.appendChild(td);
     }
   })
