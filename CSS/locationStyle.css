@@ -1,0 +1,110 @@
+/******************************************
+/* CSS
+/*******************************************/
+
+/* Box Model Hack */
+*{
+  box-sizing: border-box;
+}
+a{
+  text-decoration: none;
+}
+
+body{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}
+/******************************************
+/* LAYOUT
+/*******************************************/
+
+header{
+display: flex;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  background: #222;
+  color: white;
+  margin: -9px;
+  padding: 0px 25px;
+}
+
+nav ul {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+
+main{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+#mainSentence {
+  background-image: url(../images/bgImage1.jpg);
+  background-size: cover;          
+  background-repeat: no-repeat;
+  background-position: center;    
+
+  width: 100vw;                  
+  height: 400px;                  
+  text-align: center;
+  font-size: 40px;
+  margin-top: -6px;
+
+  color: white;                    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+#googleMapsBox{
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  width: 100%;
+}
+#currentLocation{
+font-size: 40px;
+margin-top: 60px;
+text-align: center
+}
+iframe{
+  height: 400px;
+  width: 80%;
+}
+#viewScheduleButton{
+    padding: 26px;
+    font-size: 20px;
+    background-color: black;
+    border: none;
+    color: #0859d1;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 200px;
+    align-self: center;
+    margin-top: 30px;
+}
+#viewScheduleButton a:hover{
+  color: rgb(66, 128, 168);
+}
+#viewScheduleButton a{
+  color: rgb(243, 243, 243);
+}
+
+
+/******************************************
+/* ADDITIONAL STYLES
+/*******************************************/  
