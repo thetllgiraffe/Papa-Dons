@@ -1,0 +1,63 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Can't seem to get the Sriracha import working from the main.css so using this as a fallback for now*/
+body {
+  font-family: "Sriracha", cursive;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Navigation Bar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: #222;
+  color: white;
+}
+
+nav ul {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Main */
+.aboutUs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+}
+
+.div img {
+    width: 20%;
+    background-repeat: no-repeat;
+}
+
+.div h3 {
+    align-self: flex-start; 
+}
+
+.div p {
+    align-self: flex-end;
+}
