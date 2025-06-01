@@ -10,53 +10,41 @@ a{
   text-decoration: none;
 }
 
-
+body{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}
 /******************************************
 /* LAYOUT
 /*******************************************/
 
 header{
-
 display: flex;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  background: #222;
+  color: white;
+  margin: -9px;
+  padding: 0px 25px;
+}
 
-justify-content: center;
-}
-nav{
-  
-  height: 369px;
+nav ul {
   display: flex;
-  flex-flow: column nowrap;
-  align-content: space-around;
-  align-items:center;
-}
-#logoAndTitle{
-  display: flex;
-  align-items:center ;
-  margin-left: 68px;
-}
-#logo{
-  width: 130px;
-  height: 100px;
-  transform: scaleX(-1);
-}
-#title{
-font: 70px solid ;
-margin-left: 10px;
-}
-#bar{
-  width: 100%;
-  display: flex;
-  gap: 100px;
+  gap: 3rem;
   list-style: none;
-  align-items: center;
 }
-nav a{
-  color: black;
-  font-size: 30px;
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
 }
-nav a:hover{
-  color: blueviolet;
-}
+
+
 main{
   display: flex;
   flex-flow: column;
