@@ -1,7 +1,19 @@
 /******************************************
 /* CSS
 /*******************************************/
-
+@font-face {
+  font-family: 'Sriracha';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/sriracha@latest/latin-400-normal.woff2)
+      format('woff2'),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/sriracha@latest/latin-400-normal.woff)
+      format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
 /* Box Model Hack */
 *{
   box-sizing: border-box;
@@ -43,7 +55,11 @@ nav a {
   text-decoration: none;
   font-weight: 600;
 }
-
+#logo{
+  object-fit: cover;
+  width: 130px;
+  height: 80px;
+}
 
 main{
   display: flex;
@@ -62,7 +78,7 @@ main{
   font-size: 40px;
   margin-top: -6px;
 
-  color: white;                    
+  color:#ef8f00;                    
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,31 +94,14 @@ main{
 #currentLocation{
 font-size: 40px;
 margin-top: 60px;
-text-align: center
+text-align: center;
+color: green ;
 }
 iframe{
   height: 400px;
   width: 80%;
 }
-#viewScheduleButton{
-    padding: 26px;
-    font-size: 20px;
-    background-color: black;
-    border: none;
-    color: #0859d1;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: 0.3s;
-    width: 200px;
-    align-self: center;
-    margin-top: 30px;
-}
-#viewScheduleButton a:hover{
-  color: rgb(66, 128, 168);
-}
-#viewScheduleButton a{
-  color: rgb(243, 243, 243);
-}
+
 
 
 /******************************************
