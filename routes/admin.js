@@ -40,7 +40,6 @@ function requireAdmin(req, res, next) {
 
 router.get('/events', requireAdmin, (req, res) => {
   res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'admin.html'));
-  // res.send('<h1>Welcome Admin</h1><a href="/logout">Logout</a>');
 });
 
 router.post('/list', requireAdmin, (req, res) => {
@@ -77,6 +76,25 @@ router.put('/events', requireAdmin, (req, res) => {
       });
   }
   res.send('Event status updated');
+});
+
+router.put('/events/edit', requireAdmin, (req, res) => {
+  const { id, title, date, starttime, endtime, location, description ,type } = req.body;
+  const stmt = db.prepare('UPDATE events SET title = ?, date = ?, starttime = ?, endtime = ?, location = ?, description = ?, type = ? WHERE id = ?');
+  stmt.run(title, date, starttime, endtime, location, description, type, id);
+  transporter.sendMail({
+      from: '"Scott" <scottlynnfwa@gmail.com>',
+      to: receiverEmail,
+      subject: "Event Updated ✔",
+      text: "Your event has been updated",
+    }, (err, info) => {
+      if (err) {
+        console.error('Error sending email:', err);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  res.send('Event updated');
 });
 
 router.delete('/events', requireAdmin, (req, res) => {

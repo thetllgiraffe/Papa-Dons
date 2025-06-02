@@ -1,5 +1,5 @@
 
-
+const eventForm = document.getElementById('eventForm');
 const table = document.getElementById('pending-body');
 const schedule = document.getElementById('approved-body');
 const eventModal = document.getElementById('eventModal');
@@ -14,6 +14,40 @@ cancelBtn.addEventListener('click', () => {
   		eventModal.style.display = 'none';
   });
 
+
+
+const editEvent = (e) => {
+  eventModal.style.display = 'none';
+
+  fetch('/admin/events/edit', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: document.getElementById('eventId').value,
+      title: document.getElementById('eventTitle').value,
+      date: document.getElementById('eventDate').value,
+      starttime: document.getElementById('startTime').value,
+      endtime: document.getElementById('endTime').value,
+      location: document.getElementById('eventLocation').value,
+      description: document.getElementById('eventDescription').value,
+      type: document.querySelector('input[name="eventType"]:checked').value, 
+     }),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text();
+  }
+  ).then(data => {
+    console.log(data);
+    fetchlist();
+  }).catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+}
 
 approvedenyEvent = (e) => {
   fetch('/admin/events', {
@@ -36,6 +70,12 @@ approvedenyEvent = (e) => {
     console.error('There was a problem with the fetch operation:', error);
   });
 }
+
+eventForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  editEvent('edit');
+});
+
 
 removeEvent = (e) => {
   fetch('/admin/events', {
@@ -106,6 +146,14 @@ const fetchlist = () => {fetch('/admin/list', {
     const approveBtn = document.createElement('button');
     approveBtn.textContent = 'Approve';
     approveBtn.dataset.id = event.id;
+    approveBtn.dataset.title = event.title;
+    approveBtn.dataset.date = event.date;
+    approveBtn.dataset.starttime = event.starttime;
+    approveBtn.dataset.endtime = event.endtime;
+    approveBtn.dataset.location = event.location;
+    approveBtn.dataset.description = event.description;
+    approveBtn.dataset.type = event.type;
+
     approveBtn.dataset.action = 'approve';
     approveBtn.addEventListener('click', approvedenyEvent);
 
