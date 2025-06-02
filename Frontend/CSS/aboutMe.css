@@ -47,17 +47,15 @@ nav a {
 .container {
     width: 100%;
     display: flex;
+    margin-top: 32rem;
 }
 
-.div img {
-    width: 20%;
+.container img {
+    width: 250rem;
     background-repeat: no-repeat;
 }
 
-.div h3 {
-    align-self: flex-start; 
-}
-
-.div p {
-    align-self: flex-end;
+.column {
+  display: flex;
+  flex-direction: column;
 }
