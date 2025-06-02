@@ -60,6 +60,8 @@ removeEvent = (e) => {
 
 
 const openEditEventModal = (e) => {
+  document.querySelector('input[value="public"').checked = false;
+  document.querySelector('input[value="private"]').checked = false;
   document.getElementById('eventId').value = e.target.dataset.id;
   document.getElementById('eventTitle').value = e.target.dataset.title;
   document.getElementById('eventDate').value = e.target.dataset.date;
@@ -67,7 +69,8 @@ const openEditEventModal = (e) => {
   document.getElementById('endTime').value = e.target.dataset.endtime;
   document.getElementById('eventLocation').value = e.target.dataset.location;
   document.getElementById('eventDescription').value = e.target.dataset.description;
-  document.getElementById('eventType').value = value = e.target.dataset.type;
+  const eventTypeValue = e.target.dataset.type;
+  document.querySelector(`input[value=${eventTypeValue}]`).checked = true;
   
   eventModal.style.display = 'block';
 }
