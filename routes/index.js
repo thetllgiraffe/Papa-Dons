@@ -8,7 +8,7 @@ const receiverEmail = process.env.receiver_email;
 
 
 router.get('/', (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'landing.html'));
+  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'calendar.html'));
 });
 
 router.get('/aboutMe.html', (req, res) => {
@@ -25,12 +25,12 @@ router.get('/location.html', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  const {title, date, starttime, endtime, location, description} = req.body
+  const {title, date, starttime, endtime, location, description, type} = req.body
   const stmt = db.prepare(`
-    INSERT INTO events (title, date, starttime, endtime, location, description, status)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO events (title, date, starttime, endtime, location, description, type, status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `);
-  stmt.run(title, date, starttime, endtime, location, description, 'pending')
+  stmt.run(title, date, starttime, endtime, location, description, type, 'pending')
   res.send('data saved');
   transporter.sendMail({
     from: '"Scott" <scottlynnfwa@gmail.com>',
@@ -47,7 +47,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/retrieve', (req, res) => {
-  const rows = db.prepare("SELECT * FROM events WHERE status='approved' ORDER BY date, starttime").all();
+  const rows = db.prepare("SELECT * FROM events WHERE status='approved' AND type='public' ORDER BY date, starttime").all();
   res.json(rows);
 });
 

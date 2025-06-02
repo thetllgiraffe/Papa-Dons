@@ -67,6 +67,7 @@ const openEditEventModal = (e) => {
   document.getElementById('endTime').value = e.target.dataset.endtime;
   document.getElementById('eventLocation').value = e.target.dataset.location;
   document.getElementById('eventDescription').value = e.target.dataset.description;
+  document.getElementById('eventType').value = value = e.target.dataset.type;
   
   eventModal.style.display = 'block';
 }
@@ -97,6 +98,7 @@ const fetchlist = () => {fetch('/admin/list', {
       <td>${event.endtime}</td>
       <td>${event.location}</td>
       <td>${event.description}</td>
+      <td>${event.type}</td>
     `;
     const approveBtn = document.createElement('button');
     approveBtn.textContent = 'Approve';
@@ -126,6 +128,7 @@ const fetchlist = () => {fetch('/admin/list', {
         <td>${event.endtime}</td>
         <td>${event.location}</td>
         <td>${event.description}</td>
+        <td>${event.type}</td>
       `;
       const removeBtn = document.createElement('button');
       const editBtn = document.createElement('button');
@@ -137,6 +140,7 @@ const fetchlist = () => {fetch('/admin/list', {
       editBtn.dataset.endtime = event.endtime;
       editBtn.dataset.location = event.location;
       editBtn.dataset.description = event.description;
+      editBtn.dataset.type = event.type;
       editBtn.addEventListener('click', openEditEventModal);
       removeBtn.textContent = 'Remove';
       removeBtn.dataset.id = event.id;

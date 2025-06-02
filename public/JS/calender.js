@@ -240,6 +240,7 @@ function saveEvent() {
     const endtime = document.getElementById('endTime').value;
     const location = document.getElementById('eventLocation').value;
 		const description = document.getElementById('eventDescription').value;
+    const type = document.querySelector('input[name="eventType"]:checked').value;
 		
 		if (!title || !date) {
 				alert('Please enter a title and date');
@@ -255,6 +256,7 @@ function saveEvent() {
             endtime,
             location,
 						description,
+            type,
 				};
 				fetch('/', {
 								method: 'POST',

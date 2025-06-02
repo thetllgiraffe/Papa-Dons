@@ -14,6 +14,7 @@ db.prepare(`
     endtime TEXT NOT NULL,
     location TEXT,
     description TEXT,
+    type TEXT,
     status TEXT
   )
 `).run();
