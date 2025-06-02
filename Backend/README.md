@@ -2,7 +2,7 @@
 
 This is a calender app with a node server and sqlite3. It is very basic atm but a good starting template that can be customized for particular uses.
 
-If you have node already installed then just run `npm -i` Then `node app.js` to run the application
+If you have node already installed then from this directory just run `npm -i` Then `node app.js` to run the application
 
 Events can be scheduled but will not show up on the calender until an admin approved the event
 
@@ -17,4 +17,4 @@ If you want to test out the automatic email function for emails sent to the admi
 
 My email is currently the one sending out automatic replies but a noreply email can be set up for the admin in production, as well as a create account and password retrieval logic.
 
-If switching back over to another branch, run `git clean -fd` to clear untracked node_modules and data.db
+If switching back over to another branch, run `git clean -fd` to clear untracked node_modules and data.db if needed
