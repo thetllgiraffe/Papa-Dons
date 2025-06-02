@@ -8,19 +8,23 @@ const receiverEmail = process.env.receiver_email;
 
 
 router.get('/', (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'calendar.html'));
+  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'landing.html'));
+});
+
+router.get('/landing.html', (req, res) => {
+  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'landing.html'));
 });
 
 router.get('/aboutMe.html', (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'aboutMe.html'));
+  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'aboutMe.html'));
 });
 
 router.get('/calendar.html', (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'calendar.html'));
+  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'calendar.html'));
 });
 
 router.get('/location.html', (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'location', 'location.html'));
+  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'location.html'));
 });
 
 

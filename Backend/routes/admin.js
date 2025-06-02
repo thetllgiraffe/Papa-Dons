@@ -39,7 +39,8 @@ function requireAdmin(req, res, next) {
 }
 
 router.get('/events', requireAdmin, (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'public', 'Papa\ Dons', 'admin.html'));
+  res.sendFile(path.join(global.appRoot, 'admin', 'admin.html'));
+  // res.send('<h1>Welcome Admin</h1><a href="/logout">Logout</a>');
 });
 
 router.post('/list', requireAdmin, (req, res) => {

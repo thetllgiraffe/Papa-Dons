@@ -8,7 +8,7 @@ const path = require('path');
 require('dotenv').config();
 
 global.appRoot = __dirname;
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, '../Frontend')));
 
 app.use(session({
   secret: 'your-very-secure-secret', // Change this to a secure secret
