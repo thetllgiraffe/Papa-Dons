@@ -14,21 +14,30 @@
 </head>
 <body>
     <!--Nav Bar-->
-        <nav id="nav">
-            <ul class="menuParent">
-                <li class="menuOuter">
-                    <a href="#menuInner">Menu</a>
-                    <div id="menuInner">
-                        <ul>
-                            <li><a href="landing.html">Home</a></li>
-                            <li><a href="location.html">Visit Us</a></li>
-                            <li><a href="calendar.html">Booking</a></li>
-                            <li><a href="aboutMe.html">About Us</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </nav>
+        <header>
+      <nav id="nav">
+        <img
+          src="../images/papa-don-logo.png"
+          width="150"
+          height="100"
+          alt="Papa Don's Burgers & Wings"
+        />
+        <ul>
+          <li><a href="landing.html">Home</a></li>
+          <li><a href="aboutMe.html">About Us</a></li>
+          <li><a href="location.html">Find Us</a></li>
+          <li><a href="calendar.html">Book Us</a></li>
+        </ul>
+        <button
+          id="open-menu-btn"
+          type="button"
+          class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+        >
+          <span class="sr-only">Open main menu</span>
+          <i class="fa-solid fa-bars fa-2xl" style="color: #ffffff"></i>
+        </button>
+      </nav>
+    </header>
 
     <!--Employee Banner-->
         <section class="aboutUs">
@@ -62,9 +71,9 @@
 
     <!--Contact Icons-->
         <footer>
-            <ul class="icons">
-                <li class="fa-solid fa-envelope">Contact Us</li>
-                <li class="fa-solid fa-map-location-dot"><a href="location.html">Visit Us</a></li>
+            <ul class="iconList">
+                <li class="icon alt fa-solid fa-envelope"><span class="label">Contact Us</span></li>
+                <li class="icon alt fa-solid fa-map-location-dot"><span class="label">Visit Us</span><li>
             </ul>
         </footer>
 </body>
