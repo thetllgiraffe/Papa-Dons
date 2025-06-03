@@ -151,8 +151,8 @@ function createDayElement(day, dateStr, inactive) {
 		dateNum.textContent = day;
 		dayEl.appendChild(dateNum);
 		
-		// Add event for opening the add event modal
-    if (!inactive) {
+		// making the date clickable if there is availability
+    if (dateStr >= formatDate(new Date())) {
       dayEl.classList.add('clickable');
       dayEl.addEventListener('click', () => {
           openAddEventModal(dateStr);

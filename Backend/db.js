@@ -19,9 +19,41 @@ db.prepare(`
   )
 `).run();
 
-function deleteOldRecords() {
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS weekly_schedule (
+    id INTEGER PRIMARY KEY,
+    sunday TEXT,
+    monday TEXT,
+    tuesday TEXT,
+    wednesday TEXT,
+    thursday TEXT,
+    friday TEXT,
+    saturday TEXT
+  )`).run();
+
+db.prepare(`INSERT INTO weekly_schedule (id, sunday, monday, tuesday, wednesday, thursday, friday, saturday)
+  VALUES (1, '[]', '[]', '[]', '[]', '[]', '[]', '[]') ON CONFLICT(id) DO NOTHING`).run();
+
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS dates_available (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL
+  )`).run();
+
+function deleteOldEvents() {
   const query = `DELETE FROM events WHERE date < datetime('now', '-30 days')`;
 
+  try {
+    const result = db.prepare(query).run();
+    console.log(`Deleted ${result.changes} rows older than 30 days`);
+  } catch (err) {
+    console.error('Error deleting old records:', err.message);
+  }
+}
+
+function deleteOldAvailableDates() {
+  const query = `DELETE FROM dates_available WHERE date < datetime('now', '-30 days')`;
   try {
     const result = db.prepare(query).run();
     console.log(`Deleted ${result.changes} rows older than 30 days`);
@@ -33,9 +65,11 @@ function deleteOldRecords() {
 // Schedule task to run every day at 2:00 AM
 cron.schedule('0 2 * * *', () => {
   console.log('Running daily cleanup:', new Date().toISOString());
-  deleteOldRecords();
+  deleteOldEvents();
+  deleteOldAvailableDates();
 });
 
-deleteOldRecords(); // Initial cleanup on startup
+deleteOldEvents(); // Initial cleanup on startup
+deleteOldAvailableDates(); // Initial cleanup on startup
 
 module.exports = db;

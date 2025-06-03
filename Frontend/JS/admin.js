@@ -206,5 +206,61 @@ const fetchlist = () => {fetch('/admin/list', {
   })
 })}
 
+document.getElementById("weekly-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const schedule = {};
+  const dayBlocks = document.querySelectorAll(".day-block");
+
+  dayBlocks.forEach(dayBlock => {
+    const day = dayBlock.dataset.day;
+    const starts = [...dayBlock.querySelectorAll('input[name="start"]')];
+    const ends = [...dayBlock.querySelectorAll('input[name="end"]')];
+
+    const intervals = starts.map((startInput, index) => {
+      const start = startInput.value;
+      const end = ends[index]?.value;
+      if (start && end) {
+        return { start, end };
+      }
+      return null;
+    }).filter(Boolean);
+
+    schedule[day] = intervals;
+    console.log(schedule)
+  });
+
+  // POST JSON to backend
+  fetch("/admin/schedule/weekly", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(schedule)
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Saved:", data);
+  });
+});
+
+document.querySelectorAll('.add-interval').forEach(button => {
+  button.addEventListener('click', () => {
+    const dayDiv = button.closest('.day-block');
+    console.log(dayDiv);
+    const day = dayDiv.dataset.day;
+    const container = dayDiv.querySelector('.intervals');
+
+    const interval = document.createElement('div');
+    interval.classList.add('interval');
+    interval.innerHTML = `
+      <label>Start: <input type="time" name="start"></label>
+      <label>End: <input type="time" name="end"></label>
+    `;
+    container.appendChild(interval);
+  });
+});
+
+  
+
+
 fetchlist();
 

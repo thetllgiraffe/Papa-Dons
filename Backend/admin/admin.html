@@ -45,9 +45,7 @@
           <!-- Event rows will be populated here -->
       </tbody>
   </table>
-  <div>
-    <button id="">Set Schedule</button>
-  </div>
+<!-- modal for editing events -->
   <div id="eventModal" class="modal">
     <div class="modal-content">
         <span class="close-button" id="closeModal">&times;</span>
@@ -88,10 +86,61 @@
     </div>
 </div>
 
-  <div id="scheduleModal" class="">
-
-
+<h2>Set Weekly Schedule</h2>
+<form id="weekly-form">
+  <h3>Monday</h3>
+  <div data-day="monday" class="day-block">
+    <div class="intervals">
+      <!-- time interval inputs appear here with add-interval button with js -->
+    </div>
+    <button type="button" class="add-interval">+ Add Interval</button>
   </div>
+  <h3>Tuesday</h3>
+  <div data-day="tuesday" class="day-block">
+    <div class="intervals">
+      <!-- time interval inputs appear here with add-interval button with js -->
+    </div>
+    <button type="button" class="add-interval">+ Add Interval</button>
+  </div>
+  <h3>Wednesday</h3>
+  <div data-day="wednesday" class="day-block">
+    <div class="intervals">
+      <!-- time interval inputs appear here with add-interval button with js -->
+    </div>
+    <button type="button" class="add-interval">+ Add Interval</button>
+  </div>
+  <h3>Thursday</h3>
+  <div data-day="thursday" class="day-block">
+    <div class="intervals">
+      <!-- time interval inputs appear here with add-interval button with js -->
+    </div>
+    <button type="button" class="add-interval">+ Add Interval</button>
+  </div>
+  <h3>Friday</h3>
+  <div data-day="friday" class="day-block">
+    <div class="intervals">
+      <!-- time interval inputs appear here with add-interval button with js -->
+    </div>
+    <button type="button" class="add-interval">+ Add Interval</button>
+  </div>
+  <h3>Saturday</h3>
+  <div data-day="saturday" class="day-block">
+    <div class="intervals">
+      <!-- time interval inputs appear here with add-interval button with js -->
+    </div>
+    <button type="button" class="add-interval">+ Add Interval</button>
+  </div>
+  <h3>Sunday</h3>
+  <div data-day="sunday" class="day-block">
+    <div class="intervals">
+      <!-- time interval inputs appear here with add-interval button with js -->
+    </div>
+    <button type="button" class="add-interval">+ Add Interval</button>
+  </div>
+
+
+  <button type="submit">Submit</button>
+</form>
 </body>
 <script src="../JS/admin.js"></script>
 </html>
