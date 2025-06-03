@@ -164,8 +164,8 @@ function createDayElement(day, dateStr, inactive) {
 				const eventEl = document.createElement('div');
 				eventEl.classList.add('event');
 				eventEl.textContent = event.title;
-				eventEl.style.backgroundColor = '#4361ee';
-				eventEl.style.color = getContrastColor('#4361ee');
+				eventEl.style.backgroundColor = 'var(--accent)';
+				eventEl.style.color = getContrastColor('var(--white)');
 				
 				eventEl.addEventListener('click', (e) => {
 						e.stopPropagation();
@@ -343,7 +343,7 @@ function renderEventsList() {
 						
 						const eventColorDot = document.createElement('div');
 						eventColorDot.classList.add('event-color');
-						eventColorDot.style.backgroundColor = '#4361ee';
+						eventColorDot.style.backgroundColor = 'var(--accent)';
 						
 						const eventTitle = document.createElement('div');
             const start = formatTime(event.starttime);
