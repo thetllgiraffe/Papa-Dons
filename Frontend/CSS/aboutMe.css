@@ -11,29 +11,8 @@ body {
   font-weight: 400;
   font-style: normal;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: #242943;
   color: #333;
-}
-
-/* Navigation Bar */
-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 1.5rem;
-  background: #222;
-  color: white;
-}
-
-nav ul {
-  display: flex;
-  gap: 3rem;
-  list-style: none;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
 }
 
 /* Main */
@@ -42,22 +21,118 @@ nav a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: #fff;
+}
+
+.aboutUs > h2 {
+  margin-top: 15rem;
 }
 
 .container {
     width: 100%;
     display: flex;
+    margin-top: 10rem;
 }
 
-.div img {
-    width: 20%;
+.container img {
+    width: 300px;
     background-repeat: no-repeat;
 }
 
-.div h3 {
-    align-self: flex-start; 
+.column {
+  display: flex;
+  flex-direction: column;
 }
 
-.div p {
-    align-self: flex-end;
+/* Contact Section */
+footer {
+  margin: 5rem, 10rem;
+  display: flex;
+  align-content: center;
+}
+
+/* iconList */
+ul.iconList {
+	cursor: default;
+	list-style: none;
+	padding-left: 5rem;
+}
+
+ul.iconList li {
+	display: inline-block;
+	padding: 2rem;
+}
+
+ul.iconList li:first-child {
+  padding-left: 1rem;
+}
+
+ul.iconList li:last-child {
+	padding-right: 0;
+}
+
+@media screen and (max-width: 736px) {
+
+	ul.icons li {
+		padding: 0 0.75rem 0 0;
+	}
+
+}
+
+/* Icon */
+.icon {
+	text-decoration: none;
+	border-bottom: none;
+	position: relative;
+}
+
+.icon:before {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	line-height: 1;
+	text-transform: none !important;
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 400;
+}
+
+.icon > .label {
+	display: none;
+}
+
+.icon:before {
+	line-height: inherit;
+}
+
+.icon.solid:before {
+	font-weight: 900;
+}
+
+.icon.alt:before {
+	background-color: #ffffff;
+	border-radius: 100%;
+	color: #242943;
+	display: inline-block;
+	height: 2rem;
+	line-height: 2rem;
+	text-align: center;
+	width: 2rem;
+}
+
+li.icon.alt:before {
+	-moz-transition: background-color 0.2s ease-in-out;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	-ms-transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.2s ease-in-out;
+}
+
+li.icon.alt:hover:before {
+	background-color: #6fc3df;
+}
+
+li.icon.alt:active:before {
+	background-color: #37a6cb;
 }
