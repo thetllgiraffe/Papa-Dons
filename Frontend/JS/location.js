@@ -1,6 +1,10 @@
- const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('bar');
+const openMenuBtn = document.querySelector('#open-menu-btn');
+const closeMenuBtn = document.querySelector('#close-menu-btn');
 
-    menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
+openMenuBtn.addEventListener('click', () => {
+  document.querySelector('.mobile-menu').style.display = 'block';
+});
+
+closeMenuBtn.addEventListener('click', () => {
+  document.querySelector('.mobile-menu').style.display = 'none';
+});

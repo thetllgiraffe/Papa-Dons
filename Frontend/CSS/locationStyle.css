@@ -51,16 +51,7 @@ nav a {
   font-family: 'Yellowtail', cursive;
 }
 
-/* Hamburger Toggle */
-#menuToggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: white;
-  cursor: pointer;
-  z-index: 1001;
-}
+
 
 /* Main Section */
 main {
@@ -110,7 +101,7 @@ iframe {
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   nav {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
   }
 
