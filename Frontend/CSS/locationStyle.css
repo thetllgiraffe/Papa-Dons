@@ -150,3 +150,56 @@ iframe {
     height: 400px;
   }
 }
+/* Footer */
+footer {
+  margin-block-start: 2rem;
+  background: var(--gray);
+  padding-block: 1.5rem;
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding-inline: 1rem;
+    color: var(--white);
+    font-family: 'Sriracha';
+    li {
+      i {
+        display: block;
+        position: relative;
+        display: contents;
+        isolation: isolate;
+        z-index: 1;
+
+        &::after {
+          content: '';
+          position: absolute;
+          border-radius: 50px;
+          background: var(--white);
+          top: 0;
+          transform: translateY(-50%) translateX(-50%);
+          left: 50%;
+          aspect-ratio: 1;
+          vertical-align: top;
+          width: 40px;
+          z-index: -1;
+        }
+      }
+      a {
+        font-family: inherit;
+        color: inherit;
+      }
+      span,
+      a {
+        margin-inline-start: 0.5rem;
+        cursor: pointer;
+        filter: drop-shadow(2px 0px 0px #000);
+
+        &:hover {
+          color: var(--accent-hover);
+        }
+      }
+    }
+  }
+}
+/* Footer END */
