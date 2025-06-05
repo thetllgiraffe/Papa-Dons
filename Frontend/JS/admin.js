@@ -209,51 +209,6 @@ const fetchlist = () => {fetch('/admin/list', {
 
 // Weekly Schedule Management
 
-//submit entire form (may change to individual day submit)
-// document.getElementById("weekly-form").addEventListener("submit", function (e) {
-//   e.preventDefault();
-
-//   const schedule = {};
-//   const dayBlocks = document.querySelectorAll(".day-block");
-
-//   dayBlocks.forEach(dayBlock => {
-//     const day = dayBlock.dataset.day;
-//     const start = dayBlock.querySelector('input[name="start"][data-set="false"]');
-//     const end = dayBlock.querySelector('input[name="end"][data-set="false"]');
-//     if (start && end) {
-//     if (checkScheduleOverlap(day, start.value, end.value)) {
-//       console.error(`Overlap detected for ${day} at ${start.value} - ${end.value}`);
-//       return; // Skip this day if there's an overlap
-//     }
-//   }
-//     const starts = [...dayBlock.querySelectorAll('input[name="start"]')];
-//     const ends = [...dayBlock.querySelectorAll('input[name="end"]')];
-
-//     const intervals = starts.map((startInput, index) => {
-//       const start = startInput.value;
-//       const end = ends[index]?.value;
-//       if (start && end) {
-//         return [ start, end ];
-//       }
-//       return null;
-//     }).filter(Boolean);
-
-//     schedule[day] = intervals;
-//     console.log(schedule)
-//   });
-
-//   // POST JSON to backend
-//   fetch("/admin/schedule/weekly", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(schedule)
-//   })
-//   .then(res => res.text())
-//   .then(data => {
-//     console.log("Saved:", data);
-//   });
-// });
-
 // individual day submit
 const submitDay = (e) => {
   e.preventDefault();

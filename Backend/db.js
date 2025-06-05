@@ -26,11 +26,11 @@ db.prepare(`
     times TEXT NOT NULL
   )`).run();
 
-const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 const insert = db.prepare(`
   INSERT INTO weekly_schedule (day, times)
-  VALUES (?, '[]')
+  VALUES (?, '[["09:00", "17:00"]]')
   ON CONFLICT(day) DO NOTHING
 `);
 

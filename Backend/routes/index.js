@@ -55,5 +55,18 @@ router.get('/retrieve', (req, res) => {
 });
 
 
+router.get('/schedule', (req, res) => {
+  const stmt = db.prepare('SELECT * FROM weekly_schedule');
+  const rows = stmt.all();
+  if (rows.length > 0) {
+    for (const row of rows) {
+      row.times = JSON.parse(row.times); // Parse the times from JSON string to array
+    }
+    res.json(rows);
+  } else {
+    res.status(404).send('Weekly schedule not found');
+  }
+});
+
 
 module.exports = router;

@@ -1,6 +1,7 @@
 // Calendar Functionality
 let currentDate = new Date();
 let events = []
+let schedule = {};
 
 // DOM Elements
 const monthDisplay = document.getElementById('monthDisplay');
@@ -150,9 +151,9 @@ function createDayElement(day, dateStr, inactive) {
 		dateNum.classList.add('date-num');
 		dateNum.textContent = day;
 		dayEl.appendChild(dateNum);
-		
+		console.log(dateStr.getDay())
 		// making the date clickable if there is availability
-    if (dateStr >= formatDate(new Date())) {
+    if (dateStr >= formatDate(new Date()) ) {
       dayEl.classList.add('clickable');
       dayEl.addEventListener('click', () => {
           openAddEventModal(dateStr);
