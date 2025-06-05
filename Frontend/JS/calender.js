@@ -1,5 +1,6 @@
 // Calendar Functionality
-let currentDate = new Date();
+const { DateTime } = luxon;
+let currentDate = luxon.DateTime.now().setZone('America/Chicago');
 let events = []
 let schedule = {};
 
@@ -18,9 +19,6 @@ const eventForm = document.getElementById('eventForm');
 const cancelBtn = document.getElementById('cancelBtn');
 const deleteEventBtn = document.getElementById('deleteEventBtn');
 const eventsList = document.getElementById('eventsList');
-// const colorOptions = document.querySelectorAll('.color-option');
-// const eventColor = document.getElementById('eventColor');
-// const editEventBtn = document.getElementById('editEventBtn');
 const closeViewBtn = document.getElementById('closeViewBtn');
 
 // Initialize the calendar
@@ -30,17 +28,17 @@ function initCalendar() {
 		
 		// Event listeners
 		prevMonthBtn.addEventListener('click', () => {
-				currentDate.setMonth(currentDate.getMonth() - 1);
+        currentDate = currentDate.set({ month: currentDate.month - 1 });  // previous month
 				renderCalendar();
 		});
 		
 		nextMonthBtn.addEventListener('click', () => {
-				currentDate.setMonth(currentDate.getMonth() + 1);
+        currentDate = currentDate.set({ month: currentDate.month + 1 });  // previous month
 				renderCalendar();
 		});
 		
 		todayBtn.addEventListener('click', () => {
-				currentDate = new Date();
+        currentDate = luxon.DateTime.now().setZone('America/Chicago');
 				renderCalendar();
 		});
 		
@@ -60,16 +58,9 @@ function initCalendar() {
 				viewEventModal.style.display = 'none';
 		});
 		
-		// cancelBtn.addEventListener('click', () => {
-		// 		eventModal.style.display = 'none';
-		// });
-
-		// editEventBtn.addEventListener('click', () => {
-		// 	const eventId = viewEventModal.dataset.eventId;
-		// 	console.log(eventId)
-		// 	openEditEventModal(eventId);
-		// 	viewEventModal.style.display = 'none';
-		// });
+		cancelBtn.addEventListener('click', () => {
+				eventModal.style.display = 'none';
+		});
 		
 		eventForm.addEventListener('submit', (e) => {
 			e.preventDefault();
@@ -79,81 +70,83 @@ function initCalendar() {
 
 // Render the calendar
 function renderCalendar() {
+  const year = currentDate.year;
+  const month = currentDate.month;  // 1-12, Luxon style
 
-    const year = currentDate.getFullYear();
-		const month = currentDate.getMonth();
-		
-		// Update the month display
-		const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-		monthDisplay.textContent = `${monthNames[month]} ${year}`;
-		
-		// Clear the calendar grid
-		calendarGrid.innerHTML = '';
-		
-		// Get the first day of the month
-		const firstDay = new Date(year, month, 1);
-		const startingDay = firstDay.getDay(); // 0 = Sunday, 1 = Monday, etc.
-		
-		// Get the last day of the month
-		const lastDay = new Date(year, month + 1, 0);
-		const totalDays = lastDay.getDate();
-		
-		// Get the last day of the previous month
-		const prevMonthLastDay = new Date(year, month, 0).getDate();
-		
-		// Days from previous month
-		for (let i = startingDay - 1; i >= 0; i--) {
-				const day = prevMonthLastDay - i;
-				const prevMonth = month === 0 ? 11 : month - 1;
-				const prevYear = month === 0 ? year - 1 : year;
-				const dateStr = `${prevYear}-${(prevMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-				
-				const dayEl = createDayElement(day, dateStr, true);
-				calendarGrid.appendChild(dayEl);
-		}
-		
-		// Days of the current month
-		for (let day = 1; day <= totalDays; day++) {
-				const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-				
-				const dayEl = createDayElement(day, dateStr, false);
-				
-				// Check if it's today
-				const today = new Date();
-				if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-						dayEl.classList.add('today');
-				}
-				
-				calendarGrid.appendChild(dayEl);
-		}
-		
-		// Days from next month
-		const daysFromNextMonth = 42 - (startingDay + totalDays);
-		for (let day = 1; day <= daysFromNextMonth; day++) {
-				const nextMonth = month === 11 ? 0 : month + 1;
-				const nextYear = month === 11 ? year + 1 : year;
-				const dateStr = `${nextYear}-${(nextMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-				
-				const dayEl = createDayElement(day, dateStr, true);
-				calendarGrid.appendChild(dayEl);
-		}
+  // Update the month display (month is 1-based so array index is month-1)
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                      'August', 'September', 'October', 'November', 'December'];
+  monthDisplay.textContent = `${monthNames[month - 1]} ${year}`;
+
+  // Clear calendar grid
+  calendarGrid.innerHTML = '';
+
+  // Get first day of month and its weekday
+  const firstDayOfMonth = currentDate.startOf('month');  // Luxon DateTime at first day of month
+  const startingDay = firstDayOfMonth.weekday % 7; 
+
+
+  // Get total days in current month
+  const totalDays = firstDayOfMonth.daysInMonth;
+
+  // Get last day of previous month for filling calendar grid before 1st
+  const prevMonthLastDay = firstDayOfMonth.minus({ days: 1 }).day;
+
+  // Days from previous month
+  for (let i = startingDay - 1; i >= 0; i--) {
+    const day = prevMonthLastDay - i;
+    const prevMonthDate = firstDayOfMonth.minus({ months: 1 }).set({ day });
+    const dateStr = prevMonthDate.toISODate();
+
+    const dayEl = createDayElement(day, dateStr, true);
+    calendarGrid.appendChild(dayEl);
+  }
+
+  // Days of the current month
+  for (let day = 1; day <= totalDays; day++) {
+    const date = firstDayOfMonth.set({ day });
+    const dateStr = date.toISODate();
+
+    const dayEl = createDayElement(day, dateStr, false);
+
+    // Check if it's today
+    const today = DateTime.now().setZone('America/Chicago');
+    if (day === today.day && month === today.month && year === today.year) {
+      dayEl.classList.add('today');
+    }
+
+    calendarGrid.appendChild(dayEl);
+  }
+
+  // Days from next month
+  const daysFromNextMonth = 42 - (startingDay + totalDays);
+  for (let day = 1; day <= daysFromNextMonth; day++) {
+    const nextMonthDate = firstDayOfMonth.plus({ months: 1 }).set({ day });
+    const dateStr = nextMonthDate.toISODate();
+
+    const dayEl = createDayElement(day, dateStr, true);
+    calendarGrid.appendChild(dayEl);
+  }
 }
-
 // Create a day element
 function createDayElement(day, dateStr, inactive) {
 		const dayEl = document.createElement('div');
 		dayEl.classList.add('calendar-day');
 		if (inactive) {
-				dayEl.classList.add('inactive');
-		}
+			dayEl.classList.add('inactive');
+		} else {
+      dayEl.classList.add('active');
+    }
 		
 		const dateNum = document.createElement('div');
 		dateNum.classList.add('date-num');
 		dateNum.textContent = day;
 		dayEl.appendChild(dateNum);
-		console.log(dateStr.getDay())
-		// making the date clickable if there is availability
-    if (dateStr >= formatDate(new Date()) ) {
+    console.log(dateStr)
+		const dayofweek = getLocalWeekdayFromISO(dateStr) // 0 = Sunday, 1 = Monday, etc.
+    console.log(dayofweek)
+    console.log(schedule[dayofweek])
+    if (dateStr >= formatDate(new Date()) && schedule[dayofweek].times.length > 0) {
       dayEl.classList.add('clickable');
       dayEl.addEventListener('click', () => {
           openAddEventModal(dateStr);
@@ -177,6 +170,12 @@ function createDayElement(day, dateStr, inactive) {
 		});
 		
 		return dayEl;
+}
+// helper function to format date for local weekday
+function getLocalWeekdayFromISO(isoDateStr) {
+  const [year, month, day] = isoDateStr.split('-').map(Number);
+  // Month is 0-indexed in JS Date (0 = January)
+  return new Date(year, month - 1, day).getDay();
 }
 
 // Get contrast color for text based on background
@@ -206,10 +205,6 @@ function openAddEventModal(dateStr = '') {
     document.getElementById('endTime').value = '';
     document.getElementById('eventLocation').value = '';
 		document.getElementById('eventDescription').value = '';
-
-		
-		// Hide the delete button
-		deleteEventBtn.style.display = 'none';
 		
 		eventModal.style.display = 'block';
 }
@@ -305,11 +300,12 @@ function renderEventsList() {
 		});
 		
 		// Filter to show only upcoming events
-		const today = new Date();
-		today.setHours(0, 0, 0, 0);
+		const today = luxon.DateTime.now().setZone('America/Chicago');
+    today.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
 		
 		const upcomingEvents = sortedEvents.filter(event => {
-				const eventDate = new Date(event.date);
+        const dt = DateTime.fromISO(event.date, { zone: 'America/Chicago' });
+				const eventDate = dt;
 				return eventDate >= today;
 		});
 		
@@ -351,12 +347,10 @@ function renderEventsList() {
             const end = formatTime(event.endtime);
 						eventTitle.textContent = `${event.title} from ${start} to ${end}`;
 
-            // const eventLocation = document.createElement('div');
-            // eventLocation.textContent = event.location ? `${event.location}` : 'No location specified';
+
 						
 						eventInfo.appendChild(eventColorDot);
 						eventInfo.appendChild(eventTitle);
-            // eventInfo.appendChild(eventLocation);
 						
 						const eventActions = document.createElement('div');
 						eventActions.classList.add('event-actions');
@@ -369,7 +363,6 @@ function renderEventsList() {
 						});
 						
 						eventActions.appendChild(viewBtn);
-						// eventActions.appendChild(editBtn);
 						
 						eventItem.appendChild(eventInfo);
 						eventItem.appendChild(eventActions);
@@ -421,10 +414,25 @@ async function fetchEvents() {
 	}
 }
 
+async function fetchSchedule() {
+  try {
+    const res = await fetch('/schedule');
+    if (!res.ok) throw new Error('Fetch failed');
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error('Fetch error:', err);
+    return {};
+  }
+}
+
 // Initialize the calendar when the page loads
 (function() {
   document.addEventListener('DOMContentLoaded', async () => {
     events = await fetchEvents();
+    schedule = await fetchSchedule();
+    console.log(schedule)
+    console.log(events)
     initCalendar();
   })
 })();

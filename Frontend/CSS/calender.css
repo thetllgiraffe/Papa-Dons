@@ -102,22 +102,12 @@ header {
 /* Navigation END */
 
 
-/* 
-.navbar {
-  display: flex;
-  align-self: stretch;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #333;
-  padding: 10px;
-} */
-
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Sriracha';
   line-height: 1.6;
   background-image: url(../images/bgImage1.jpg);
   background-size: cover;
@@ -126,34 +116,7 @@ body {
   color: #333;
 }
 
-/* Navigation */
-/* nav {
-  display: flex;
-  padding: 1.5rem;
-  background: #222;
-  color: white;
-}
 
-nav ul {
-  display: flex;
-  gap: 3rem;
-  list-style: none;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-} */
-
-/* .footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: #222;
-  color: white;
-  justify-self: end;
-  width: 100%;
-} */
 
 /* calendar styling */
 .calendar-container {
@@ -161,7 +124,7 @@ nav a {
   max-width: 900px;
   width: 80%;
   background-color: #fff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -186,7 +149,8 @@ nav a {
 }
 
 button {
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.2);
+  font-family: 'Sriracha';
   border: none;
   color: white;
   cursor: pointer;
@@ -197,7 +161,7 @@ button {
 }
 
 button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #3a8b3e;
 }
 
 .week-days {
@@ -229,26 +193,31 @@ button:hover {
   position: relative;
 }
 
-.calendar-day.inactive {
-  background-color: rgb(68, 64, 64);
-  color: var(--white);
-}
-
-.calendar-day.inactive:hover {
-  background-color: gray;
-  color: var(--white);
+.calendar-day-inner {
+  padding: 10px;
+  background-color: #594a3a;
+  height: 100%;
 }
 
 /* days that are open for booking */
 
-.clickable {
-  background-color: var(--gray);
-  transition: background-color 0.3s, color 0.3s;
+.clickable:hover {
+background-color: rgb(98, 95, 95);
+cursor: pointer;
 }
 
-.clickable:hover {
-background-color: rgb(68, 64, 64);
-cursor: pointer;
+/* days that are not of the currently selected month */
+
+.inactive {
+  background-color: rgb(68, 64, 64);
+  color: var(--white);
+}
+
+/* days that are of the currently selected month */
+
+.active {
+  background-color: var(--gray);
+  color: var(--white);
 }
 
 .date-num {
@@ -293,7 +262,7 @@ cursor: pointer;
 }
 
 .modal-content {
-  background-color: white;
+  background-color: rgb(242, 235, 227);
   margin: 10% auto;
   padding: 20px;
   width: 50%;
@@ -303,7 +272,7 @@ cursor: pointer;
 }
 
 .close-button {
-  color: #aaa;
+  color: #8c8787;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -344,23 +313,6 @@ input, select, textarea {
   font-size: 1rem;
 }
 
-/* .color-picker {
-  display: flex;
-  gap: 10px;
-  margin-top: 5px;
-}
-
-.color-option {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid transparent;
-}
-
-.color-option.selected {
-  border-color: #333;
-} */
 
 .button-group {
   display: flex;
@@ -379,23 +331,33 @@ input, select, textarea {
 }
 
 .btn-primary {
-  background-color: #4361ee;
+  background-color: var(--accent);
   color: white;
 }
 
-.btn-danger {
-  background-color: #ef4444;
-  color: white;
+.btn-primary:hover {
+  background-color: var(--accent-hover);
 }
 
 .btn-secondary {
-  background-color: #d1d5db;
-  color: #333;
+  background-color: rgba(62, 75, 54, 0.2);
+  color: var(--white);
 }
 
-.btn:hover {
-  opacity: 0.9;
+.btn-secondary:hover {
+  background-color: #3a8b3e;
 }
+
+.btn-view {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+}
+
+.btn-view:hover {
+  background-color: #3a8b3e;
+}
+
+
 
 /* event list styling */
 .event {
@@ -462,7 +424,6 @@ input, select, textarea {
       margin: 20% auto;
   }
 }
-
 
 
 /* Footer */
