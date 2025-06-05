@@ -189,3 +189,9 @@ input, select, textarea {
 .btn:hover {
   opacity: 0.9;
 }
+
+/* weekly schedule styles */
+.interval {
+  display: flex;
+  flex-direction: row;
+}

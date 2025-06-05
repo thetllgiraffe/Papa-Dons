@@ -9,6 +9,7 @@ const ADMIN_PASSWORD = 'secret';
 
 const receiverEmail = process.env.receiver_email;
 
+
 router.get('/', (req, res) => {
   res.send(`
     <form method="POST">
@@ -111,14 +112,41 @@ router.delete('/events', requireAdmin, (req, res) => {
   });
 })
 
-router.post('/schedule/weekly', requireAdmin, (req, res) => {
-  const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = req.body;
+// router.post('/schedule/weekly', requireAdmin, (req, res) => {
+//   const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = req.body;
+//   const stmt = db.prepare(`
+//     UPDATE weekly_schedule
+//     SET sunday = ?, monday = ?, tuesday = ?, wednesday = ?, thursday = ?, friday = ?, saturday = ?
+//     WHERE id = 1
+//   `);
+//   stmt.run(JSON.stringify(sunday), JSON.stringify(monday), JSON.stringify(tuesday), JSON.stringify(wednesday), JSON.stringify(thursday), JSON.stringify(friday), JSON.stringify(saturday));
+//   res.send('Weekly schedule saved');
+// })
+
+router.get('/schedule/weekly', requireAdmin, (req, res) => {
+  const day = req.query.day;
+  const stmt = db.prepare('SELECT * FROM weekly_schedule WHERE day = ?');
+  const row = stmt.get(day);
+  console.log(row);
+  if (row) {
+    try {
+      row.times = JSON.parse(row.times);  // <-- parse here
+    } catch (e) {
+      row.times = [];
+    }
+    res.json(row);
+  } else {
+    res.status(404).send('Weekly schedule not found');
+  }
+});
+
+router.put('/schedule/weekly', requireAdmin, (req, res) => {
+  const { day, times } = req.body;
   const stmt = db.prepare(`
     UPDATE weekly_schedule
-    SET sunday = ?, monday = ?, tuesday = ?, wednesday = ?, thursday = ?, friday = ?, saturday = ?
-    WHERE id = 1
+    SET times = ? WHERE day = ?
   `);
-  stmt.run(JSON.stringify(sunday), JSON.stringify(monday), JSON.stringify(tuesday), JSON.stringify(wednesday), JSON.stringify(thursday), JSON.stringify(friday), JSON.stringify(saturday));
+  stmt.run(JSON.stringify(times), day);;
   res.send('Weekly schedule saved');
 })
 

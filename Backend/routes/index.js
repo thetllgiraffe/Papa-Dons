@@ -6,7 +6,6 @@ const transporter = require('../mailer.js');
 
 const receiverEmail = process.env.receiver_email;
 
-
 router.get('/', (req, res) => {
   res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'landing.html'));
 });

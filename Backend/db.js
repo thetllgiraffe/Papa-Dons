@@ -21,18 +21,22 @@ db.prepare(`
 
 db.prepare(`
   CREATE TABLE IF NOT EXISTS weekly_schedule (
-    id INTEGER PRIMARY KEY,
-    sunday TEXT,
-    monday TEXT,
-    tuesday TEXT,
-    wednesday TEXT,
-    thursday TEXT,
-    friday TEXT,
-    saturday TEXT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    day TEXT NOT NULL UNIQUE,
+    times TEXT NOT NULL
   )`).run();
 
-db.prepare(`INSERT INTO weekly_schedule (id, sunday, monday, tuesday, wednesday, thursday, friday, saturday)
-  VALUES (1, '[]', '[]', '[]', '[]', '[]', '[]', '[]') ON CONFLICT(id) DO NOTHING`).run();
+const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+const insert = db.prepare(`
+  INSERT INTO weekly_schedule (day, times)
+  VALUES (?, '[]')
+  ON CONFLICT(day) DO NOTHING
+`);
+
+for (const day of daysOfWeek) {
+  insert.run(day);
+}
 
 db.prepare(`
   CREATE TABLE IF NOT EXISTS dates_available (

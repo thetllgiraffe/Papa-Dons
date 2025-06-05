@@ -8,7 +8,6 @@ const path = require('path');
 require('dotenv').config();
 
 global.appRoot = __dirname;
-app.use('/', express.static(path.join(__dirname, '../Frontend')));
 
 app.use(session({
   secret: 'your-very-secure-secret', // Change this to a secure secret
@@ -19,9 +18,11 @@ app.use(session({
 }));
 
 
+app.use('/', express.static(path.join(__dirname, '../Frontend')));
 
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
+
 
 app.use(express.urlencoded({ extended: true })); // For form submissions
 app.use(express.json()); // To parse JSON bodies

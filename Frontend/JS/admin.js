@@ -206,60 +206,261 @@ const fetchlist = () => {fetch('/admin/list', {
   })
 })}
 
-document.getElementById("weekly-form").addEventListener("submit", function (e) {
+
+// Weekly Schedule Management
+
+//submit entire form (may change to individual day submit)
+// document.getElementById("weekly-form").addEventListener("submit", function (e) {
+//   e.preventDefault();
+
+//   const schedule = {};
+//   const dayBlocks = document.querySelectorAll(".day-block");
+
+//   dayBlocks.forEach(dayBlock => {
+//     const day = dayBlock.dataset.day;
+//     const start = dayBlock.querySelector('input[name="start"][data-set="false"]');
+//     const end = dayBlock.querySelector('input[name="end"][data-set="false"]');
+//     if (start && end) {
+//     if (checkScheduleOverlap(day, start.value, end.value)) {
+//       console.error(`Overlap detected for ${day} at ${start.value} - ${end.value}`);
+//       return; // Skip this day if there's an overlap
+//     }
+//   }
+//     const starts = [...dayBlock.querySelectorAll('input[name="start"]')];
+//     const ends = [...dayBlock.querySelectorAll('input[name="end"]')];
+
+//     const intervals = starts.map((startInput, index) => {
+//       const start = startInput.value;
+//       const end = ends[index]?.value;
+//       if (start && end) {
+//         return [ start, end ];
+//       }
+//       return null;
+//     }).filter(Boolean);
+
+//     schedule[day] = intervals;
+//     console.log(schedule)
+//   });
+
+//   // POST JSON to backend
+//   fetch("/admin/schedule/weekly", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(schedule)
+//   })
+//   .then(res => res.text())
+//   .then(data => {
+//     console.log("Saved:", data);
+//   });
+// });
+
+// individual day submit
+const submitDay = (e) => {
   e.preventDefault();
-
-  const schedule = {};
-  const dayBlocks = document.querySelectorAll(".day-block");
-
-  dayBlocks.forEach(dayBlock => {
-    const day = dayBlock.dataset.day;
-    const starts = [...dayBlock.querySelectorAll('input[name="start"]')];
-    const ends = [...dayBlock.querySelectorAll('input[name="end"]')];
-
-    const intervals = starts.map((startInput, index) => {
-      const start = startInput.value;
-      const end = ends[index]?.value;
-      if (start && end) {
-        return { start, end };
-      }
-      return null;
-    }).filter(Boolean);
-
-    schedule[day] = intervals;
-    console.log(schedule)
-  });
-
+  const dayBlock = e.target.closest('.day-block');
+  const day = dayBlock.dataset.day;
+  const error = dayBlock.querySelector('#overlapError');
+  const start = dayBlock.querySelector('input[name="start"][data-set="false"]');
+  const end = dayBlock.querySelector('input[name="end"][data-set="false"]');
+  // Check for empty values
+  if (start.value === '' || end.value === '') {
+    error.textContent = 'Start and/or end time cannot be empty';
+    error.style.display = 'block';
+    return;
+  }
+  // Check if interval is not zero
+  if (start.value > end.value ) {
+    error.textContent = 'End time must be greater than start time';
+    error.style.display = 'block';
+    return;
+  }
+  // Check for interval overlap
+  if (checkScheduleOverlap(day, start.value, end.value)) {
+    error.textContent = 'Overlap detected with existing intervals';
+    error.style.display = 'block';
+    return;
+  }
+  const starts = [...dayBlock.querySelectorAll('input[name="start"]')];
+  const ends = [...dayBlock.querySelectorAll('input[name="end"]')];
+  const intervals = starts.map((startInput, index) => {
+    const start = startInput.value;
+    const end = ends[index]?.value;
+    if (start && end) {
+      return [ start, end ];
+    }
+    return null;
+  }).filter(Boolean);
+  console.log(intervals)
   // POST JSON to backend
   fetch("/admin/schedule/weekly", {
-    method: "POST",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(schedule)
+    body: JSON.stringify({ day: day, times: intervals})
   })
-  .then(res => res.json())
+  .then(res => res.text())
   .then(data => {
     console.log("Saved:", data);
   });
-});
+  renderDaySchedule(day); // Refresh the day's schedule after submission
+  start.readOnly = true; // Set the start input to read-only after submission
+  end.readOnly = true; // Set the end input to read-only after submission
+  error.style.display = 'none'; // Hide the error message if it was displayed
+  error.textContent = ''; // Clear the error message
+  const addIntervalButton = dayBlock.querySelector('.add-interval');
+  addIntervalButton.style.display = 'inline'; // Show the button again after submission
+};
+
+// Remove button event listener
+const removeInterval = (e) => {
+  e.preventDefault();
+  const dayBlock = e.target.closest('.day-block');
+  const day = dayBlock.dataset.day;
+  const intervalDiv = e.target.closest('.interval');
+  if (intervalDiv) {
+    intervalDiv.remove(); // Remove the interval from the DOM
+  }
+  const starts = [...dayBlock.querySelectorAll('input[name="start"][data-set="true"]')];
+  const ends = [...dayBlock.querySelectorAll('input[name="end"][data-set="true"]')];
+  const intervals = starts.map((startInput, index) => {
+    const start = startInput.value;
+    const end = ends[index]?.value;
+    if (start && end) {
+      return [ start, end ];
+    }
+    return null;
+  }).filter(Boolean);
+  console.log(intervals)
+  // POST JSON to backend
+  fetch("/admin/schedule/weekly", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ day: day, times: intervals})
+  })
+  .then(res => res.text())
+  .then(data => {
+    console.log("Saved:", data);
+  });
+  renderDaySchedule(day);
+}  
+
+
+// add intverval button event listener
 
 document.querySelectorAll('.add-interval').forEach(button => {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', (e) => {
     const dayDiv = button.closest('.day-block');
-    console.log(dayDiv);
-    const day = dayDiv.dataset.day;
-    const container = dayDiv.querySelector('.intervals');
-
+    // const day = dayDiv.dataset.day;
+    const intervalsContainer = dayDiv.querySelector('.intervals');
+    const setBtn = document.createElement('button');
+    setBtn.textContent = 'Set';
+    setBtn.classList.add('set-interval');
+    setBtn.addEventListener('click', submitDay);
     const interval = document.createElement('div');
     interval.classList.add('interval');
     interval.innerHTML = `
-      <label>Start: <input type="time" name="start"></label>
-      <label>End: <input type="time" name="end"></label>
+      <label>Start: <input type="time" name="start" data-set="false"></label>
+      <label>End: <input type="time" name="end" data-set="false"></label>
     `;
-    container.appendChild(interval);
+    interval.appendChild(setBtn);
+    intervalsContainer.appendChild(interval);
+    e.target.style.display = 'none'; // Hide the button after adding an interval
   });
 });
 
-  
+// retrieve weekly schedule from backend
+
+const renderDaySchedule = (day) => {
+  fetch(`/admin/schedule/weekly?day=${day}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  }).then(data => {
+      console.log(data);
+      const dayBlock = document.querySelector(`.day-block[data-day="${day}"]`);
+      const intervalsContainer = dayBlock.querySelector('.intervals');
+      intervalsContainer.innerHTML = ''; // Clear existing intervals
+      const intervals = data.times;
+      sortTimeIntervals(intervals); // Sort intervals before rendering
+      if (intervals.length > 0) {
+        intervals.forEach(interval => {
+          const intervalDiv = document.createElement('div');
+          intervalDiv.classList.add('interval');
+          const removeBtn = document.createElement('button');
+          removeBtn.textContent = 'Remove';
+          removeBtn.addEventListener('click', removeInterval);
+          intervalDiv.classList.add('interval');
+          intervalDiv.innerHTML = `
+            <label>Start: <input type="time" name="start" value=${interval[0]} data-set="true" readonly></label>
+            <label>End: <input type="time" name="end" value=${interval[1]} data-set="true" readonly></label>
+          `;
+          intervalsContainer.appendChild(intervalDiv);
+          intervalDiv.appendChild(removeBtn);
+        });
+      } else {
+        const noIntervals = document.createElement('p');
+        noIntervals.textContent = 'Not available';
+        intervalsContainer.appendChild(noIntervals);
+      }
+  }).catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+}
+// Helper functions
+// Checking of schedule overlap logic
+function timeToMinutes(t) {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+}
+
+const checkScheduleOverlap = (day, start, end) => {
+  const dayBlock = document.querySelector(`.day-block[data-day="${day}"]`);
+  const intervals = dayBlock.querySelectorAll('.interval');
+
+  const newStart = timeToMinutes(start);
+  const newEnd = timeToMinutes(end);
+
+  for (const interval of intervals) {
+    const existingStartInputs = interval.querySelectorAll('input[data-set="true"][name="start"]');
+    const existingEndInputs = interval.querySelectorAll('input[data-set="true"][name="end"]');
+
+    const existingStarts = Array.from(existingStartInputs).map(input => timeToMinutes(input.value));
+    const existingEnds = Array.from(existingEndInputs).map(input => timeToMinutes(input.value));
+
+    for (let i = 0; i < existingStarts.length; i++) {
+      const existingStart = existingStarts[i];
+      const existingEnd = existingEnds[i];
+
+      if (newStart < existingEnd && newEnd > existingStart) {
+        return true; // Overlap found
+      }
+    }
+  }
+
+  return false; // No overlap
+};
+
+// sort time intervals
+const sortTimeIntervals = (intervals) => {
+  intervals.sort((a, b) => {
+  a[0].localeCompare(b[0]); // Compare first elements as strings
+});
+}
+
+// initialize weekly schedule blocks on page load
+
+const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+for (day of daysOfWeek) {
+  renderDaySchedule(day);
+}
+
+// weekly schedule management END
 
 
 fetchlist();
