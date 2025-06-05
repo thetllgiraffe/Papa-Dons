@@ -274,6 +274,12 @@ const removeInterval = (e) => {
   if (intervalDiv) {
     intervalDiv.remove(); // Remove the interval from the DOM
   }
+  if (intervalDiv.querySelector('input[name="start"][data-set="false"]')) {
+    console.log("Removing unsaved interval");
+    dayBlock.querySelector('.add-interval').style.display = 'inline'; // Show the add interval button again
+    dayBlock.querySelector('#overlapError').style.display = 'none'; // Hide any error messages
+    return;
+  }
   const starts = [...dayBlock.querySelectorAll('input[name="start"][data-set="true"]')];
   const ends = [...dayBlock.querySelectorAll('input[name="end"][data-set="true"]')];
   const intervals = starts.map((startInput, index) => {
@@ -307,8 +313,10 @@ document.querySelectorAll('.add-interval').forEach(button => {
     // const day = dayDiv.dataset.day;
     const intervalsContainer = dayDiv.querySelector('.intervals');
     const setBtn = document.createElement('button');
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.addEventListener('click', removeInterval);
     setBtn.textContent = 'Set';
-    setBtn.classList.add('set-interval');
     setBtn.addEventListener('click', submitDay);
     const interval = document.createElement('div');
     interval.classList.add('interval');
@@ -317,6 +325,7 @@ document.querySelectorAll('.add-interval').forEach(button => {
       <label>End: <input type="time" name="end" data-set="false"></label>
     `;
     interval.appendChild(setBtn);
+    interval.appendChild(removeBtn);
     intervalsContainer.appendChild(interval);
     e.target.style.display = 'none'; // Hide the button after adding an interval
   });
