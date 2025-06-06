@@ -315,13 +315,12 @@ function renderEventsList() {
 		});
 		
 		// Filter to show only upcoming events
-		const today = luxon.DateTime.now().setZone('America/Chicago');
-    today.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+		const currenttime = DateTime.now().setZone('America/Chicago');
+    const currentdate = currenttime.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
 		
 		const upcomingEvents = sortedEvents.filter(event => {
-        const dt = DateTime.fromISO(event.date, { zone: 'America/Chicago' });
-				const eventDate = dt;
-				return eventDate >= today;
+        const eventDate = DateTime.fromISO(event.date, { zone: 'America/Chicago' });
+				return eventDate >= currentdate;
 		});
 		
 		if (upcomingEvents.length === 0) {
