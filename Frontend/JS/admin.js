@@ -1,4 +1,4 @@
-
+const { DateTime } = luxon;
 const eventForm = document.getElementById('eventForm');
 const table = document.getElementById('pending-body');
 const schedule = document.getElementById('approved-body');
@@ -130,8 +130,12 @@ const fetchlist = () => {fetch('/admin/list', {
 }).then(data => {
   table.innerHTML = ''; // Clear existing rows
   schedule.innerHTML = ''; // Clear existing rows
+  // Loop through the data and create table rows
   data.forEach(event => {
-    if (event.status === 'pending') {
+    // Check if the event is pending and the date is today or in the future
+    const eventDate = DateTime.fromISO(event.date, { zone: 'America/Chicago' });
+    const now = DateTime.now().setZone('America/Chicago');
+    if (event.status === 'pending' && now >= eventDate) {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${event.id}</td>
@@ -167,9 +171,10 @@ const fetchlist = () => {fetch('/admin/list', {
     td.appendChild(approveBtn);
     td.appendChild(rejectBtn);
     row.appendChild(td);
-
+    // Append the row to the table pending table
     table.appendChild(row);
-    } else if (event.status === 'approved') {
+    // check if the event is approved and the date is today or in the future
+    } else if (event.status === 'approved' && now >= eventDate) {
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${event.id}</td>
