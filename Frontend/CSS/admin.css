@@ -190,7 +190,20 @@ input, select, textarea {
   opacity: 0.9;
 }
 
+/* schedule styles */
+
+.schedule-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
 /* weekly schedule styles */
+
+.weekly-schedule-container {
+  flex: 1;
+}
+
 .interval {
   display: flex;
   flex-direction: row;
@@ -208,4 +221,10 @@ input[type="time"][readonly]:focus {
   background-color: #f5f5f5;   /* Keep the same background on hover */
   color: #999;                 /* Keep the same text color on hover */
   border: 1px solid #ccc;      /* Subtle border */
+}
+
+/* date schedule styles */
+
+.dates-schedule-container {
+  flex: 1;
 }
