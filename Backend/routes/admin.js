@@ -139,4 +139,27 @@ router.put('/schedule/weekly', requireAdmin, (req, res) => {
   res.send('Weekly schedule saved');
 })
 
+router.put('/schedule/dates', requireAdmin, (req, res) => {
+  const { date, times } = req.body;
+  const stmt = db.prepare(`
+    INSERT INTO dates_available (date, times)
+    VALUES (?, ?)
+    ON CONFLICT(date) DO UPDATE SET times = excluded.times
+  `);
+  stmt.run(date, JSON.stringify(times));
+  res.send('Date and time saved');
+})
+
+router.get('/schedule/dates', requireAdmin, (req, res) => {
+  const rows = db.prepare('SELECT * FROM dates_available ORDER BY date').all();
+    for (const row of rows) {
+      try {
+        row.times = JSON.parse(row.times); // Parse the times from JSON string to array
+      } catch (e) {
+        row.times = [];
+      }
+    }
+    res.json(rows);
+})
+
 module.exports = router;

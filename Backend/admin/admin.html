@@ -87,65 +87,79 @@
     </div>
 </div>
 
-<h2>Set Weekly Schedule</h2>
-<form id="weekly-form">
-  <h3>Monday</h3>
-  <div data-day="monday" class="day-block">
-    <div class="intervals">
-      <!-- time interval inputs appear here with add-interval button with js -->
-    </div>
-    <p id="overlapError" style="display: none; color: red"></p>
-    <button type="button" class="add-interval">+ Add Interval</button>
+<div class="schedule-container">
+  <div class="weekly-schedule-container">
+    <h2>Set Weekly Schedule</h2>
+    <form id="weekly-form">
+      <h3>Monday</h3>
+      <div data-day="monday" class="day-block">
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">+ Add Interval</button>
+      </div>
+      <h3>Tuesday</h3>
+      <div data-day="tuesday" class="day-block">
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">+ Add Interval</button>
+      </div>
+      <h3>Wednesday</h3>
+      <div data-day="wednesday" class="day-block">
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">+ Add Interval</button>
+      </div>
+      <h3>Thursday</h3>
+      <div data-day="thursday" class="day-block">
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">+ Add Interval</button>
+      </div>
+      <h3>Friday</h3>
+      <div data-day="friday" class="day-block">
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">+ Add Interval</button>
+      </div>
+      <h3>Saturday</h3>
+      <div data-day="saturday" class="day-block">
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">+ Add Interval</button>
+      </div>
+      <h3>Sunday</h3>
+      <div data-day="sunday" class="day-block">
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">+ Add Interval</button>
+      </div>
+    </form>
   </div>
-  <h3>Tuesday</h3>
-  <div data-day="tuesday" class="day-block">
-    <div class="intervals">
-      <!-- time interval inputs appear here with add-interval button with js -->
-    </div>
-    <p id="overlapError" style="display: none; color: red"></p>
-    <button type="button" class="add-interval">+ Add Interval</button>
+  <div class="dates-schedule-container">
+    <h2>Set Schedule For Specific Dates</h2>
+    <form class="dates-form">
+      <p class="no-dates-msg">no dates scheduled</p>
+      <button type="button" id="addDate" class="add-date">+ Add Date</button>
+      <div id="datesList" class="dates">
+        <!-- schudled dates appear here with add-date button with js -->
+      </div>
+    </form>
   </div>
-  <h3>Wednesday</h3>
-  <div data-day="wednesday" class="day-block">
-    <div class="intervals">
-      <!-- time interval inputs appear here with add-interval button with js -->
-    </div>
-    <p id="overlapError" style="display: none; color: red"></p>
-    <button type="button" class="add-interval">+ Add Interval</button>
-  </div>
-  <h3>Thursday</h3>
-  <div data-day="thursday" class="day-block">
-    <div class="intervals">
-      <!-- time interval inputs appear here with add-interval button with js -->
-    </div>
-    <p id="overlapError" style="display: none; color: red"></p>
-    <button type="button" class="add-interval">+ Add Interval</button>
-  </div>
-  <h3>Friday</h3>
-  <div data-day="friday" class="day-block">
-    <div class="intervals">
-      <!-- time interval inputs appear here with add-interval button with js -->
-    </div>
-    <p id="overlapError" style="display: none; color: red"></p>
-    <button type="button" class="add-interval">+ Add Interval</button>
-  </div>
-  <h3>Saturday</h3>
-  <div data-day="saturday" class="day-block">
-    <div class="intervals">
-      <!-- time interval inputs appear here with add-interval button with js -->
-    </div>
-    <p id="overlapError" style="display: none; color: red"></p>
-    <button type="button" class="add-interval">+ Add Interval</button>
-  </div>
-  <h3>Sunday</h3>
-  <div data-day="sunday" class="day-block">
-    <div class="intervals">
-      <!-- time interval inputs appear here with add-interval button with js -->
-    </div>
-    <p id="overlapError" style="display: none; color: red"></p>
-    <button type="button" class="add-interval">+ Add Interval</button>
-  </div>
-</form>
+</div>
 </body>
 <script src="../JS/admin.js"></script>
 </html>

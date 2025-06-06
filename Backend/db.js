@@ -41,8 +41,8 @@ for (const day of daysOfWeek) {
 db.prepare(`
   CREATE TABLE IF NOT EXISTS dates_available (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL
+    date TEXT NOT NULL UNIQUE,
+    times TEXT NOT NULL
   )`).run();
 
 function deleteOldEvents() {
