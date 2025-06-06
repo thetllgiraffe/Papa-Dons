@@ -205,8 +205,10 @@ function openAddEventModal(dateStr = '') {
     document.getElementById('endTime').value = '';
     document.getElementById('eventLocation').value = '';
 		document.getElementById('eventDescription').value = '';
+
 		
 		eventModal.style.display = 'block';
+    eventModal.querySelector('form').style.display = 'block';
 }
 
 
@@ -264,11 +266,24 @@ function saveEvent() {
 								console.log('Server response:', response);
 						}).catch(err => {
 								console.error('Fetch error:', err);
+                return;
 						});
 		}
 						
-		// Close the modal
-		eventModal.style.display = 'none';
+		// Remove form and show success message
+    eventModal.querySelector('form').style.display = 'none';
+    const submitmessage = document.getElementById('modalTitle');
+
+    // Step 1: Fade out
+    submitmessage.classList.add('hidden');
+
+    // Step 2: Wait for fade out to finish, then change text
+    setTimeout(() => {
+      submitmessage.textContent = 'Event Request Submitted';
+
+      // Step 3: Fade back in
+      submitmessage.classList.remove('hidden');
+    }, 500); // match your CSS transition duration
 		
 		// Refresh the calendar and events list
 		renderCalendar();
@@ -276,19 +291,19 @@ function saveEvent() {
 }
 
 // Delete an event
-function deleteEvent() {
-		const eventId = document.getElementById('eventId').value;
-		if (!eventId) return;
+// function deleteEvent() {
+// 		const eventId = document.getElementById('eventId').value;
+// 		if (!eventId) return;
 		
-		if (confirm('Are you sure you want to delete this event?')) {
-				events = events.filter(e => e.id !== eventId);
-				localStorage.setItem('events', JSON.stringify(events));
+// 		if (confirm('Are you sure you want to delete this event?')) {
+// 				events = events.filter(e => e.id !== eventId);
+// 				localStorage.setItem('events', JSON.stringify(events));
 				
-				eventModal.style.display = 'none';
-				renderCalendar();
-				renderEventsList();
-		}
-}
+// 				eventModal.style.display = 'none';
+// 				renderCalendar();
+// 				renderEventsList();
+// 		}
+// }
 
 
 // Render the events list
