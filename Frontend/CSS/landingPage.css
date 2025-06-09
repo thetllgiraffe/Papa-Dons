@@ -7,7 +7,7 @@ body {
 
 /* Main Section */
 .main {
-  background: url('../images/bgImage1.jpg') no-repeat center center/cover;
+  background: url('../images/calendarbg.jpg') no-repeat center center/cover;
   height: 100dvh;
   display: grid;
   place-items: start center;
@@ -25,7 +25,7 @@ body {
   margin-bottom: 1rem;
   font-family: 'Yellowtail', cursive;
   font-weight: 400;
-  font-size: clamp(3.5rem, 12vw, 7rem);
+  font-size: clamp(3rem, 12vw, 7rem);
   text-wrap-style: balance;
   font-style: normal;
   position: relative;
@@ -45,8 +45,13 @@ body {
   -webkit-text-stroke: 2px var(--white);
 }
 
+button.btn {
+  border: none;
+  cursor: pointer;
+}
+
 .btn-group {
-  margin-block-end: 12rem;
+  margin-block-end: 8rem;
   place-self: end center;
 }
 .btn {
@@ -55,26 +60,296 @@ body {
   padding: 10px 20px;
   background-color: var(--accent);
   color: var(--white);
+  font-size: 1rem;
   font-family: 'Sriracha';
   text-decoration: none;
   border-radius: 6px;
-  box-shadow: 2px 4px 5px var(--gray);
+  box-shadow: 2px 2px 5px var(--gray);
+  text-shadow: 2px 1px 1px black;
   transition: background-color 0.2s ease;
 
   &:hover {
     background-color: var(--accent-hover);
   }
 }
-.btn::before {
-  content: attr(data-link);
-  position: absolute;
-  inset: 1;
-  color: var(--white);
-  filter: drop-shadow(2px 2px 1px #000);
-  -webkit-text-stroke: 0.5px var(--white);
-}
 
 .icon-large {
   font-size: 80px;
   margin: 10px 0;
 }
+
+section:has(article) {
+  background: var(--white);
+  margin-block-start: 4rem;
+  max-width: 1100px;
+  width: 100%;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+
+  @media (width <= 768px) {
+    padding-inline: 1.5rem;
+  }
+}
+
+article:has(div) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media (width >= 768px) {
+    flex-direction: row;
+  }
+}
+
+section:has(article) {
+  h3 {
+    font-family: 'Sriracha';
+    font-size: 1.3rem;
+  }
+  p {
+    text-wrap-style: pretty;
+  }
+}
+
+section:has(article) div {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.7;
+
+  button,
+  a {
+    align-self: start;
+    margin-block-start: auto;
+
+    @media (width < 768px) {
+      margin-block: 1rem;
+      align-self: center;
+    }
+  }
+  @media (width < 768px) {
+    text-align: center;
+    text-wrap-style: balance;
+  }
+}
+
+section:has(article) img {
+  flex: 1;
+  height: 300px;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+
+  @media (width < 768px) {
+    aspect-ratio: 2/1;
+  }
+}
+
+section > article:not(:has(div)) {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  h3,
+  p {
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  p {
+    width: 80ch;
+    text-wrap-style: pretty;
+    margin-inline: auto;
+    line-height: 1.7;
+
+    @media (width <= 768px) {
+      width: auto;
+    }
+  }
+
+  a {
+    align-self: center;
+  }
+
+  @media (width <= 767px) {
+    text-align: center;
+  }
+}
+/* Main  Section END */
+
+/* Menu modal */
+dialog {
+  max-width: 650px;
+  margin-inline: auto;
+  margin-block: auto;
+  min-height: 100dvh;
+
+  @media (orientation: landscape) and (width <= 932px) and (height <= 430px) {
+    min-height: 100dvh;
+  }
+
+  background: url('https://img.icons8.com/?size=100&id=d3rx8vmJMzCi&format=png&color=ffffff6c'),
+    url('https://img.icons8.com/?size=100&id=1IfT94OFBZCv&format=png&color=ffffff6c'),
+    url('https://img.icons8.com/?size=100&id=mRQszahrosXL&format=png&color=ffffff6c'),
+    url('../images/food-menu-bg.jpg');
+  background-size: 90px, 110px, 110px, cover;
+  background-position: 90% 20%, 20% 37%, 45% 85%, center;
+  background-repeat: no-repeat;
+
+  .menu-logo img {
+    width: 150px;
+    aspect-ratio: 1;
+    display: block;
+    margin-inline: auto;
+    margin-block-start: -45px;
+  }
+
+  .menu-logo p {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    top: 90px;
+    line-height: 1.2;
+    color: var(--white);
+    transform: rotate(-5deg);
+    filter: drop-shadow(1px 1px 0 black);
+  }
+  .menu-logo p:first-child {
+    font-family: 'Yellowtail', cursive;
+    font-weight: 400;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+  }
+  .menu-logo p:last-child {
+    font-family: serif;
+    font-weight: 900;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+  }
+
+  &::backdrop {
+    background: url('/Frontend/images/foods.png'), var(--green);
+    background-size: 60%;
+    background-position: center;
+
+    transition: background-size 1s ease-in-out;
+
+    @media (width >= 768px) {
+      background-size: 40%;
+    }
+  }
+
+  &,
+  &::backdrop {
+    transition: display 0.3s allow-discrete, overlay 0.3s allow-discrete,
+      opacity 0.3s, transform 0.45s;
+
+    opacity: 0;
+    transition-timing-function: ease-in-out;
+  }
+
+  /* ON STAGE */
+  &[open],
+  &[open]::backdrop {
+    opacity: 1;
+  }
+
+  /* OFF STAGE */
+  @starting-style {
+    &[open],
+    &[open]::backdrop {
+      opacity: 0;
+    }
+
+    &[open] {
+      transform: translateY(50px);
+    }
+  }
+  &:not([open]) {
+    transform: translateY(50px);
+  }
+}
+
+dialog form {
+  position: absolute;
+  height: 40px;
+  aspect-ratio: 1;
+  top: 5px;
+  right: 10px;
+
+  button {
+    overflow: hidden;
+    border: none;
+    background: none;
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 2.5rem;
+    font-family: 'Sriracha';
+    filter: drop-shadow(1px 1px 0 var(--accent));
+    color: var(--white);
+    cursor: pointer;
+  }
+}
+
+.menu-items {
+  color: var(--white);
+  margin-block-start: 2rem;
+  padding-inline: 1rem;
+  padding-block-end: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.menu-category {
+  margin-block: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  color: var(--white);
+  font-family: 'Sriracha';
+  isolation: isolate;
+  text-shadow: 2px 2px 2px black;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: -5px;
+    inset-inline: 10px;
+    background: var(--accent);
+    z-index: -1;
+  }
+}
+.col:first-child .menu-category {
+  rotate: -3deg;
+}
+.col:last-child > div:first-child .menu-category,
+.col:last-child > div:last-child .menu-category {
+  rotate: 2deg;
+}
+
+.col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-size: calc(14px, 1vw, 1rem);
+  font-family: 'Sriracha';
+
+  li:not(.additional-information) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.additional-information {
+  font-size: 12px;
+  line-height: 1.7;
+  text-wrap-style: pretty;
+}
+/* Menu modal END */
