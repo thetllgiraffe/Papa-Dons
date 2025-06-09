@@ -135,7 +135,8 @@ const fetchlist = () => {fetch('/admin/list', {
     // Check if the event is pending and the date is today or in the future
     const eventDate = DateTime.fromISO(event.date, { zone: 'America/Chicago' });
     const now = DateTime.now().setZone('America/Chicago');
-    if (event.status === 'pending' && now >= eventDate) {
+    if (event.status === 'pending' && eventDate >= now) {
+    console.log('appending rows')
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${event.id}</td>
