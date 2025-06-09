@@ -448,6 +448,10 @@ const sortTimeIntervals = (intervals) => {
 });
 }
 
+// sort dates
+function sortIsoDates(dates) {
+  return dates.sort();
+}
 // Weekly schedule management END
 
 // Dates schedule management START
@@ -462,11 +466,11 @@ adddateBtn.addEventListener('click', (e) => {
   dateDiv.classList.add('date-block');
   dateDiv.innerHTML = `
     <label>Date: <input type="date" name="date" data-set="false"></label>
-    <p id="errorMessageDay" style="color: red; display: hidden"></p>
+    <p id="errorMessageDay" style="color: red; display: none"></p>
   `;
   const setDateBtn = document.createElement('button');
   setDateBtn.textContent = 'Set';
-  setDateBtn.addEventListener('click', addDate);
+  setDateBtn.addEventListener('click', setDate);
   const removeDateBtn = document.createElement('button');
   removeDateBtn.textContent = 'Remove';
   removeDateBtn.addEventListener('click', (e) => {
@@ -485,33 +489,37 @@ const setDate = (e) => {
   e.preventDefault();
   const dateBlock = e.target.closest('.date-block');
   const dateInput = dateBlock.querySelector('input[name="date"]');
-  const errorDay = dateBlock.querySelector('#errorMessageDay');
-  const errorInterval = dateBlock.querySelector('#errorMessageInterval');
-  // Check for empty value
-  if (dateInput.value === '') {
-    errorDay.textContent = 'Date cannot be empty';
-    errorDay.Daystyle.display = 'block';
-    return;
+  if (dateInput.dataset.set === 'false') {
+    const errorDay = dateBlock.querySelector('#errorMessageDay');
+    // Check for empty value
+    if (dateInput.value === '') {
+      errorDay.textContent = 'Date cannot be empty';
+      errorDay.style.display = 'block';
+      return;
+    }
   }
   const start = dateBlock.querySelector('input[name="start"][data-set="false"]');
   const end = dateBlock.querySelector('input[name="end"][data-set="false"]');
-  // Check for empty values
-  if (start.value === '' || end.value === '') {
-    errorInterval.textContent = 'Start and/or end time cannot be empty';
-    errorInterval.style.display = 'block';
-    return;
-  }
-  // Check if interval is not zero
-  if (start.value > end.value ) {
-    errorInterval.textContent = 'End time must be greater than start time';
-    errorInterval.style.display = 'block';
-    return;
-  }
-  // Check for interval overlap
-  if (checkDatesScheduleOverlap(dateInput.value, start.value, end.value)) {
-    errorInterval.textContent = 'Overlap detected with existing intervals';
-    errorInterval.style.display = 'block';
-    return;
+  if (start && end) {
+    const errorInterval = dateBlock.querySelector('#errorMessageInterval');
+    // Check for empty values
+    if (start.value === '' || end.value === '') {
+      errorInterval.textContent = 'Start and/or end time cannot be empty';
+      errorInterval.style.display = 'block';
+      return;
+    }
+    // Check if interval is not zero
+    if (start.value > end.value ) {
+      errorInterval.textContent = 'End time must be greater than start time';
+      errorInterval.style.display = 'block';
+      return;
+    }
+    // Check for interval overlap
+    if (checkDatesScheduleOverlap(dateInput.value, start.value, end.value)) {
+      errorInterval.textContent = 'Overlap detected with existing intervals';
+      errorInterval.style.display = 'block';
+      return;
+    }
   }
   const starts = [...dateBlock.querySelectorAll('input[name="start"]')];
   const ends = [...dateBlock.querySelectorAll('input[name="end"]')];
@@ -533,12 +541,11 @@ const setDate = (e) => {
   .then(data => {
     console.log("Saved:", data);
     dateBlock.dataset.date = dateInput.value; // Set the date attribute for the block
-    // renderDatesSchedule(); // Refresh the dates schedule after submission
     dateInput.readOnly = true; // Set the input to read-only after submission
-    errorDay.style.display = 'none'; // <-- this line is giving me cannot read property 'style' of null
-    errorDay.textContent = ''; // Clear the error message
-    errorInterval.style.display = 'none'; // Hide the error message if it was displayed
-    errorInterval.textContent = ''; // Clear the error message
+    // errorDay.style.display = 'none'; // <-- this line is giving me cannot read property 'style' of null
+    // errorDay.textContent = ''; // Clear the error message
+    // errorInterval.style.display = 'none'; // Hide the error message if it was displayed
+    // errorInterval.textContent = ''; // Clear the error message
     renderDatesSchedule(); // Refresh the dates schedule after submission
   });
 };
@@ -559,7 +566,9 @@ const renderDatesSchedule = () => {
     return response.json();
   }).then(data => {
       const datesContainer = document.getElementById('datesList');
-      document.querySelector('.no-dates-msg').style.display = 'none'; // Hide the "No dates available" message
+      if (data.length === 0) {
+        document.querySelector('.no-dates-msg').style.display = 'block';
+      }
       datesContainer.innerHTML = ''; // Clear existing dates
       data.forEach(dateObj => {
         const dateBlock = document.createElement('div');
@@ -567,9 +576,11 @@ const renderDatesSchedule = () => {
         dateBlock.dataset.date = dateObj.date; // Set the date attribute for the block
         dateBlock.innerHTML = `
           <label>Date: <input type="date" name="date" value="${dateObj.date}" data-set="true" readonly></label>
-          <p id="errorMessageDay" style="color: red; display: hidden"></p>
           `;
-        
+        const removeDateBtn = document.createElement('button');
+        removeDateBtn.textContent = 'Remove Date';
+        removeDateBtn.addEventListener('click', removeDate);
+        dateBlock.appendChild(removeDateBtn);
         const intervalsDiv = document.createElement('div');
         intervalsDiv.classList.add('intervals');
         const intervals = dateObj.times;
@@ -577,11 +588,19 @@ const renderDatesSchedule = () => {
         if (intervals.length > 0) {
           intervals.forEach(interval => {
             const intervalDiv = document.createElement('div');
-            intervalDiv.classList.add('interval');
             intervalDiv.innerHTML = `
               <label>Start: <input type="time" name="start" value="${interval[0]}" data-set="true" readonly></label>
               <label>End: <input type="time" name="end" value="${interval[1]}" data-set="true" readonly></label>
             `;
+            intervalDiv.classList.add('interval');
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = 'Remove';
+            removeBtn.addEventListener('click', removeDateInterval);
+            intervalDiv.appendChild(removeBtn);
+            // setBtn = document.createElement('button');
+            // setBtn.textContent = 'Set';
+            // setBtn.addEventListener('click', setDate);
+            // intervalDiv.appendChild(setBtn);
             intervalsDiv.appendChild(intervalDiv);
           });
         } else {
@@ -617,15 +636,74 @@ const addDateInterval = (e) => {
   interval.innerHTML = `
     <label>Start: <input type="time" name="start" data-set="false"></label>
     <label>End: <input type="time" name="end" data-set="false"></label>
-    <p id="errorMessageInterval" style="color: red; display: hidden"></p>
+    <p id="errorMessageInterval" style="color: red; display: none"></p>
   `;
   interval.appendChild(setBtn);
   interval.appendChild(removeBtn);
   intervalsContainer.appendChild(interval);
+  e.target.style.display = 'none'; // Hide the button after adding an interval
 }
 
 const removeDateInterval = (e) => {
   e.preventDefault();
+  const dateBlock = e.target.closest('.date-block');
+  const date = dateBlock.dataset.date;
+  const intervalDiv = e.target.closest('.interval');
+  if (intervalDiv.querySelector('input[name="start"][data-set="false"]')) {
+    console.log("Removing unsaved interval");
+    dateBlock.querySelector('.add-interval-btn').style.display = 'inline'; // Show the add interval button again
+    intervalDiv.remove(); // Remove the interval from the DOM
+    return;
+  }
+  intervalDiv.remove(); // Remove the interval from the DOM
+  const starts = [...dateBlock.querySelectorAll('input[name="start"][data-set="true"]')];
+  const ends = [...dateBlock.querySelectorAll('input[name="end"][data-set="true"]')];
+  const intervals = starts.map((startInput, index) => {
+    const start = startInput.value;
+    const end = ends[index]?.value;
+    if (start && end) {
+      return [ start, end ];
+    }
+    return null;
+  }).filter(Boolean);
+  console.log(intervals)
+  // POST JSON to backend
+  fetch("/admin/schedule/dates", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ date: date, times: intervals})
+  })
+  .then(res => res.text())
+  .then(data => {
+    console.log("Saved:", data);
+  });
+  renderDatesSchedule(); // Refresh the dates schedule after submission
+}
+
+const removeDate = (e) => {
+  e.preventDefault();
+  const dateBlock = e.target.closest('.date-block');
+  const date = dateBlock.dataset.date;
+  fetch('/admin/schedule/dates', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ date: date })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text();
+  }).then(data => {
+      console.log("Date removed:", data);
+      dateBlock.remove(); // Remove the date block from the DOM
+      renderDatesSchedule(); // Refresh the dates schedule after removal
+  }).catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+  renderDatesSchedule();
 }
 
 // dates schedule management END

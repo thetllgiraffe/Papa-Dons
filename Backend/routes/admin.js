@@ -162,4 +162,11 @@ router.get('/schedule/dates', requireAdmin, (req, res) => {
     res.json(rows);
 })
 
+router.delete('/schedule/dates', requireAdmin, (req, res) => {
+  const { date } = req.body;
+  const stmt = db.prepare('DELETE FROM dates_available WHERE date = ?');
+  stmt.run(date);
+  res.send('Date deleted');
+});
+
 module.exports = router;
