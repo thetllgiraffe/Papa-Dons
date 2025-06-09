@@ -443,14 +443,12 @@ const checkDatesScheduleOverlap = (date, start, end) => {
 
 // sort time intervals
 const sortTimeIntervals = (intervals) => {
-  intervals.sort((a, b) => {
-  a[0].localeCompare(b[0]); // Compare first elements as strings
-});
+  intervals.sort((a, b) => a[0].localeCompare(b[0]));
 }
 
 // sort dates
-function sortIsoDates(dates) {
-  return dates.sort();
+function sortByDateAsc(arr) {
+  return arr.sort((a, b) => a.date.localeCompare(b.date));
 }
 // Weekly schedule management END
 
@@ -570,7 +568,8 @@ const renderDatesSchedule = () => {
         document.querySelector('.no-dates-msg').style.display = 'block';
       }
       datesContainer.innerHTML = ''; // Clear existing dates
-      data.forEach(dateObj => {
+      const dates = sortByDateAsc(data)
+      dates.forEach(dateObj => {
         const dateBlock = document.createElement('div');
         dateBlock.classList.add('date-block');
         dateBlock.dataset.date = dateObj.date; // Set the date attribute for the block
