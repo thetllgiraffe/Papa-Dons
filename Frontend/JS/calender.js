@@ -2,8 +2,9 @@
 const { DateTime } = luxon;
 let currentDate = luxon.DateTime.now().setZone('America/Chicago');
 let events = []
-let schedule = {};
-
+let schedule = []
+let dates = []
+let times = []
 // DOM Elements
 const monthDisplay = document.getElementById('monthDisplay');
 const calendarGrid = document.getElementById('calendarGrid');
@@ -142,16 +143,21 @@ function createDayElement(day, dateStr, inactive) {
 		dateNum.classList.add('date-num');
 		dateNum.textContent = day;
 		dayEl.appendChild(dateNum);
-    console.log(dateStr)
 		const dayofweek = getLocalWeekdayFromISO(dateStr) // 0 = Sunday, 1 = Monday, etc.
-    console.log(dayofweek)
-    console.log(schedule[dayofweek])
-    if (dateStr >= formatDate(new Date()) && schedule[dayofweek].times.length > 0) {
+    if (dates.indexOf(dateStr) !== -1) {
+      if (times[dates.indexOf(dateStr)].length > 0) {
+        dayEl.classList.add('clickable');
+        dayEl.addEventListener('click', () => {
+            openAddEventModal(dateStr);
+        });
+      }
+    } else if (dateStr >= formatDate(new Date()) && schedule[dayofweek].times.length > 0) {
       dayEl.classList.add('clickable');
       dayEl.addEventListener('click', () => {
           openAddEventModal(dateStr);
       });
     }
+
 		// Add events for this day
 		const dayEvents = events.filter(e => e.date === dateStr);
 		dayEvents.forEach(event => {
@@ -440,13 +446,33 @@ async function fetchSchedule() {
   }
 }
 
+async function fetchDates() {
+  try {
+    const res = await fetch('/dates');
+    if (!res.ok) throw new Error('Fetch failed');
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error('Fetch eror:', err);
+    return {};
+  }
+}
+
 // Initialize the calendar when the page loads
 (function() {
   document.addEventListener('DOMContentLoaded', async () => {
     events = await fetchEvents();
     schedule = await fetchSchedule();
+    data = await fetchDates();
+    for (const item of data) {
+      times.push(item.times)
+      dates.push(item.date)
+    }
     console.log(schedule)
     console.log(events)
+    console.log(dates)
+    console.log(times)
+    // console.log(times)
     initCalendar();
   })
 })();

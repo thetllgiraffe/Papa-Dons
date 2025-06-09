@@ -68,5 +68,18 @@ router.get('/schedule', (req, res) => {
   }
 });
 
+router.get('/dates', (reg, res) => {
+  const stmt = db.prepare('SELECT * FROM dates_available');
+  const rows = stmt.all();
+  if (rows.length > 0) {
+    for (const row of rows) {
+      row.times = JSON.parse(row.times);
+    }
+    res.json(rows); 
+  } else {
+      res.json({})
+    }
+  });
+
 
 module.exports = router;
