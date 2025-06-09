@@ -24,10 +24,10 @@
           alt="Papa Don's Burgers & Wings"
         />
         <ul>
-          <li><a href="landing.html">Home</a></li>
-          <li><a href="aboutMe.html">About Us</a></li>
-          <li><a href="location.html">Find Us</a></li>
-          <li><a href="calendar.html">Book Us</a></li>
+          <li><a href="landing.html" tabindex="0">Home</a></li>
+          <li><a href="aboutMe.html" tabindex="0">About Us</a></li>
+          <li><a href="location.html" tabindex="0">Find Us</a></li>
+          <li><a href="calendar.html" tabindex="0">Book Us</a></li>
         </ul>
         <button
           id="open-menu-btn"
@@ -49,10 +49,10 @@
         <div class="mobile-menu-content-links">
           <ul class="space-y-2 py-6">
             <ul>
-              <li><a href="landing.html">Home</a></li>
-              <li><a href="aboutMe.html">About Us</a></li>
-              <li><a href="location.html">Find Us</a></li>
-              <li><a href="calendar.html">Book Us</a></li>
+              <li><a href="../HTML/landing.html">Home</a></li>
+              <li><a href="../HTML/aboutMe.html">About Us</a></li>
+              <li><a href="../HTML/location.html">Find Us</a></li>
+              <li><a href="../HTML/calendar.html">Book Us</a></li>
             </ul>
           </ul>
         </div>
@@ -64,102 +64,115 @@
       <section class="main">
         <h1>Papa Don's Burgers &amp; Wings</h1>
         <div class="btn-group">
-          <a href="aboutMe.html" class="btn" data-link="About Us">About Us</a>
+          <a href="../HTML/calendar.html" tabindex="0" class="btn">Book Now</a>
         </div>
       </section>
       <!-- Menu, Location and Booking Section-->
       <section>
-        <div>
-          <h3><i class="fas fa-hamburger"></i> Menu</h3>
-          <i class="fas fa-utensils icon-large"></i>
-          <p>Craving the best burgers & wings? Take a look at our menu.</p>
-          <a href="#menu" class="btn" data-link="See Menu">See Menu</a>
-        </div>
-        <div>
-          <h3><i class="fas fa-map-marker-alt"></i> Find Us</h3>
-          <i class="fas fa-truck-moving icon-large"></i>
+        <article>
+          <div>
+            <h3><i class="fas fa-hamburger"></i> Menu</h3>
+            <p>Craving the best burgers & wings? Take a look at our menu.</p>
+            <button class="btn" onclick="menu.showModal()">See Menu</button>
+          </div>
+          <img
+            src="../images/foods.png"
+            alt="Food truck serving up burgers, fries and other menu items"
+          />
+        </article>
+
+        <article>
+          <div>
+            <h3><i class="fas fa-map-marker-alt"></i> Find Us</h3>
+            <p>
+              We're on the move! Catch Papa Don's food truck at a new spot every
+              day. Don’t miss out!
+            </p>
+            <a tabindex="0" href="../HTML/location.html" class="btn"
+              >See Location</a
+            >
+          </div>
+          <img
+            src="../images/photo_5902324305511958892_y.jpg"
+            alt="Papa Don's food truck"
+          />
+        </article>
+
+        <article>
+          <h3>Planning an Event?</h3>
           <p>
-            We're on the move! Catch Papa Don's food truck at a new spot every
-            day. Don’t miss out!
+            Whether you're celebrating a graduation, tying the knot, hosting a
+            festival, or organizing a corporate lunch, Papa Don's Burgers and
+            Wings has you covered. We bring delicious, freshly made food right
+            to your event, wherever it may be. From brew pubs to any life
+            celebration, let us take care of the food while you enjoy the
+            moment. Let Papa Don's bring the flavor to you!
           </p>
-          <a href="location.html" class="btn" data-link="See Location"
-            >See Location</a
-          >
-        </div>
-        <div>
-          <h3><i class="fas fa-calendar-check"></i> Book Us</h3>
-          <i class="fas fa-calendar-day icon-large"></i>
-          <p>
-            Planning a party or event? Let Papa Don's bring the flavor to you!
-          </p>
-          <a href="calendar.html" class="btn" data-link="Book Us">Book Us</a>
-        </div>
+          <a class="btn" href="../HTML/calendar.html">Book Now</a>
+        </article>
       </section>
-      <!-- Menu Section -->
-      <section id="menu" class="menu-section">
-        <h2>Menu</h2>
-        <div class="menu-columns">
-          <div class="menu-column">
-            <h3>BURGERS</h3>
-            <ul>
-              <li>Classic Burger – $10</li>
-              <li>Cheeseburger – $11</li>
-              <li>Spicy American – $12</li>
-              <li>Bacon & Chz – $14</li>
-              <li>Shroom & Swiss – $14</li>
-              <li>Tennessee Whiskey – $14</li>
-              <li>Pickle Richard – $15</li>
-              
-            </ul>
-          </div>
-          <div class="menu-column">
-            <h3>CHICKEN</h3>
-            <ul>
-              <li>Bone In Wings – $15</li>
-              <li>Boneless Wings – $10</li>
-              <span>All wingd include a 4oz Sauce cup. <br> Additional Sauce cups are $1 each <br> Speciality Sauces are $2 / 4oz additionaly</span>
-            </ul>
-          </div>
-          <div class="menu-column">
-            <h3>Sides</h3>
-            <ul>
-              <li>Fries – $6</li>
-              <li>Chips and Cheese – $6</li>
-              <li>Onion Rings – $9</li>
-              <li>Pretzel – $9</li>
-              <li>Mozzarella Sticks – $9</li>
-              <li>Waffle Fries – $9</li>
-              <li>Egg Rolls – $10</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      <!-- Catering Section -->
-      <section class="catering">
-        <h2>Planning an Event?</h2>
-        <p>
-          Whether you're celebrating a graduation, tying the knot, hosting a
-          festival, or organizing a corporate lunch, Papa Don's Burgers and
-          Wings has you covered. We bring delicious, freshly made food right to
-          your event, wherever it may be. From brew pubs to any life
-          celebration, let us take care of the food while you enjoy the moment.
-        </p>
-        <h3>Ready to make your event unforgettable?</h3>
-        <a href="about.html" class="btn" data-link="Book Us">Book Us</a>
-      </section>
-      <!-- Gallery Section -->
-      <!-- <section id="gallery" class="gallery-section">
-        <h2>GALLERY</h2>
-        <div class="gallery-grid">
-          <img src="https://placecats.com/300/200" alt="Kitten 1" />
-          <img src="https://placecats.com/301/200" alt="Kitten 2" />
-          <img src="https://placecats.com/302/200" alt="Kitten 3" />
-          <img src="https://placecats.com/303/200" alt="Kitten 4" />
-          <img src="https://placecats.com/304/200" alt="Kitten 5" />
-          <img src="https://placecats.com/305/200" alt="Kitten 6" />
-        </div>
-      </section> -->
     </main>
+
+    <dialog id="menu">
+      <form method="dialog">
+        <button type="submit" aria-label="Close" title="Close">X</button>
+      </form>
+      <div class="menu">
+        <div class="menu-wrapper">
+          <div class="menu-logo">
+            <p>Papa Don's Burgers &amp; Wings</p>
+            <p>Food Truck Extraordinaire!</p>
+            <img
+              role="presentation"
+              src="/Frontend/images/foodtruck.svg"
+              alt=""
+            />
+          </div>
+
+          <div class="menu-items">
+            <div class="col">
+              <h3 class="menu-category">Burgers</h3>
+              <ul>
+                <li>Classic Burger <span>$10</span></li>
+                <li>Cheeseburger <span>$11</span></li>
+                <li>Spicy American <span>$12</span></li>
+                <li>Bacon &amp; Chz <span>$14</span></li>
+                <li>Shroom &amp; Swiss <span>$14</span></li>
+                <li>Tennessee Whiskey <span>$14</span></li>
+                <li>Pickle Richard <span>$15</span></li>
+              </ul>
+            </div>
+            <div class="col">
+              <div>
+                <h3 class="menu-category">Wings</h3>
+                <ul>
+                  <li>Bone In Wings <span>$15</span></li>
+                  <li>Boneless Wings <span>$10</span></li>
+                  <li class="additional-information">
+                    <p>All wings include A 4oz Sauce cup.</p>
+                    <p>Additional Sauce cups are $1 each</p>
+                    <p>Specialty Sauces are $2/4oz cup Additionally</p>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="menu-category">sides</h3>
+                <ul>
+                  <li>Fries <span>$6</span></li>
+                  <li>Chips &amp; cheese <span>$6</span></li>
+                  <li>Onion Rings <span>$9</span></li>
+                  <li>Pretzel <span>$9</span></li>
+                  <li>Mozzarella Sticks <span>$9</span></li>
+                  <li>Waffle Fries <span>$9</span></li>
+                  <li>Egg Rolls <span>$10</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
     <footer>
       <ul>
         <li>
