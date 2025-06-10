@@ -175,7 +175,7 @@ const fetchlist = () => {fetch('/admin/list', {
     // Append the row to the table pending table
     table.appendChild(row);
     // check if the event is approved and the date is today or in the future
-    } else if (event.status === 'approved' && now >= eventDate) {
+    } else if (event.status === 'approved' && eventDate >= now) {
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${event.id}</td>

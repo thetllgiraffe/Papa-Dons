@@ -296,21 +296,6 @@ function saveEvent() {
 		renderEventsList();
 }
 
-// Delete an event
-// function deleteEvent() {
-// 		const eventId = document.getElementById('eventId').value;
-// 		if (!eventId) return;
-		
-// 		if (confirm('Are you sure you want to delete this event?')) {
-// 				events = events.filter(e => e.id !== eventId);
-// 				localStorage.setItem('events', JSON.stringify(events));
-				
-// 				eventModal.style.display = 'none';
-// 				renderCalendar();
-// 				renderEventsList();
-// 		}
-// }
-
 
 // Render the events list
 function renderEventsList() {
