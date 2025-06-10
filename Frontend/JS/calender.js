@@ -464,9 +464,11 @@ async function fetchDates() {
     events = await fetchEvents();
     schedule = await fetchSchedule();
     data = await fetchDates();
-    for (const item of data) {
-      times.push(item.times)
-      dates.push(item.date)
+    if (data.length > 0) {
+      for (const item of data) {
+        times.push(item.times)
+        dates.push(item.date)
+      }
     }
     console.log(schedule)
     console.log(events)

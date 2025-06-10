@@ -221,8 +221,8 @@ const setDay = (e) => {
   const dayBlock = e.target.closest('.day-block');
   const day = dayBlock.dataset.day;
   const error = dayBlock.querySelector('#overlapError');
-  const start = dayBlock.querySelector('input[name="start"][data-set="false"]');
-  const end = dayBlock.querySelector('input[name="end"][data-set="false"]');
+  const start = dayBlock.querySelector('input[name="start"]');
+  const end = dayBlock.querySelector('input[name="end"]');
   // Check for empty values
   if (start.value === '' || end.value === '') {
     error.textContent = 'Start and/or end time cannot be empty';
@@ -241,16 +241,17 @@ const setDay = (e) => {
     error.style.display = 'block';
     return;
   }
-  const starts = [...dayBlock.querySelectorAll('input[name="start"]')];
-  const ends = [...dayBlock.querySelectorAll('input[name="end"]')];
+  const starts = [...dayBlock.querySelectorAll('[data-start]')];
+  const ends = [...dayBlock.querySelectorAll('[data-end]')];
   const intervals = starts.map((startInput, index) => {
-    const start = startInput.value;
-    const end = ends[index]?.value;
+    const start = startInput.dataset.start;
+    const end = ends[index]?.dataset.end;
     if (start && end) {
       return [ start, end ];
     }
     return null;
   }).filter(Boolean);
+  intervals.push([start.value, end.value])
   console.log(intervals)
   // POST JSON to backend
   fetch("/admin/schedule/weekly", {
@@ -263,8 +264,6 @@ const setDay = (e) => {
     console.log("Saved:", data);
   });
   renderDaySchedule(day); // Refresh the day's schedule after submission
-  start.readOnly = true; // Set the start input to read-only after submission
-  end.readOnly = true; // Set the end input to read-only after submission
   error.style.display = 'none'; // Hide the error message if it was displayed
   error.textContent = ''; // Clear the error message
   const addIntervalButton = dayBlock.querySelector('.add-interval');
@@ -277,26 +276,24 @@ const removeDayInterval = (e) => {
   const dayBlock = e.target.closest('.day-block');
   const day = dayBlock.dataset.day;
   const intervalDiv = e.target.closest('.interval');
-  if (intervalDiv) {
-    intervalDiv.remove(); // Remove the interval from the DOM
-  }
-  if (intervalDiv.querySelector('input[name="start"][data-set="false"]')) {
+  if (intervalDiv.querySelector('input[name="start"]')) {
     console.log("Removing unsaved interval");
     dayBlock.querySelector('.add-interval').style.display = 'inline'; // Show the add interval button again
     dayBlock.querySelector('#overlapError').style.display = 'none'; // Hide any error messages
+    intervalDiv.remove();
     return;
   }
-  const starts = [...dayBlock.querySelectorAll('input[name="start"][data-set="true"]')];
-  const ends = [...dayBlock.querySelectorAll('input[name="end"][data-set="true"]')];
+  intervalDiv.remove();
+  const starts = [...dayBlock.querySelectorAll('[data-start]')];
+  const ends = [...dayBlock.querySelectorAll('[data-end]')];
   const intervals = starts.map((startInput, index) => {
-    const start = startInput.value;
-    const end = ends[index]?.value;
+    const start = startInput.dataset.start;
+    const end = ends[index]?.dataset.end;
     if (start && end) {
       return [ start, end ];
     }
     return null;
   }).filter(Boolean);
-  console.log(intervals)
   // POST JSON to backend
   fetch("/admin/schedule/weekly", {
     method: "PUT",
@@ -327,8 +324,8 @@ document.querySelectorAll('.add-interval').forEach(button => {
     const interval = document.createElement('div');
     interval.classList.add('interval');
     interval.innerHTML = `
-      <label>Start: <input type="time" name="start" data-set="false"></label>
-      <label>End: <input type="time" name="end" data-set="false"></label>
+      <label>Start: <input type="time" name="start"></label>
+      <label>End: <input type="time" name="end"></label>
     `;
     interval.appendChild(setBtn);
     interval.appendChild(removeBtn);
@@ -366,9 +363,11 @@ const renderDaySchedule = (day) => {
           removeBtn.textContent = 'Remove';
           removeBtn.addEventListener('click', removeDayInterval);
           intervalDiv.classList.add('interval');
+          const start = convertTo12Hour(interval[0])
+          const end = convertTo12Hour(interval[1])
           intervalDiv.innerHTML = `
-            <label>Start: <input type="time" name="start" value=${interval[0]} data-set="true" readonly></label>
-            <label>End: <input type="time" name="end" value=${interval[1]} data-set="true" readonly></label>
+            <p data-start=${interval[0]}>Start: ${start}</p>
+            <p data-end=${interval[1]}>End: ${end}</p>
           `;
           intervalsContainer.appendChild(intervalDiv);
           intervalDiv.appendChild(removeBtn);
@@ -397,11 +396,11 @@ const checkScheduleOverlap = (day, start, end) => {
   const newEnd = timeToMinutes(end);
 
   for (const interval of intervals) {
-    const existingStartInputs = interval.querySelectorAll('input[data-set="true"][name="start"]');
-    const existingEndInputs = interval.querySelectorAll('input[data-set="true"][name="end"]');
+    const existingStartInputs = interval.querySelectorAll('[data-start]');
+    const existingEndInputs = interval.querySelectorAll('[data-end]');
 
-    const existingStarts = Array.from(existingStartInputs).map(input => timeToMinutes(input.value));
-    const existingEnds = Array.from(existingEndInputs).map(input => timeToMinutes(input.value));
+    const existingStarts = Array.from(existingStartInputs).map(input => timeToMinutes(input.dataset.start));
+    const existingEnds = Array.from(existingEndInputs).map(input => timeToMinutes(input.dataset.end));
 
     for (let i = 0; i < existingStarts.length; i++) {
       const existingStart = existingStarts[i];
