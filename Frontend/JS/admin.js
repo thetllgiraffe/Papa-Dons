@@ -487,7 +487,7 @@ const setDate = (e) => {
   e.preventDefault();
   const dateBlock = e.target.closest('.date-block');
   const dateInput = dateBlock.querySelector('input[name="date"]');
-  if (dateInput.dataset.set === 'false') {
+  if (dateInput) {
     const errorDay = dateBlock.querySelector('#errorMessageDay');
     // Check for empty value
     if (dateInput.value === '') {
@@ -509,9 +509,11 @@ const setDate = (e) => {
         errorDay.style.display = 'none';
         renderDatesSchedule();
       })
+    dateBlock.dataset.date = dateInput.value; // Set the date attribute for the block
     return;
   }
   const intervalsDiv = dateBlock.querySelector('.intervals');
+  const date = dateBlock.querySelector('[data-date]');
   const start = intervalsDiv.querySelector('input[name="start"]');
   const end = intervalsDiv.querySelector('input[name="end"]');
   if (start && end) {
@@ -529,7 +531,7 @@ const setDate = (e) => {
       return;
     }
     // Check for interval overlap
-    if (checkDatesScheduleOverlap(dateInput.value, start.value, end.value)) {
+    if (checkDatesScheduleOverlap(date.dataset.date, start.value, end.value)) {
       errorInterval.textContent = 'Overlap detected with existing intervals';
       errorInterval.style.display = 'block';
       return;
@@ -537,7 +539,6 @@ const setDate = (e) => {
   }
   const starts = [...intervalsDiv.querySelectorAll('[data-start]')];
   const ends = [...intervalsDiv.querySelectorAll('[data-end]')];
-  
   const intervals = starts.map((startInput, index) => {
     const start = startInput.dataset.start;
     const end = ends[index]?.dataset.end;
@@ -553,13 +554,12 @@ const setDate = (e) => {
   fetch("/admin/schedule/dates", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ date: dateInput.value, times: intervals})
+    body: JSON.stringify({ date: date.dataset.date, times: intervals})
   })
   .then(res => res.text())
   .then(data => {
     console.log("Saved:", data);
-    dateBlock.dataset.date = dateInput.value; // Set the date attribute for the block
-    dateInput.readOnly = true; // Set the input to read-only after submission
+    dateBlock.dataset.date = date.dataset.date; // Set the date attribute for the block
 
     renderDatesSchedule(); // Refresh the dates schedule after submission
   });
@@ -593,7 +593,7 @@ const renderDatesSchedule = () => {
         dateBlock.classList.add('date-block');
         dateBlock.dataset.date = dateObj.date; // Set the date attribute for the block
         dateBlock.innerHTML = `
-          <label>Date: <input type="date" name="date" value="${dateObj.date}" data-set="true" readonly></label>
+          <p data-date=${dateObj.date}>Date: ${dateObj.date}</p>
           `;
         const removeDateBtn = document.createElement('button');
         removeDateBtn.textContent = 'Remove Date';
