@@ -1,7 +1,7 @@
 // Calendar Functionality
 import { DateTime } from 'https://cdn.jsdelivr.net/npm/luxon@3/build/es6/luxon.min.js';
 
-let currentDate = luxon.DateTime.now().setZone('America/Chicago');
+let currentDate = DateTime.now().setZone('America/Chicago');
 let events = []
 let schedule = []
 let dates = []
@@ -448,7 +448,7 @@ async function fetchDates() {
   document.addEventListener('DOMContentLoaded', async () => {
     events = await fetchEvents();
     schedule = await fetchSchedule();
-    data = await fetchDates();
+    const data = await fetchDates();
     if (data.length > 0) {
       for (const item of data) {
         times.push(item.times)
