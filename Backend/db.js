@@ -57,10 +57,10 @@ function deleteOldEvents() {
 }
 
 function deleteOldAvailableDates() {
-  const query = `DELETE FROM dates_available WHERE date < datetime('now', '-30 days')`;
+  const query = `DELETE FROM dates_available WHERE date < datetime('now', '-1 days')`;
   try {
     const result = db.prepare(query).run();
-    console.log(`Deleted ${result.changes} rows older than 30 days`);
+    console.log(`Deleted ${result.changes} rows older than 1 days`);
   } catch (err) {
     console.error('Error deleting old records:', err.message);
   }

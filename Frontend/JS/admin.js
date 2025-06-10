@@ -389,7 +389,12 @@ function timeToMinutes(t) {
 }
 
 const checkScheduleOverlap = (day, start, end) => {
-  const dayBlock = document.querySelector(`.day-block[data-day="${day}"]`);
+  let dayBlock;
+  if (daysOfWeek.includes(day)) {
+    dayBlock = document.querySelector(`.day-block[data-day="${day}"]`);
+  } else {
+    dayBlock = document.querySelector(`.date-block[data-date="${day}"]`);
+  }
   const intervals = dayBlock.querySelectorAll('.interval');
 
   const newStart = timeToMinutes(start);
@@ -415,31 +420,6 @@ const checkScheduleOverlap = (day, start, end) => {
   return false; // No overlap
 };
 
-const checkDatesScheduleOverlap = (date, start, end) => {
-  const dateBlock = document.querySelector(`.date-block[data-date="${date}"]`);
-  const intervals = dateBlock.querySelectorAll('.interval');
-  const newStart = timeToMinutes(start);
-  const newEnd = timeToMinutes(end);
-
-
-  for (const interval of intervals) {
-    const existingStartInputs = interval.querySelectorAll('[data-start]');
-    const existingEndInputs = interval.querySelectorAll('[data-end]');
-
-    const existingStarts = Array.from(existingStartInputs).map(input => timeToMinutes(input.dataset.start));
-    const existingEnds = Array.from(existingEndInputs).map(input => timeToMinutes(input.dataset.end));
-
-    for (let i = 0; i < existingStarts.length; i++) {
-      const existingStart = existingStarts[i];
-      const existingEnd = existingEnds[i];
-
-      if (newStart < existingEnd && newEnd > existingStart) {
-        return true; // Overlap found
-      }
-    }
-  }
-  return false; // No overlap
-};
 
 // sort time intervals
 const sortTimeIntervals = (intervals) => {
@@ -531,7 +511,7 @@ const setDate = (e) => {
       return;
     }
     // Check for interval overlap
-    if (checkDatesScheduleOverlap(date.dataset.date, start.value, end.value)) {
+    if (checkScheduleOverlap(date.dataset.date, start.value, end.value)) {
       errorInterval.textContent = 'Overlap detected with existing intervals';
       errorInterval.style.display = 'block';
       return;
