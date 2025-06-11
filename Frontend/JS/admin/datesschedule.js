@@ -143,9 +143,9 @@ const renderDatesSchedule = () => {
       const datesContainer = document.getElementById('datesList');
       datesContainer.innerHTML = ''; // Clear existing dates
       if (data.length === 0) {
-        document.querySelector('.no-dates-msg').style.display = 'block';
+        document.querySelector('.no-dates-msg').style.visibility = 'visible';
       } else {
-        document.querySelector('.no-dates-msg').style.display = 'none';
+        document.querySelector('.no-dates-msg').style.visibility = 'hidden';
       }
       const dates = sortByDateAsc(data)
       dates.forEach(dateObj => {
@@ -254,6 +254,67 @@ const removeDateInterval = (e) => {
     console.log("Saved:", data);
   });
   renderDatesSchedule(); // Refresh the dates schedule after submission
+}
+
+//helper functions
+
+// sort time intervals
+const sortTimeIntervals = (intervals) => {
+  intervals.sort((a, b) => a[0].localeCompare(b[0]));
+}
+
+// sort dates
+function sortByDateAsc(arr) {
+  return arr.sort((a, b) => a.date.localeCompare(b.date));
+}
+
+// Checking of schedule overlap logic
+function timeToMinutes(t) {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+}
+const checkScheduleOverlap = (day, start, end) => {
+  let dayBlock;
+  // if day is week day select day-block else select date-block
+  if (daysOfWeek.includes(day)) {
+    dayBlock = document.querySelector(`.day-block[data-day="${day}"]`);
+  } else {
+    dayBlock = document.querySelector(`.date-block[data-date="${day}"]`);
+  }
+  // initialize start and end times being input
+  const newStart = timeToMinutes(start);
+  const newEnd = timeToMinutes(end);
+  // check for overlap with all existing time intervals
+  const intervals = dayBlock.querySelectorAll('.interval');
+  for (const interval of intervals) {
+    const existingStartInputs = interval.querySelectorAll('[data-start]');
+    const existingEndInputs = interval.querySelectorAll('[data-end]');
+
+    const existingStarts = Array.from(existingStartInputs).map(input => timeToMinutes(input.dataset.start));
+    const existingEnds = Array.from(existingEndInputs).map(input => timeToMinutes(input.dataset.end));
+
+    for (let i = 0; i < existingStarts.length; i++) {
+      const existingStart = existingStarts[i];
+      const existingEnd = existingEnds[i];
+
+      if (newStart < existingEnd && newEnd > existingStart) {
+        return true; // Overlap found
+      }
+    }
+  }
+  return false; // No overlap
+};
+
+// change 24:00 formate to 12:00 am/pm format
+function convertTo12Hour(time24) {
+  let [hours, minutes] = time24.split(':').map(Number);
+
+  // Normalize 24:00 to 00:00
+  if (hours === 24) hours = 0;
+
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12; // Convert hour 0 to 12 for AM
+  return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
 }
 
 export {removeDate, renderDatesSchedule, setDate, addDateInterval, removeDateInterval}
