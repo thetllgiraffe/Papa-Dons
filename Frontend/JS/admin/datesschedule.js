@@ -153,12 +153,13 @@ const renderDatesSchedule = () => {
         dateBlock.classList.add('date-block');
         dateBlock.dataset.date = dateObj.date; // Set the date attribute for the block
         dateBlock.innerHTML = `
+          <div class="dateDiv">
           <p data-date=${dateObj.date}>Date: ${dateObj.date}</p>
+          </div>
           `;
         const removeDateBtn = document.createElement('button');
-        removeDateBtn.textContent = 'Remove Date';
+        removeDateBtn.textContent = "Remove Date";
         removeDateBtn.addEventListener('click', removeDate);
-        dateBlock.appendChild(removeDateBtn);
         const intervalsDiv = document.createElement('div');
         intervalsDiv.classList.add('intervals');
         const intervals = dateObj.times;
@@ -169,8 +170,10 @@ const renderDatesSchedule = () => {
             const end = convertTo12Hour(interval[1])
             const intervalDiv = document.createElement('div');
             intervalDiv.innerHTML = `
-              <p data-start=${interval[0]}>Start: ${start}</p>
-              <p data-end=${interval[1]}>End: ${end}</p>
+              <div>
+                <p data-start=${interval[0]}>${start} -&nbsp;</p>
+                <p data-end=${interval[1]}> ${end}</p>
+              </div>
             `;
             intervalDiv.classList.add('interval');
             const removeBtn = document.createElement('button');
@@ -181,9 +184,10 @@ const renderDatesSchedule = () => {
           });
         } else {
           const noIntervals = document.createElement('p');
-          noIntervals.textContent = 'Not available';
-          intervalsDiv.appendChild(noIntervals);
+          noIntervals.textContent = 'Unavailable';
+          dateBlock.querySelector('.dateDiv').appendChild(noIntervals);
         }
+        dateBlock.querySelector('.dateDiv').appendChild(removeDateBtn)
         const addIntervalButton = document.createElement('button');
         addIntervalButton.textContent = 'Add Interval';
         addIntervalButton.classList.add('add-interval-btn');
@@ -316,5 +320,8 @@ function convertTo12Hour(time24) {
   hours = hours % 12 || 12; // Convert hour 0 to 12 for AM
   return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
 }
+
+const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
 
 export {removeDate, renderDatesSchedule, setDate, addDateInterval, removeDateInterval}

@@ -226,4 +226,7 @@ function convertTo12Hour(time24) {
   return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
 }
 
+const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+
 export { removeDayInterval, setDay, renderDaySchedule }

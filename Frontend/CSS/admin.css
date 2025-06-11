@@ -207,14 +207,16 @@ input, select, textarea {
 .interval {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
-.interval p {
- margin: 5px;
+.interval div {
+  display: flex;
+  flex-direction: row;
 }
 
 .interval button {
- margin: 5px;
+  margin: 5px;
 }
 
 .interval label {
@@ -237,8 +239,9 @@ input, select, textarea {
   justify-content: space-between;
 }
 
+/* date and remove date button */
 
-
-/* .add-date {
-} */
-
+.dateDiv {
+  display: flex;
+  justify-content: space-between;
+}
