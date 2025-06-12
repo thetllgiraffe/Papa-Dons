@@ -139,7 +139,7 @@ button {
   margin-bottom: 15px;
 }
 
-label {
+/* label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
@@ -151,7 +151,7 @@ input, select, textarea {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
-}
+} */
 
 
 
@@ -195,34 +195,118 @@ input, select, textarea {
 .schedule-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   gap: 20px;
 }
 
 /* weekly schedule styles */
 
 .weekly-schedule-container {
-  flex: 1;
+  max-width: 500px;
+}
+
+.day-block {
+  background-color: #aaa;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.day-div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-rows: auto; /* row height fits content */
+  gap: 20px;
+  align-items: center;
+}
+
+.day-div h3 {
+  grid-column: 1;
+}
+
+.day-div p {
+  grid-column: 2;
 }
 
 .interval {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-rows: auto; /* row height fits content */
+  gap: 20px;
+  align-items: center;
 }
 
 .interval div {
+  grid-column: 2;
   display: flex;
   flex-direction: row;
 }
 
 .interval button {
-  margin: 5px;
+  grid-column: 3;
 }
 
-.interval label {
-  margin: 5px;
+/* dates schedule styles */
+
+.dates-schedule-container {
+  max-width: 500px;
 }
 
+.date-block {
+  background-color: #aaa;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 1rem;
+}
+
+
+.weekly-schedule-container {
+  flex: 1;
+}
+
+.intervals {
+  text-align: center;
+}
+
+/* set date interval styling */
+.set-interval {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-rows: auto; /* row height fits content */
+  gap: 20px;
+  display: flex;
+  justify-content: center; /* horizontal */
+  align-items: center; 
+}
+
+.set-interval div {
+  grid-column: 2; /* spans columns 1 to 2 */
+  display: flex;
+  flex-direction: row;
+}
+
+.set-interval button {
+  grid-column: 3;
+}
+
+/* input date interval styling */
+.input-interval div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* label, input {
+  display: inline-block;
+  vertical-align: middle;
+} */
+
+
+.error-message-date {
+  color: red;
+  display: none
+}
 /* date schedule styles */
 
 .dates-schedule-container {
@@ -237,11 +321,22 @@ input, select, textarea {
 .nodates-add-date {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 /* date and remove date button */
 
-.dateDiv {
+.date-div {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.date-div p {
+  font-weight: 800;
+}
+
+button {
+  height: fit-content;
+  width: fit-content;
 }

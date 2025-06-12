@@ -12,7 +12,7 @@ document.querySelectorAll('.add-interval').forEach(button => {
     removeBtn.textContent = 'Remove';
     removeBtn.addEventListener('click', removeDayInterval);
     const interval = document.createElement('div');
-    interval.classList.add('interval');
+    interval.classList.add('unset-interval');
     interval.innerHTML = `
       <label>Start: <input type="time" name="start"></label>
       <label>End: <input type="time" name="end"></label>
@@ -29,7 +29,7 @@ document.querySelectorAll('.add-interval').forEach(button => {
 const removeDayInterval = (e) => {
   const dayBlock = e.target.closest('.day-block');
   const day = dayBlock.dataset.day;
-  const intervalDiv = e.target.closest('.interval');
+  const intervalDiv = e.target.closest('.interval, .unset-interval');
   if (intervalDiv.querySelector('input[name="start"]')) {
     dayBlock.querySelector('.add-interval').style.display = 'inline'; // Show the add interval button again
     dayBlock.querySelector('#overlapError').style.display = 'none'; // Hide any error messages
@@ -136,19 +136,22 @@ const renderDaySchedule = (day) => {
     const intervals = data.times;
     sortTimeIntervals(intervals); // Sort intervals before rendering
     if (intervals.length > 0) {
+      dayBlock.querySelector('p').style.visibility = 'hidden';
       intervals.forEach(interval => {
       const intervalDiv = document.createElement('div');
       intervalDiv.classList.add('interval');
       //create remove button and add event listener
       const removeBtn = document.createElement('button');
-      removeBtn.textContent = 'Remove';
+      removeBtn.textContent = 'X';
       removeBtn.addEventListener('click', removeDayInterval);
       //convert interval data to render in 12:00 am/pm format
       const start = convertTo12Hour(interval[0])
       const end = convertTo12Hour(interval[1])
       intervalDiv.innerHTML = `
-        <p data-start=${interval[0]}>Start: ${start}</p>
-        <p data-end=${interval[1]}>End: ${end}</p>
+        <div>
+          <p data-start=${interval[0]}>${start} - </p>
+          <p data-end=${interval[1]}> ${end}</p>
+        </div>
       `;
       // attach interval and remove button
       intervalsDiv.appendChild(intervalDiv);
@@ -156,9 +159,7 @@ const renderDaySchedule = (day) => {
       });
     } else {
       // if no intervals display no availability
-      const noIntervals = document.createElement('p');
-      noIntervals.textContent = 'Not available';
-      intervalsDiv.appendChild(noIntervals);
+      dayBlock.querySelector('p').style.visibility = "visible";
     }
   }).catch(error => {
     console.error('There was a problem with the fetch operation:', error);
