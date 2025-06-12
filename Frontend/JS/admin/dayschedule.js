@@ -149,8 +149,9 @@ const renderDaySchedule = (day) => {
       const end = convertTo12Hour(interval[1])
       intervalDiv.innerHTML = `
         <div>
-          <p data-start=${interval[0]}>${start} - </p>
-          <p data-end=${interval[1]}> ${end}</p>
+          <p data-start=${interval[0]}>${start}</p>
+          <p>-</p>
+          <p data-end=${interval[1]}>${end}</p>
         </div>
       `;
       // attach interval and remove button

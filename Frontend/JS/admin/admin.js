@@ -6,6 +6,20 @@ const schedule = document.getElementById('approved-body');
 const eventModal = document.getElementById('eventModal');
 const cancelBtn = document.getElementById('cancelBtn');
 const closeModal = document.getElementById('closeModal');
+// get tab buttons and containers for nav bar function
+const eventsBtn = document.getElementById('eventsBtn');
+const scheduleBtn = document.getElementById('scheduleBtn');
+const eventsContainer = document.querySelector('.events-container')
+const scheduleContainer = document.querySelector('.schedule-container')
+// add event listeners to show and hide events interface and schedule interface
+eventsBtn.addEventListener('click', () => {
+  eventsContainer.classList.remove('hidden');
+  scheduleContainer.classList.add('hidden');
+})
+scheduleBtn.addEventListener('click', () => {
+  scheduleContainer.classList.remove('hidden');
+  eventsContainer.classList.add('hidden');
+})
 
 closeModal.addEventListener('click', () => {
   eventModal.style.display = 'none';
@@ -210,6 +224,14 @@ const fetchlist = () => {fetch('/admin/list', {
       td.appendChild(editBtn);
       row.appendChild(td);
     }
+    document.querySelectorAll('table').forEach(table => {
+      const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent);
+      table.querySelectorAll('tbody tr').forEach(row => {
+        row.querySelectorAll('td').forEach((td, i) => {
+          td.setAttribute('data-label', headers[i]);
+        });
+      });
+    });
   })
 })}
 
@@ -265,4 +287,3 @@ for (const day of daysOfWeek) {
 renderDatesSchedule(); // Render the dates schedule on page load
 
 fetchlist();
-

@@ -158,7 +158,7 @@ const renderDatesSchedule = async () => {
         const end = convertTo12Hour(interval[1]);
         starttag.dataset.start = interval[0];
         endtag.dataset.end = interval[1];
-        starttag.textContent = `${start} -`;
+        starttag.textContent = start;
         endtag.textContent = end;
         intervalDiv.querySelector('.remove-interval-btn').addEventListener('click', removeDateInterval);
         intervalsDiv.appendChild(intervalDiv);

@@ -6,6 +6,15 @@ body {
   color: #333;
 }
 
+ul {
+  list-style-type: none;
+}
+
+header ul {
+  display: flex;
+  flex-direction: row;
+}
+
 h2 {
   margin-top: 40px;
   color: #2c3e50;
@@ -76,8 +85,10 @@ button {
   }
 
   td {
-    padding: 10px;
     position: relative;
+    padding-left: 50%;
+    border: none;
+    border-bottom: 1px solid #eee;
   }
 
   td::before {
@@ -87,9 +98,10 @@ button {
     top: 10px;
     font-weight: bold;
     text-transform: capitalize;
-    color: #888;
+    color: #524a4a;
   }
 }
+
 
 .event {
   font-size: 0.8rem;
@@ -200,10 +212,13 @@ button {
   margin: 10px
 }
 
+
+
 /* weekly schedule styles */
 
 .weekly-schedule-container {
-  max-width: 500px;
+  max-width: 650px;
+  min-width: 400px;
   background-color: #e0e0e0;
   border-radius: 10px;
   padding: 0px 10px;
@@ -236,14 +251,13 @@ button {
 }
 
 .interval {
-display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-  grid-template-rows: auto; /* row height fits content */
-  gap: 20px;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .interval div {
+  min-width: 200px;
   grid-column: 2;
   display: flex;
   flex-direction: row;
@@ -251,12 +265,14 @@ display: grid;
 
 .interval button {
   grid-column: 3;
+  height: 80%;
 }
 
 /* dates schedule styles */
 
 .dates-schedule-container {
-  max-width: 500px;
+  max-width: 650px;
+  min-width: 400px;
   background-color:#e0e0e0;
   border-radius: 10px;
   padding: 0px 10px;
@@ -276,6 +292,9 @@ display: grid;
 
 .intervals {
   text-align: center;
+}
+.intervals p {
+  margin: 5px 10px;
 }
 
 /* set date interval styling */
@@ -348,4 +367,24 @@ display: grid;
 button {
   height: fit-content;
   width: fit-content;
+}
+
+.hidden {
+  display: none;
+}
+
+p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .schedule-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 10px
+  }
+
+
 }
