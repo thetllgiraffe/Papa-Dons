@@ -197,12 +197,16 @@ input, select, textarea {
   flex-direction: row;
   justify-content: space-around;
   gap: 20px;
+  margin: 10px
 }
 
 /* weekly schedule styles */
 
 .weekly-schedule-container {
   max-width: 500px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  padding: 0px 10px;
 }
 
 .day-block {
@@ -223,9 +227,11 @@ input, select, textarea {
 
 .day-div h3 {
   grid-column: 1;
+  margin: 0;
 }
 
 .day-div p {
+  margin: 0;
   grid-column: 2;
 }
 
@@ -251,6 +257,9 @@ display: grid;
 
 .dates-schedule-container {
   max-width: 500px;
+  background-color:#e0e0e0;
+  border-radius: 10px;
+  padding: 0px 10px;
 }
 
 .date-block {
