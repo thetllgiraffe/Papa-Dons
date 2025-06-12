@@ -245,14 +245,28 @@ function saveEvent() {
     const endtime = document.getElementById('endTime').value;
     const location = document.getElementById('eventLocation').value;
 		const description = document.getElementById('eventDescription').value;
-    const type = document.querySelector('input[name="eventType"]:checked').value;
-		
-		if (!title || !date) {
-				alert('Please enter a title and date');
-				return;
-		}
+    const errormsg = document.querySelector('.client-error')
+    // client side checks for proper times input and checking either public or private event type
+    if (starttime === '' || endtime === '') {
+        errormsg.style.display = 'block';
+        errormsg.textContent = "must fill out time slots";
+        return;
+      }
+      // Check if interval is not zero
+      if (starttime >= endtime ) {
+        errormsg.style.display = 'block';
+        errormsg.textContent = "start time must be less then end time";
+        return;
+      }
+    const checked = document.querySelector('input[name="eventType"]:checked')
+    if (!checked) {
+      errormsg.style.display = 'block';
+      errormsg.textContent = "need to check public or private";
+      return;
+    }
 
 		else {
+        const type = checked.value
 				// Add new event
 				const newEvent = {
 						title,

@@ -285,6 +285,11 @@ cursor: pointer;
   transition: height 0.5s;
 }
 
+.client-error {
+  color: red;
+  display: none;
+}
+
 .close-button {
   color: #8c8787;
   float: right;

@@ -139,19 +139,19 @@ button {
   margin-bottom: 15px;
 }
 
-/* label {
+.modal-content label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-input, select, textarea {
+.modal-content input, select, textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
-} */
+}
 
 
 

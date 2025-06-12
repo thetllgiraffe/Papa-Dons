@@ -142,9 +142,9 @@ const fetchlist = () => {fetch('/admin/list', {
     row.innerHTML = `
       <td>${event.id}</td>
       <td>${event.title}</td>
-      <td>${event.date}</td>
-      <td>${event.starttime}</td>
-      <td>${event.endtime}</td>
+      <td>${formatToMonDayYear(event.date)}</td>
+      <td>${convertTo12Hour(event.starttime)}</td>
+      <td>${convertTo12Hour(event.endtime)}</td>
       <td>${event.location}</td>
       <td>${event.description}</td>
       <td>${event.type}</td>
@@ -181,9 +181,9 @@ const fetchlist = () => {fetch('/admin/list', {
       row.innerHTML = `
         <td>${event.id}</td>
         <td>${event.title}</td>
-        <td>${event.date}</td>
-        <td>${event.starttime}</td>
-        <td>${event.endtime}</td>
+        <td>${formatToMonDayYear(event.date)}</td>
+        <td>${convertTo12Hour(event.starttime)}</td>
+        <td>${convertTo12Hour(event.endtime)}</td>
         <td>${event.location}</td>
         <td>${event.description}</td>
         <td>${event.type}</td>
@@ -241,6 +241,17 @@ function convertTo12Hour(time24) {
   const ampm = hours >= 12 ? 'PM' : 'AM';
   hours = hours % 12 || 12; // Convert hour 0 to 12 for AM
   return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+}
+
+// helper function to display specific dates in alpha-month-day-year format
+function formatToMonDayYear(input) {
+  const date = new Date(input);
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const mon = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${mon}-${day}-${year}`;
 }
 
 
