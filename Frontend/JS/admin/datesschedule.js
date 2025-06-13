@@ -28,7 +28,7 @@ const removeDate = (e) => {
     return;
   }
   // remove date row from backend
-  fetch('/admin/schedule/dates', {
+  fetch('/panel/schedule/dates', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ const setDate = (e) => {
     intervals.push([start.value, end.value]);
   }
   // if no time intervals set, intervals with be [] implying no availability
-  fetch("/admin/schedule/dates", {
+  fetch("/panel/schedule/dates", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ date: dateInput.dataset.date, times: intervals})
@@ -182,7 +182,7 @@ const renderDatesSchedule = async () => {
 // document.addEventListener('DOMContentLoaded', console.log('Template found?', document.getElementById('set-interval-template')))
 
 const retrieveDates = () => {
-  return fetch('/admin/schedule/dates', {
+  return fetch('/panel/schedule/dates', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -234,7 +234,7 @@ const removeDateInterval = (e) => {
     return null;
   }).filter(Boolean);
   // POST JSON to backend
-  fetch("/admin/schedule/dates", {
+  fetch("/panel/schedule/dates", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ date: date, times: intervals})
@@ -302,14 +302,7 @@ function convertTo12Hour(time24) {
   return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
 }
 
-// helper function to wait until dom content loaded
-function runWhenReady(fn) {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', fn);
-  } else {
-    fn();
-  }
-}
+
 
 // helper function to display specific dates in alpha-month-day-year format
 function formatToMonDayYear(input) {

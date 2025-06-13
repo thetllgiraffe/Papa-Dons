@@ -48,7 +48,7 @@ const removeDayInterval = (e) => {
     return null;
   }).filter(Boolean);
   // POST JSON to backend
-  fetch("/admin/schedule/weekly", {
+  fetch("/panel/schedule/weekly", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ day: day, times: intervals})
@@ -98,7 +98,7 @@ const setDay = (e) => {
   }).filter(Boolean);
   intervals.push([start.value, end.value])
   // POST JSON to backend
-  fetch("/admin/schedule/weekly", {
+  fetch("/panel/schedule/weekly", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ day: day, times: intervals})
@@ -117,7 +117,7 @@ const setDay = (e) => {
 // retrieve weekly schedule from backend
 
 const renderDaySchedule = (day) => {
-  fetch(`/admin/schedule/weekly?day=${day}`, {
+  fetch(`/panel/schedule/weekly?day=${day}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

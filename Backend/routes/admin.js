@@ -1,172 +1,88 @@
-const express = require('express');
-const router = express.Router();
+const bcrypt = require('bcryptjs');
 const path = require('path');
+const express = require('express');
+const jwt = require('jsonwebtoken');
 const db = require('../db');
 const transporter = require('../mailer.js');
-
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'secret';
-
-const receiverEmail = process.env.receiver_email;
+const router = express.Router();
+const isProduction = process.env.NODE_ENV === 'production';
 
 
 router.get('/', (req, res) => {
-  res.send(`
-    <form method="POST">
-      <input name="username" placeholder="Username" />
-      <input name="password" type="password" placeholder="Password" />
-      <button type="submit">Login</button>
-    </form>
-  `);
+  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'signin.html'));
 });
 
-router.post('/', (req, res) => {
-  const { username, password } = req.body;
-
-  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-    req.session.isAdmin = true;
-    res.redirect('/admin/events');
-  } else {
-    res.send('Invalid credentials');
+router.post('/signup', (req, res) => {
+  const { email, password } = req.body;
+  const hashed = bcrypt.hashSync(password, 10);
+  try {
+    db.prepare('INSERT INTO users (email, password) VALUES (?, ?)').run(email, hashed);
+    res.status(201).send('User created');
+  } catch (err) {
+    res.status(400).send('User already exists');
   }
-});
+})
 
-function requireAdmin(req, res, next) {
-  if (req.session.isAdmin) {
-    next();
-  } else {
-    res.status(403).send('Access denied');
+router.post('/signin', (req, res) => {
+  const { email, password } = req.body;
+  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+  if (!user || !bcrypt.compareSync(password, user.password)) {
+    return res.status(400).send('Invalid credentials');
   }
-}
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
-router.get('/events', requireAdmin, (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'admin', 'admin.html'));
-  // res.send('<h1>Welcome Admin</h1><a href="/logout">Logout</a>');
+  // Send token as HTTP-only cookie
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'Strict' : 'Lax',
+  });
+
+  // Send redirect info
+  res.json({ redirectTo: '/panel' });
 });
 
-router.post('/list', requireAdmin, (req, res) => {
-  const rows = db.prepare('SELECT * FROM events ORDER BY date, starttime').all();
-  res.json(rows);
-});
+router.post('/forgot-password', (req, res) => {
+  const { email } = req.body;
+  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+  if (!user) return res.status(400).send('User not found');
 
-router.put('/events', requireAdmin, (req, res) => {
-  const { id, action } = req.body;
-  if (action === 'approve') {
-    const stmt = db.prepare('UPDATE events SET status = ? WHERE id = ?');
-    stmt.run('approved', id);
-    transporter.sendMail({
-        from: '"Scott" <scottlynnfwa@gmail.com>',
-        to: receiverEmail,
-        subject: "Event Approved ✔",
-        text: "Your event has been approved",
-      }, (err, info) => {
-        if (err) {
-          console.error('Error sending email:', err);
-        } else {
-          console.log('Email sent:', info.response);
-        }
-      });
-  }
-  if (action === 'reject') {
-    const stmt = db.prepare('UPDATE events SET status = ? WHERE id = ?');
-    stmt.run('rejected', id);
-    transporter.sendMail({
-        from: '"Scott" <scottlynnfwa@gmail.com>',
-        to: receiverEmail,
-        subject: "Event Denied ✔",
-        text: "Your event has been denied",
-      });
-  }
-  res.send('Event status updated');
-});
+  const resetToken = jwt.sign(
+    { id: user.id, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '15m' } // short-lived
+  );
+  const resetLink = `http://localhost:3000/reset-password.html?token=${resetToken}`;
 
-router.put('/events/edit', requireAdmin, (req, res) => {
-  const { id, title, date, starttime, endtime, location, description ,type } = req.body;
-  const stmt = db.prepare('UPDATE events SET title = ?, date = ?, starttime = ?, endtime = ?, location = ?, description = ?, type = ? WHERE id = ?');
-  stmt.run(title, date, starttime, endtime, location, description, type, id);
-  transporter.sendMail({
-      from: '"Scott" <scottlynnfwa@gmail.com>',
-      to: receiverEmail,
-      subject: "Event Updated ✔",
-      text: "Your event has been updated",
-    }, (err, info) => {
-      if (err) {
-        console.error('Error sending email:', err);
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
-  res.send('Event updated');
-});
-
-router.delete('/events', requireAdmin, (req, res) => {
-  const { id } = req.body;
-  const stmt = db.prepare('DELETE FROM events WHERE id = ?');
-  stmt.run(id);
-  res.send('Event deleted');
   transporter.sendMail({
     from: '"Scott" <scottlynnfwa@gmail.com>',
-    to: receiverEmail,
-    subject: "Event Removed ✔",
-    text: "Your event has been removed from the shcedule",
-  });
-})
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>Click <a href="${resetLink}">here</a> to reset your password. Link expires in 15 minutes.</p>`
+  })
 
-router.get('/schedule/weekly', requireAdmin, (req, res) => {
-  const day = req.query.day;
-  const stmt = db.prepare('SELECT * FROM weekly_schedule WHERE day = ?');
-  const row = stmt.get(day);
-  console.log(row);
-  if (row) {
-    try {
-      row.times = JSON.parse(row.times);  // <-- parse here
-    } catch (e) {
-      row.times = [];
-    }
-    res.json(row);
-  } else {
-    res.status(404).send('Weekly schedule not found');
-  }
+  res.send('Reset email sent');
 });
 
-router.put('/schedule/weekly', requireAdmin, (req, res) => {
-  const { day, times } = req.body;
-  const stmt = db.prepare(`
-    UPDATE weekly_schedule
-    SET times = ? WHERE day = ?
-  `);
-  stmt.run(JSON.stringify(times), day);;
-  res.send('Weekly schedule saved');
-})
+router.post('/reset-password/password/:token', (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
 
-router.put('/schedule/dates', requireAdmin, (req, res) => {
-  const { date, times } = req.body;
-  const stmt = db.prepare(`
-    INSERT INTO dates_available (date, times)
-    VALUES (?, ?)
-    ON CONFLICT(date) DO UPDATE SET times = excluded.times
-  `);
-  stmt.run(date, JSON.stringify(times));
-  res.send('Date and time saved');
-})
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-router.get('/schedule/dates', requireAdmin, (req, res) => {
-  const rows = db.prepare('SELECT * FROM dates_available ORDER BY date').all();
-    for (const row of rows) {
-      try {
-        row.times = JSON.parse(row.times); // Parse the times from JSON string to array
-      } catch (e) {
-        row.times = [];
-      }
-    }
-    res.json(rows);
-})
+    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(payload.id);
+    if (!user) return res.status(400).send('User no longer exists');
 
-router.delete('/schedule/dates', requireAdmin, (req, res) => {
-  const { date } = req.body;
-  const stmt = db.prepare('DELETE FROM dates_available WHERE date = ?');
-  stmt.run(date);
-  res.send('Date deleted');
+    const hashed = bcrypt.hashSync(password, 10);
+    db.prepare('UPDATE users SET password = ? WHERE id = ?').run(hashed, user.id);
+
+    res.send('Password updated successfully');
+  } catch (err) {
+    res.status(400).send('Invalid or expired token');
+  }
+
+  res.send('Password updated');
 });
 
 module.exports = router;

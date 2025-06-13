@@ -4,6 +4,16 @@ const cron = require('node-cron');
 // This creates or opens the database file
 const db = new Database('./data/data.db');
 
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE,
+    password TEXT,
+    resetToken TEXT,
+    resetTokenExpiry INTEGER
+  )
+`).run();
+
 // Optional: create table if it doesn't exist
 db.prepare(`
   CREATE TABLE IF NOT EXISTS events (
