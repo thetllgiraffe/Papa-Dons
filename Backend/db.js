@@ -8,9 +8,7 @@ db.prepare(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT UNIQUE,
-    password TEXT,
-    resetToken TEXT,
-    resetTokenExpiry INTEGER
+    password TEXT
   )
 `).run();
 

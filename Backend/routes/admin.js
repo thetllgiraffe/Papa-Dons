@@ -52,7 +52,7 @@ router.post('/forgot-password', (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: '15m' } // short-lived
   );
-  const resetLink = `http://localhost:3000/reset-password.html?token=${resetToken}`;
+  const resetLink = `http://localhost:8080/admin?token=${resetToken}`;
 
   transporter.sendMail({
     from: '"Scott" <scottlynnfwa@gmail.com>',
@@ -64,7 +64,7 @@ router.post('/forgot-password', (req, res) => {
   res.send('Reset email sent');
 });
 
-router.post('/reset-password/password/:token', (req, res) => {
+router.post('/reset-password/:token', (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
 

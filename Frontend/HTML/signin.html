@@ -16,7 +16,7 @@
     <p id="signup-result"></p>
   </section>
 
-  <section>
+  <section id="signin-section">
     <h2>Sign In</h2>
     <input id="signin-email" type="email" placeholder="Email">
     <input id="signin-password" type="password" placeholder="Password">
@@ -31,11 +31,11 @@
     <p id="forgot-result"></p>
   </section>
 
-  <section>
-    <h2>Reset Password</h2>
-    <input id="reset-token" placeholder="Reset Token from Email">
+  <!-- Reset Password form -->
+  <section id="reset-section" class="hidden">
+    <h2>Reset Your Password</h2>
     <input id="new-password" type="password" placeholder="New Password">
-    <button onclick="resetPassword()">Reset</button>
+    <button onclick="resetPassword()">Reset Password</button>
     <p id="reset-result"></p>
   </section>
 
