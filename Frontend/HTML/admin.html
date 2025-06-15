@@ -4,16 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link href="../CSS/signin.css" rel="stylesheet"></link>
+  <link href="../CSS/admin.css" rel="stylesheet"></link>
 </head>
 <body>
-  <h1>Auth Demo</h1>
-  <section>
+  <h1>Event Management Sign In</h1>
+
+  <section id="signup-section" class="hidden">
     <h2>Sign Up</h2>
     <input id="signup-email" type="email" placeholder="Email">
     <input id="signup-password" type="password" placeholder="Password">
     <button onclick="signup()">Sign Up</button>
     <p id="signup-result"></p>
+    <button id="signin">Sign In</button>
   </section>
 
   <section id="signin-section">
@@ -22,9 +24,11 @@
     <input id="signin-password" type="password" placeholder="Password">
     <button onclick="signin()">Sign In</button>
     <p id="signin-result"></p>
+    <button id="create-account">Create Account</button>
+    <button id="forgot-password">Forgot Password</button>
   </section>
 
-  <section>
+  <section id="forgot-section" class="hidden">
     <h2>Forgot Password</h2>
     <input id="forgot-email" type="email" placeholder="Email">
     <button onclick="forgotPassword()">Send Reset Link</button>
@@ -39,6 +43,6 @@
     <p id="reset-result"></p>
   </section>
 
-  <script src="../JS/signin.js"></script>
+  <script src="../JS/admin.js"></script>
 </body>
 </html>

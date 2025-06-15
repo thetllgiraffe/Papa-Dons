@@ -68,7 +68,7 @@ router.get('/schedule', (req, res) => {
   }
 });
 
-router.get('/dates', (reg, res) => {
+router.get('/dates', (req, res) => {
   const stmt = db.prepare('SELECT * FROM dates_available');
   const rows = stmt.all();
   if (rows.length > 0) {

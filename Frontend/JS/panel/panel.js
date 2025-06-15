@@ -11,7 +11,17 @@ const eventsBtn = document.getElementById('eventsBtn');
 const scheduleBtn = document.getElementById('scheduleBtn');
 const eventsContainer = document.querySelector('.events-container')
 const scheduleContainer = document.querySelector('.schedule-container')
+const logOutBtn = document.getElementById('logOut');
+
 // add event listeners to show and hide events interface and schedule interface
+logOutBtn.addEventListener('click', () => {
+  fetch('/panel/signout', { method: 'POST' })
+  .then(() => {
+    window.location.href = '/admin';
+  })
+});
+
+
 eventsBtn.addEventListener('click', () => {
   eventsContainer.classList.remove('hidden');
   scheduleContainer.classList.add('hidden');

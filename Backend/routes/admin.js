@@ -9,7 +9,14 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 
 router.get('/', (req, res) => {
-  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'signin.html'));
+  const token = req.cookies.token; // Read from cookie (requires cookie-parser)
+
+  if (!token) return res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'admin.html'));
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'admin.html'));
+    res.redirect('/panel');
+  });
 });
 
 router.post('/signup', (req, res) => {
@@ -84,5 +91,7 @@ router.post('/reset-password/:token', (req, res) => {
 
   res.send('Password updated');
 });
+
+
 
 module.exports = router;

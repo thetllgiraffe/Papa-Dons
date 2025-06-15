@@ -5,6 +5,8 @@ const path = require('path');
 const db = require('../db');
 const transporter = require('../mailer.js');
 const jwt = require('jsonwebtoken');
+const isProduction = process.env.NODE_ENV === 'production';
+
 
 
 const receiverEmail = process.env.receiver_email;
@@ -23,7 +25,16 @@ function authenticateToken(req, res, next) {
 }
 
 router.get('/', authenticateToken, (req, res) => {
-  res.sendFile(path.join(global.appRoot, 'admin', 'admin.html'));
+  res.sendFile(path.join(global.appRoot, 'panel', 'panel.html'));
+});
+
+router.post('/signout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'Strict' : 'Lax',
+  });
+  res.send('Signed out');
 });
 
 router.post('/list', authenticateToken, (req, res) => {
