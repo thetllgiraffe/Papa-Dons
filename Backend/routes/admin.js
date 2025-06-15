@@ -34,7 +34,7 @@ router.post('/signin', (req, res) => {
   const { email, password } = req.body;
   const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
   if (!user || !bcrypt.compareSync(password, user.password)) {
-    return res.status(400).send('Invalid credentials');
+    return res.status(400).json({ error: 'Invalid credentials' });
   }
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
 
@@ -92,6 +92,11 @@ router.post('/reset-password/:token', (req, res) => {
   res.send('Password updated');
 });
 
-
+router.get('/create_account', (req, res) => {
+  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'admin.html'))
+});
+router.get('/forgot_password', (req, res) => {
+  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'admin.html'))
+});
 
 module.exports = router;

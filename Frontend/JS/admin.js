@@ -29,9 +29,11 @@ async function signin() {
 
     if (data.redirectTo) {
       window.location.href = data.redirectTo; // Redirect to account page
+    } else {
+      document.getElementById('signin-result').innerText = data.error;
+      console.log(data.error)
     }
   } catch (err) {
-    // Handles network errors, JSON errors, etc.
     console.error('Sign-in error:', err);
   }
 }
@@ -62,6 +64,7 @@ async function resetPassword() {
   document.getElementById('reset-result').innerText = await res.text();
 }
 
+//client side routing on sign in page
 //nav buttons for sign in, sign up, and password reset
 const signinBtn = document.getElementById('signin');
 const createAccountBtn = document.getElementById('create-account');
@@ -71,7 +74,7 @@ const signinsection = document.getElementById('signin-section');
 const resetsection = document.getElementById('reset-section');
 const forgotsection = document.getElementById('forgot-section');
 const signupsection = document.getElementById('signup-section');
-//event listeners to show and hide sections and 
+//event listeners to show and hide sections and push state to navigation history
 signinBtn.addEventListener('click', () => {
   signinsection.classList.remove('hidden');
   signupsection.classList.add('hidden');
@@ -87,7 +90,7 @@ forgotPasswordBtn.addEventListener('click', () => {
   forgotsection.classList.remove('hidden');
   history.pushState({}, '', '/admin/forgot_password');
 });
-
+// event listener for popstate to allow proper use of back button
 window.addEventListener('popstate', function () {
   // Called when user clicks Back/Forward
   const path = window.location.pathname;
@@ -103,11 +106,13 @@ window.addEventListener('popstate', function () {
     forgotsection.classList.add('hidden')
   }
 });
-
+// if directed from email password reset link ? show reset password section : show normal sign in
 window.onload = () => {
   const token = getTokenFromURL();
   if (token) {
     signinsection.classList.add('hidden');
     resetsection.classList.remove('hidden');
+  } else {
+    history.pushState({}, '', '/admin');
   }
 };
