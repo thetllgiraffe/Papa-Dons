@@ -11,7 +11,17 @@ const eventsBtn = document.getElementById('eventsBtn');
 const scheduleBtn = document.getElementById('scheduleBtn');
 const eventsContainer = document.querySelector('.events-container')
 const scheduleContainer = document.querySelector('.schedule-container')
+const logOutBtn = document.getElementById('logOut');
+
 // add event listeners to show and hide events interface and schedule interface
+logOutBtn.addEventListener('click', () => {
+  fetch('/panel/signout', { method: 'POST' })
+  .then(() => {
+    window.location.href = '/admin';
+  })
+});
+
+
 eventsBtn.addEventListener('click', () => {
   eventsContainer.classList.remove('hidden');
   scheduleContainer.classList.add('hidden');
@@ -34,7 +44,7 @@ cancelBtn.addEventListener('click', () => {
 const editEvent = (e) => {
   eventModal.style.display = 'none';
 
-  fetch('/admin/events/edit', {
+  fetch('/panel/events/edit', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -65,7 +75,7 @@ const editEvent = (e) => {
 }
 
 const approvedenyEvent = (e) => {
-  fetch('/admin/events', {
+  fetch('/panel/events', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -93,7 +103,7 @@ eventForm.addEventListener('submit', (e) => {
 
 
 const removeEvent = (e) => {
-  fetch('/admin/events', {
+  fetch('/panel/events', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -131,7 +141,7 @@ const openEditEventModal = (e) => {
 }
 
   
-const fetchlist = () => {fetch('/admin/list', {
+const fetchlist = () => {fetch('/panel/list', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
