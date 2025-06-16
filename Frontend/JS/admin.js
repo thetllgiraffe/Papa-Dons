@@ -11,7 +11,17 @@ async function signup() {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   });
-  document.getElementById('signup-result').innerText = await res.text();
+  const response = await res.text();
+  if (response == 'User created') {
+    signinsection.classList.remove('hidden');
+    signupsection.classList.add('hidden');
+    document.getElementById('signup-email').value = '';
+    document.getElementById('signup-password').value = '';
+    document.getElementById('signin-result').innerText = response;
+  }
+  if (response == 'User already exists') {
+    document.getElementById('signup-result').innerText = response;
+  }
 }
 
 async function signin() {
@@ -78,11 +88,15 @@ const signupsection = document.getElementById('signup-section');
 signinBtn.addEventListener('click', () => {
   signinsection.classList.remove('hidden');
   signupsection.classList.add('hidden');
+  document.getElementById('signup-email').value = '';
+  document.getElementById('signup-password').value = '';
     history.pushState({}, '', '/admin');
 });
 createAccountBtn.addEventListener('click', () => {
   signupsection.classList.remove('hidden');
   signinsection.classList.add('hidden');
+  document.getElementById('signin-email').value = '';
+  document.getElementById('signin-password').value = '';
   history.pushState({}, '', '/admin/create_account');
 });
 forgotPasswordBtn.addEventListener('click', () => {
