@@ -67,8 +67,7 @@ router.post('/forgot-password', (req, res) => {
     subject: 'Reset your password',
     html: `<p>Click <a href="${resetLink}">here</a> to reset your password. Link expires in 15 minutes.</p>`
   })
-
-  res.send('Reset email sent');
+  res.send(`Link sent to ${email} to reset password`);
 });
 
 router.post('/reset-password/:token', (req, res) => {
@@ -84,12 +83,10 @@ router.post('/reset-password/:token', (req, res) => {
     const hashed = bcrypt.hashSync(password, 10);
     db.prepare('UPDATE users SET password = ? WHERE id = ?').run(hashed, user.id);
 
-    res.send('Password updated successfully');
+    return res.send('Password updated');
   } catch (err) {
-    res.status(400).send('Invalid or expired token');
+    return res.status(400).send('Invalid or expired token');
   }
-
-  res.send('Password updated');
 });
 
 router.get('/create_account', (req, res) => {

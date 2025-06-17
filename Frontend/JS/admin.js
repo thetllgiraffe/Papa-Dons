@@ -4,9 +4,16 @@ function getTokenFromURL() {
   return new URLSearchParams(window.location.search).get('token');
 }
 
-async function signup() {
+async function signup(e) {
+  e.preventDefault();
+  console.log('wtf')
   const email = document.getElementById('signup-email').value;
   const password = document.getElementById('signup-password').value;
+  const passwordcheck = document.getElementById('signup-password-check').value;
+  if (password !== passwordcheck) {
+    document.getElementById('signup-result').innerText = 'Passwords do not match'
+    return
+  }
   const res = await fetch(`${api}/signup`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
@@ -57,21 +64,29 @@ async function forgotPassword() {
   document.getElementById('forgot-result').innerText = await res.text();
 }
 
-async function resetPassword() {
+async function resetPassword(e) {
+  e.preventDefault();
   const token = getTokenFromURL();
   if (!token) {
     alert('Missing reset token');
     return;
   }
   const password = document.getElementById('new-password').value;
-
+  const passwordcheck = document.getElementById('new-password-check').value;
+  if (password !== passwordcheck) {
+    document.getElementById('reset-result').innerText = 'Passwords do not match'
+    return
+  }
   const res = await fetch(`${api}/reset-password/${token}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ password }),
   });
-
-  document.getElementById('reset-result').innerText = await res.text();
+  signinsection.classList.remove('hidden');
+  resetsection.classList.add('hidden');
+  document.getElementById('new-password').value = '';
+  document.getElementById('new-password-check').value = '';
+  document.getElementById('signin-result').innerText = await res.text();
 }
 
 //client side routing on sign in page
@@ -90,7 +105,8 @@ signinBtn.addEventListener('click', () => {
   signupsection.classList.add('hidden');
   document.getElementById('signup-email').value = '';
   document.getElementById('signup-password').value = '';
-    history.pushState({}, '', '/admin');
+  document.getElementById('signup-password-check').value = '';
+  history.pushState({}, '', '/admin');
 });
 createAccountBtn.addEventListener('click', () => {
   signupsection.classList.remove('hidden');
@@ -102,6 +118,8 @@ createAccountBtn.addEventListener('click', () => {
 forgotPasswordBtn.addEventListener('click', () => {
   signinsection.classList.add('hidden');
   forgotsection.classList.remove('hidden');
+  document.getElementById('signin-email').value = '';
+  document.getElementById('signin-password').value = '';
   history.pushState({}, '', '/admin/forgot_password');
 });
 // event listener for popstate to allow proper use of back button
