@@ -6,7 +6,6 @@ function getTokenFromURL() {
 
 async function signup(e) {
   e.preventDefault();
-  console.log('wtf')
   const email = document.getElementById('signup-email').value;
   const password = document.getElementById('signup-password').value;
   const passwordcheck = document.getElementById('signup-password-check').value;
@@ -14,22 +13,29 @@ async function signup(e) {
     document.getElementById('signup-result').innerText = 'Passwords do not match'
     return
   }
-  const res = await fetch(`${api}/signup`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
-  const response = await res.text();
-  if (response == 'User created') {
+  try {
+    const res = await fetch(`${api}/signup`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const response = await res.text();
+    if (!res.ok) {
+      // show server error message in signup section
+      document.getElementById('signup-result').innerText = response;
+      return;
+    }
     signinsection.classList.remove('hidden');
     signupsection.classList.add('hidden');
     document.getElementById('signup-email').value = '';
     document.getElementById('signup-password').value = '';
+    document.getElementById('signup-password-check').value = '';
+    document.getElementById('signup-result').innerText = '';
     document.getElementById('signin-result').innerText = response;
-  }
-  if (response == 'User already exists') {
-    document.getElementById('signup-result').innerText = response;
+  } catch (err) {
+    console.error('Sign-up error:', err);
   }
 }
+
 
 async function signin() {
   try {

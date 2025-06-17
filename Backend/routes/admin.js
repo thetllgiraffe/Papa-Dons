@@ -26,7 +26,13 @@ router.post('/signup', (req, res) => {
     db.prepare('INSERT INTO users (email, password) VALUES (?, ?)').run(email, hashed);
     res.status(201).send('User created');
   } catch (err) {
-    res.status(400).send('User already exists');
+    if (err.message.includes('Only one user allowed')) {
+      res.status(400).send('Cannot create more than one user');
+    } else if (err.message.includes('UNIQUE constraint failed')) {
+      res.status(400).send('User with this email already exists');
+    } else {
+      res.status(500).send('Internal server error');
+    }
   }
 })
 

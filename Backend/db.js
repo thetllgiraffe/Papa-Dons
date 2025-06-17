@@ -12,6 +12,13 @@ db.prepare(`
   )
 `).run();
 
+db.prepare(`CREATE TRIGGER only_one_user
+BEFORE INSERT ON users
+WHEN (SELECT COUNT(*) FROM users) >= 1
+BEGIN
+  SELECT RAISE(ABORT, 'Only one user allowed');
+END;`).run();
+
 // Optional: create table if it doesn't exist
 db.prepare(`
   CREATE TABLE IF NOT EXISTS events (
