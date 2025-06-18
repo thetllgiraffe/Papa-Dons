@@ -109,7 +109,6 @@ router.get('/schedule/weekly', authenticateToken, (req, res) => {
   const day = req.query.day;
   const stmt = db.prepare('SELECT * FROM weekly_schedule WHERE day = ?');
   const row = stmt.get(day);
-  console.log(row);
   if (row) {
     try {
       row.times = JSON.parse(row.times);  // <-- parse here

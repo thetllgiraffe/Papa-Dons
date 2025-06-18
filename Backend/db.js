@@ -4,6 +4,7 @@ const cron = require('node-cron');
 // This creates or opens the database file
 const db = new Database('./data/data.db');
 
+
 db.prepare(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,12 +13,21 @@ db.prepare(`
   )
 `).run();
 
-db.prepare(`CREATE TRIGGER only_one_user
-BEFORE INSERT ON users
-WHEN (SELECT COUNT(*) FROM users) >= 1
-BEGIN
-  SELECT RAISE(ABORT, 'Only one user allowed');
-END;`).run();
+// Check if the trigger exists
+const triggerExists = db.prepare(`
+  SELECT name FROM sqlite_master WHERE type='trigger' AND name='only_one_user'
+`).get();
+// Create trigger to limit admin users to only one
+if (!triggerExists) {
+  db.exec(`
+    CREATE TRIGGER only_one_user
+    BEFORE INSERT ON users
+    WHEN (SELECT COUNT(*) FROM users) >= 1
+    BEGIN
+      SELECT RAISE(FAIL, 'Only one user allowed');
+    END;
+  `);
+}
 
 // Optional: create table if it doesn't exist
 db.prepare(`
