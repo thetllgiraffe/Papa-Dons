@@ -43,13 +43,13 @@ router.post('/list', authenticateToken, (req, res) => {
 });
 
 router.put('/events', authenticateToken, (req, res) => {
-  const { id, action } = req.body;
+  const { id, action, email } = req.body;
   if (action === 'approve') {
     const stmt = db.prepare('UPDATE events SET status = ? WHERE id = ?');
     stmt.run('approved', id);
     transporter.sendMail({
         from: '"Scott" <scottlynnfwa@gmail.com>',
-        to: receiverEmail,
+        to: email,
         subject: "Event Approved ✔",
         text: "Your event has been approved",
       }, (err, info) => {
@@ -65,7 +65,7 @@ router.put('/events', authenticateToken, (req, res) => {
     stmt.run('rejected', id);
     transporter.sendMail({
         from: '"Scott" <scottlynnfwa@gmail.com>',
-        to: receiverEmail,
+        to: email,
         subject: "Event Denied ✔",
         text: "Your event has been denied",
       });
@@ -74,12 +74,12 @@ router.put('/events', authenticateToken, (req, res) => {
 });
 
 router.put('/events/edit', authenticateToken, (req, res) => {
-  const { id, title, date, starttime, endtime, location, description ,type } = req.body;
-  const stmt = db.prepare('UPDATE events SET title = ?, date = ?, starttime = ?, endtime = ?, location = ?, description = ?, type = ? WHERE id = ?');
-  stmt.run(title, date, starttime, endtime, location, description, type, id);
+  const { id, title, date, starttime, endtime, location, description ,type, email } = req.body;
+  const stmt = db.prepare('UPDATE events SET title = ?, date = ?, starttime = ?, endtime = ?, location = ?, description = ?, type = ?, email = ? WHERE id = ?');
+  stmt.run(title, date, starttime, endtime, location, description, type, email, id,);
   transporter.sendMail({
       from: '"Scott" <scottlynnfwa@gmail.com>',
-      to: receiverEmail,
+      to: email,
       subject: "Event Updated ✔",
       text: "Your event has been updated",
     }, (err, info) => {
@@ -99,7 +99,7 @@ router.delete('/events', authenticateToken, (req, res) => {
   res.send('Event deleted');
   transporter.sendMail({
     from: '"Scott" <scottlynnfwa@gmail.com>',
-    to: receiverEmail,
+    to: email,
     subject: "Event Removed ✔",
     text: "Your event has been removed from the shcedule",
   });

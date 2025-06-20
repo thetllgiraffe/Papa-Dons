@@ -247,6 +247,7 @@ function saveEvent() {
     const location = document.getElementById('eventLocation').value;
 		const description = document.getElementById('eventDescription').value;
     const errormsg = document.querySelector('.client-error')
+    const email = document.getElementById('eventEmail').value;
     // client side checks for proper times input and checking either public or private event type
     if (starttime === '' || endtime === '') {
         errormsg.style.display = 'block';
@@ -277,6 +278,7 @@ function saveEvent() {
             location,
 						description,
             type,
+            email,
 				};
 				fetch('/', {
 								method: 'POST',

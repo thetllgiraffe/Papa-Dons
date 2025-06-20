@@ -30,24 +30,24 @@ router.get('/location.html', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  const {title, date, starttime, endtime, location, description, type} = req.body
+  const {title, date, starttime, endtime, location, description, type, email, user} = req.body
   // validate and sanitize user input to prevent xss attacks and malformed inputs through devtools or bypassing browser
   if (isValidTime(starttime) && isValidTime(endtime) && isValidDate(date) && (type == 'public' || type == 'private')) {
     const stmt = db.prepare(`
-      INSERT INTO events (title, date, starttime, endtime, location, description, type, status)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO events (title, date, starttime, endtime, location, description, email, type, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    stmt.run(xss(title), date, starttime, endtime, xss(location), xss(description), type, 'pending')
+    stmt.run(xss(title), date, starttime, endtime, xss(location), xss(description), email, type, 'pending');
     res.send('data saved');
     transporter.sendMail({
       from: '"Scott" <scottlynnfwa@gmail.com>',
       to: receiverEmail,
       subject: "Event Pending ✔",
-      text: "Client has submitted an event request awaiting approval",
+      text: "Client has submitted an event request and is awaiting approval",
     });
     transporter.sendMail({
       from: '"Scott" <scottlynnfwa@gmail.com>',
-      to: receiverEmail,
+      to: email,
       subject: "Request Submitted ✔",
       text: "Your event was submitted successfully and is pending approval",
     });

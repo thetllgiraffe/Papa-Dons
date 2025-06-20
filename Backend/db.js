@@ -39,6 +39,7 @@ db.prepare(`
     endtime TEXT NOT NULL,
     location TEXT,
     description TEXT,
+    email TEXT NOT NULL,
     type TEXT,
     status TEXT
   )

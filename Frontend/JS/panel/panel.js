@@ -58,6 +58,7 @@ const editEvent = (e) => {
       location: document.getElementById('eventLocation').value,
       description: document.getElementById('eventDescription').value,
       type: document.querySelector('input[name="eventType"]:checked').value, 
+      email: document.getElementById('eventEmail').value,
      }),
   })
   .then(response => {
@@ -80,7 +81,7 @@ const approvedenyEvent = (e) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({id: e.target.dataset.id, action: e.target.dataset.action }),
+    body: JSON.stringify({id: e.target.dataset.id, action: e.target.dataset.action, email: e.target.dataset.email}),
   })
   .then(response => {
     if (!response.ok) {
@@ -108,7 +109,7 @@ const removeEvent = (e) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({id: e.target.dataset.id})
+    body: JSON.stringify({id: e.target.dataset.id, email: e.target.dataset.email}),
   }).then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -134,6 +135,7 @@ const openEditEventModal = (e) => {
   document.getElementById('endTime').value = e.target.dataset.endtime;
   document.getElementById('eventLocation').value = e.target.dataset.location;
   document.getElementById('eventDescription').value = e.target.dataset.description;
+  document.getElementById('eventEmail').value = e.target.dataset.email;
   const eventTypeValue = e.target.dataset.type;
   document.querySelector(`input[value=${eventTypeValue}]`).checked = true;
   
@@ -161,7 +163,6 @@ const fetchlist = () => {fetch('/panel/list', {
     const eventDate = DateTime.fromISO(event.date, { zone: 'America/Chicago' });
     const now = DateTime.now().setZone('America/Chicago');
     if (event.status === 'pending' && eventDate >= now) {
-    console.log('appending rows')
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${event.id}</td>
@@ -171,6 +172,7 @@ const fetchlist = () => {fetch('/panel/list', {
       <td>${convertTo12Hour(event.endtime)}</td>
       <td>${event.location}</td>
       <td>${event.description}</td>
+      <td>${event.email}</td>
       <td>${event.type}</td>
     `;
     const approveBtn = document.createElement('button');
@@ -183,7 +185,7 @@ const fetchlist = () => {fetch('/panel/list', {
     approveBtn.dataset.location = event.location;
     approveBtn.dataset.description = event.description;
     approveBtn.dataset.type = event.type;
-
+    approveBtn.dataset.email = event.email;
     approveBtn.dataset.action = 'approve';
     approveBtn.addEventListener('click', approvedenyEvent);
 
@@ -210,6 +212,7 @@ const fetchlist = () => {fetch('/panel/list', {
         <td>${convertTo12Hour(event.endtime)}</td>
         <td>${event.location}</td>
         <td>${event.description}</td>
+        <td>${event.email}</td>
         <td>${event.type}</td>
       `;
       const removeBtn = document.createElement('button');
@@ -223,9 +226,11 @@ const fetchlist = () => {fetch('/panel/list', {
       editBtn.dataset.location = event.location;
       editBtn.dataset.description = event.description;
       editBtn.dataset.type = event.type;
+      editBtn.dataset.email = event.email;
       editBtn.addEventListener('click', openEditEventModal);
       removeBtn.textContent = 'Remove';
       removeBtn.dataset.id = event.id;
+      removeBtn.dataset.email = event.email;
       removeBtn.addEventListener('click', removeEvent);
 
       schedule.appendChild(row);
