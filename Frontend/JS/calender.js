@@ -54,6 +54,7 @@ function initCalendar() {
 		});
 		
 		closeViewModal.addEventListener('click', () => {
+        document.querySelectorAll('.modal-content')[1].classList.remove('collapsed');
 				viewEventModal.style.display = 'none';
 		});
 		
@@ -230,7 +231,7 @@ function openViewEventModal(eventId) {
 	if (!event) {
 		console.log('no event')
 		return;}
-		
+		document.querySelectorAll('.modal-content')[1].classList.add('collapsed');
 		document.getElementById('viewEventTitle').textContent = event.title;
 		document.getElementById('viewEventDate').textContent = formatDateForDisplay(event.date);
     const start = formatTime(event.starttime);
