@@ -32,7 +32,6 @@ router.get('/location.html', (req, res) => {
 router.post('/', (req, res) => {
   const {title, date, starttime, endtime, location, description, type, email, user} = req.body
   const userEmail = db.prepare('SELECT * FROM users').all()[0].email;
-  console.log('userEmail', userEmail);
   // validate and sanitize user input to prevent xss attacks and malformed inputs through devtools or bypassing browser
   if (isValidTime(starttime) && isValidTime(endtime) && isValidDate(date) && (type == 'public' || type == 'private')) {
     const stmt = db.prepare(`

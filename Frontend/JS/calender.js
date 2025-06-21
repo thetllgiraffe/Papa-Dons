@@ -213,9 +213,13 @@ function openAddEventModal(dateStr = '') {
     document.getElementById('endTime').value = '';
     document.getElementById('eventLocation').value = '';
 		document.getElementById('eventDescription').value = '';
-
+    document.getElementById('eventEmail').value = '';
+    document.querySelectorAll('input[name="eventType"]').forEach(input => {
+        input.checked = false;
+    });
 		
 		eventModal.style.display = 'block';
+    document.querySelector('.client-error').style.display = 'none';
     eventModal.querySelector('form').style.display = 'block';
 }
 
@@ -309,7 +313,7 @@ function saveEvent() {
       // Step 3: Fade back in
       submitmessage.classList.remove('hidden');
     }, 500); // match your CSS transition duration
-		
+		errormsg.style.display = 'none';
 		// Refresh the calendar and events list
 		renderCalendar();
 		renderEventsList();
