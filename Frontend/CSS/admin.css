@@ -4,25 +4,137 @@ body {
   margin: 2rem auto;
 }
 
-input {
-  display: block;
+.iti {
   margin: 10px 0;
-  padding: 8px;
-  width: 100%;
 }
 
-button {
-  padding: 10px 20px;
 
-}
 
 section {
-  margin-bottom: 2rem;
-  border: 1px solid #ccc;
-  padding: 1rem;
+  max-width: 420px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #dbd9d9;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Headings */
+h1, h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* Inputs all sections */
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="text"] {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.2rem;
+  border: 1.8px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline-offset: 2px;
+  box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="text"]:focus {
+  border-color: #0078d4;
+  box-shadow: 0 0 6px #0078d4aa;
+  outline: none;
+}
+
+/* Paragraphs inside forms for instructions */
+section p:not(.error-message):not(.success-message) {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-top: 0.4rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: white;
+  background-color: #005a9e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+button:hover {
+  background-color: #0078d4;
+}
+
+/* Secondary buttons (like "Sign In" on signup form or "Create Account") */
+#signup-form button#signin,
+#signin-section button#create-account,
+#signin-section button#forgot-password {
+  background-color: #333;
+  margin-top: 0.6rem;
+}
+
+#signup-form button#signin:hover,
+#signin-section button#create-account:hover,
+#signin-section button#forgot-password:hover {
+  background-color: #555;
+}
+
+/* Hidden class */
 .hidden {
   display: none;
+}
+
+/* Result message base style */
+p[id$="-result"] {
+  min-height: 1.2rem;
+  font-size: 0.95rem;
+  margin-top: -1rem;
+  margin-bottom: 1.2rem;
+  padding-left: 0.5rem;
+  border-radius: 4px;
+}
+
+/* Error message style */
+.error-message {
+  color: #b00020;
+  background-color: #f8d7da;
+  border: 1.5px solid #f5c6cb;
+}
+
+/* Success message style */
+.success-message {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1.5px solid #c3e6cb;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  section {
+    margin: 1rem 1rem;
+    padding: 1.5rem;
+  }
+}
+
+
+#signup-phone {
+
+  width: 100%;
 }
 
