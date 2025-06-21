@@ -166,7 +166,7 @@ const fetchlist = () => {fetch('/panel/list', {
     row.innerHTML = `
       <td>${event.id}</td>
       <td>${event.title}</td>
-      <td>${formatToMonDayYear(event.date)}</td>
+      <td>${formatToMonDayYear(eventDate)}</td>
       <td>${convertTo12Hour(event.starttime)}</td>
       <td>${convertTo12Hour(event.endtime)}</td>
       <td>${event.location}</td>
@@ -205,7 +205,7 @@ const fetchlist = () => {fetch('/panel/list', {
       row.innerHTML = `
         <td>${event.id}</td>
         <td>${event.title}</td>
-        <td>${formatToMonDayYear(event.date)}</td>
+        <td>${formatToMonDayYear(eventDate)}</td>
         <td>${convertTo12Hour(event.starttime)}</td>
         <td>${convertTo12Hour(event.endtime)}</td>
         <td>${event.location}</td>
