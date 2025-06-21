@@ -49,6 +49,7 @@ function initCalendar() {
 		});
 		
 		closeModal.addEventListener('click', () => {
+        document.querySelector('.modal-content').classList.remove('collapsed');
 				eventModal.style.display = 'none';
 		});
 		
@@ -293,6 +294,7 @@ function saveEvent() {
 						
 		// Remove form and show success message
     eventModal.querySelector('form').style.display = 'none';
+    document.querySelector('.modal-content').classList.add('collapsed');
     const submitmessage = document.getElementById('modalTitle');
 
     // Step 1: Fade out
