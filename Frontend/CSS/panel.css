@@ -75,7 +75,7 @@ button {
   color: white;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 975px) {
   table, thead, tbody, th, td, tr {
     display: block;
   }
@@ -384,7 +384,7 @@ p {
   margin: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 975px) {
   .schedule-container {
     display: flex;
     flex-direction: column;
@@ -393,5 +393,8 @@ p {
     margin: 10px
   }
 
+  .hidden {
+    display: none;
+  }
 
 }

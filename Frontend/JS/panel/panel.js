@@ -165,7 +165,6 @@ const fetchlist = () => {fetch('/panel/list', {
     if (event.status === 'pending' && eventDate >= now) {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${event.id}</td>
       <td>${event.title}</td>
       <td>${formatToMonDayYear(eventDate)}</td>
       <td>${convertTo12Hour(event.starttime)}</td>
@@ -205,7 +204,6 @@ const fetchlist = () => {fetch('/panel/list', {
     } else if (event.status === 'approved' && eventDate >= now) {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td>${event.id}</td>
         <td>${event.title}</td>
         <td>${formatToMonDayYear(eventDate)}</td>
         <td>${convertTo12Hour(event.starttime)}</td>
