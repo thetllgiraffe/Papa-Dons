@@ -4,6 +4,11 @@ function getTokenFromURL() {
   return new URLSearchParams(window.location.search).get('token');
 }
 
+const signupresult = document.getElementById('signup-result')
+const signinresult = document.getElementById('signin-result')
+const forgotresult = document.getElementById('forgot-result')
+const resetresult = document.getElementById('reset-result')
+
 async function signup(e) {
   e.preventDefault();
   const email = document.getElementById('signup-email').value;
@@ -21,7 +26,9 @@ async function signup(e) {
     const response = await res.text();
     if (!res.ok) {
       // show server error message in signup section
-      document.getElementById('signup-result').innerText = response;
+      signupresult.classList.add('error-message');
+      signupresult.classList.remove('success-message');
+      signupresult.innerText = response;
       return;
     }
     signinsection.classList.remove('hidden');
@@ -29,8 +36,10 @@ async function signup(e) {
     document.getElementById('signup-email').value = '';
     document.getElementById('signup-password').value = '';
     document.getElementById('signup-password-check').value = '';
-    document.getElementById('signup-result').innerText = '';
-    document.getElementById('signin-result').innerText = response;
+    signupresult.innerText = '';
+    signupresult.classList.add('success-message');
+    signupresult.classList.remove('error-message');
+    signinresult.innerText = response;
   } catch (err) {
     console.error('Sign-up error:', err);
   }
@@ -53,8 +62,9 @@ async function signin() {
     if (data.redirectTo) {
       window.location.href = data.redirectTo; // Redirect to account page
     } else {
-      document.getElementById('signin-result').innerText = data.error;
-      console.log(data.error)
+      signinresult.classList.add('error-message');
+      signinresult.classList.remove('success-message');
+      signinresult.innerText = data.error;
     }
   } catch (err) {
     console.error('Sign-in error:', err);
@@ -67,7 +77,9 @@ async function forgotPassword() {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email })
   });
-  document.getElementById('forgot-result').innerText = await res.text();
+  forgotresult.classList.remove('error-message');
+  forgotresult.classList.add('success-message');
+  forgotresult.innerText = await res.text();
 }
 
 async function resetPassword(e) {
@@ -92,7 +104,9 @@ async function resetPassword(e) {
   resetsection.classList.add('hidden');
   document.getElementById('new-password').value = '';
   document.getElementById('new-password-check').value = '';
-  document.getElementById('signin-result').innerText = await res.text();
+  signinresult.classList.remove('error-message');
+  signinresult.classList.add('success-message');
+  signinresult.innerText = await res.text();
 }
 
 //client side routing on sign in page
