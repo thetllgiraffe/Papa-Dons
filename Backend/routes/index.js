@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
       INSERT INTO events (title, date, starttime, endtime, location, description, email, type, status)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    stmt.run(xss(title), date, starttime, endtime, xss(location), xss(description), email, type, 'pending');
+    stmt.run(xss(title), date, starttime, endtime, xss(location), xss(description), xss(email), type, 'pending');
     res.send('data saved');
     transporter.sendMail({
       from: '"Scott" <scottlynnfwa@gmail.com>',
