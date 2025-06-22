@@ -74,8 +74,10 @@
 <!-- modal for editing events -->
   <div id="eventModal" class="modal">
     <div class="modal-content">
-        <span class="close-button" id="closeModal">&times;</span>
-        <h2 id="modalTitle">Edit Event</h2>
+        <div>
+          <h2 id="modalTitle">Edit Event</h2>
+          <span class="close-button" id="closeModal">&times;</span>
+        </div>
         <form id="eventForm" method="POST" action="/">
             <input type="hidden" id="eventId">
             <div class="form-group">

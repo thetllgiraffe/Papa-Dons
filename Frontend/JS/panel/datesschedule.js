@@ -1,6 +1,6 @@
-// Add new date button event listener
 import { DateTime } from 'https://cdn.jsdelivr.net/npm/luxon@3/build/es6/luxon.min.js';
 
+// Add new date button event listener
 const adddateBtn = document.getElementById('addDate');
 adddateBtn.addEventListener('click', (e) => {
   const datesContainer = document.getElementById('datesList');
@@ -134,54 +134,51 @@ const renderDatesSchedule = async () => {
   }
   const dates = sortByDateAsc(data)
   dates.forEach(dateObj => {
-    const scheduleDate = DateTime.fromISO(dateObj.date, { zone: 'America/Chicago' });
-    const now = DateTime.now().setZone('America/Chicago');
-    if (scheduleDate >= now) {
-      const dateBlock = document.createElement('div');
-      dateBlock.classList.add('date-block');
-      dateBlock.dataset.date = scheduleDate; // Set the date attribute for the block
-      const date = formatToMonDayYear(scheduleDate)
-      dateBlock.innerHTML = `
-        <div class="date-div">
-        <p data-date=${scheduleDate}>${date}</p>
-        </div>
-        `;
-      const removeDateBtn = document.createElement('button');
-      removeDateBtn.textContent = "Remove Date";
-      removeDateBtn.addEventListener('click', removeDate);
-      const intervalsDiv = document.createElement('div');
-      intervalsDiv.classList.add('intervals');
-      const intervals = dateObj.times;
-      sortTimeIntervals(intervals); // Sort intervals before rendering
-      const settemplate = document.getElementById('set-interval-template');
-      if (intervals.length > 0) {
-        intervals.forEach(interval => {
-          const intervalDiv = settemplate.content.cloneNode(true);
-          const starttag = intervalDiv.querySelector('[data-start]');
-          const endtag = intervalDiv.querySelector('[data-end]');
-          const start = convertTo12Hour(interval[0]);
-          const end = convertTo12Hour(interval[1]);
-          starttag.dataset.start = interval[0];
-          endtag.dataset.end = interval[1];
-          starttag.textContent = start;
-          endtag.textContent = end;
-          intervalDiv.querySelector('.remove-interval-btn').addEventListener('click', removeDateInterval);
-          intervalsDiv.appendChild(intervalDiv);
-        });
-      } else {
-        const noIntervals = document.createElement('p');
-        noIntervals.textContent = 'Unavailable';
-        dateBlock.querySelector('.date-div').appendChild(noIntervals);
-      }
-      dateBlock.querySelector('.date-div').appendChild(removeDateBtn)
-      const addIntervalButton = document.createElement('button');
-      addIntervalButton.textContent = 'Add Interval';
-      addIntervalButton.classList.add('add-interval-btn');
-      addIntervalButton.addEventListener('click', addDateInterval);
-      intervalsDiv.appendChild(addIntervalButton);
-      dateBlock.appendChild(intervalsDiv);
-      datesContainer.appendChild(dateBlock);
-  }
+    const dateBlock = document.createElement('div');
+    dateBlock.classList.add('date-block');
+    dateBlock.dataset.date = dateObj.date; // Set the date attribute for the block
+    const eventDate = DateTime.fromISO(dateObj.date, { zone: 'America/Chicago' });
+    const date = formatToMonDayYear(eventDate)
+    dateBlock.innerHTML = `
+      <div class="date-div">
+      <p data-date=${dateObj.date}>${date}</p>
+      </div>
+      `;
+    const removeDateBtn = document.createElement('button');
+    removeDateBtn.textContent = "Remove Date";
+    removeDateBtn.addEventListener('click', removeDate);
+    const intervalsDiv = document.createElement('div');
+    intervalsDiv.classList.add('intervals');
+    const intervals = dateObj.times;
+    sortTimeIntervals(intervals); // Sort intervals before rendering
+    const settemplate = document.getElementById('set-interval-template');
+    if (intervals.length > 0) {
+      intervals.forEach(interval => {
+        const intervalDiv = settemplate.content.cloneNode(true);
+        const starttag = intervalDiv.querySelector('[data-start]');
+        const endtag = intervalDiv.querySelector('[data-end]');
+        const start = convertTo12Hour(interval[0]);
+        const end = convertTo12Hour(interval[1]);
+        starttag.dataset.start = interval[0];
+        endtag.dataset.end = interval[1];
+        starttag.textContent = start;
+        endtag.textContent = end;
+        intervalDiv.querySelector('.remove-interval-btn').addEventListener('click', removeDateInterval);
+        intervalsDiv.appendChild(intervalDiv);
+      });
+    } else {
+      const noIntervals = document.createElement('p');
+      noIntervals.textContent = 'Unavailable';
+      dateBlock.querySelector('.date-div').appendChild(noIntervals);
+    }
+    dateBlock.querySelector('.date-div').appendChild(removeDateBtn)
+    const addIntervalButton = document.createElement('button');
+    addIntervalButton.textContent = 'Add Interval';
+    addIntervalButton.classList.add('add-interval-btn');
+    addIntervalButton.addEventListener('click', addDateInterval);
+    intervalsDiv.appendChild(addIntervalButton);
+    dateBlock.appendChild(intervalsDiv);
+    datesContainer.appendChild(dateBlock);
   });
 }
 
