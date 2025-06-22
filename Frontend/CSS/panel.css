@@ -343,17 +343,10 @@ button:active {
   grid-column: 3;
 }
 
-/* input date interval styling */
-.input-interval div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.schedule-container input {
+  max-width: 300px;
+  width: 100%;
 }
-
-/* label, input {
-  display: inline-block;
-  vertical-align: middle;
-} */
 
 
 .error-message-date {

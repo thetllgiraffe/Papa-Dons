@@ -14,11 +14,15 @@ document.querySelectorAll('.add-interval').forEach(button => {
     const interval = document.createElement('div');
     interval.classList.add('unset-interval');
     interval.innerHTML = `
-      <label>Start: <input type="time" name="start"></label>
-      <label>End: <input type="time" name="end"></label>
+      <label>Start</label>
+      <input type="time" name="start">
+      <label>End</label>
+      <input type="time" name="end">
     `;
-    interval.appendChild(setBtn);
-    interval.appendChild(removeBtn);
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.appendChild(setBtn);
+    buttonsDiv.appendChild(removeBtn);
+    interval.appendChild(buttonsDiv);
     intervalsDiv.appendChild(interval);
     e.target.style.display = 'none'; // Hide the button after adding an interval
   });
