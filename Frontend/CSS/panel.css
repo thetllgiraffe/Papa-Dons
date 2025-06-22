@@ -147,7 +147,7 @@ button:active {
 
 .modal-content {
   background-color: white;
-  margin: 10% auto;
+  margin: 1% auto;
   padding: 20px;
   width: 50%;
   max-width: 500px;
@@ -171,7 +171,7 @@ button:active {
   margin-bottom: 15px;
 }
 
-.modal-content label {
+/* .modal-content label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
@@ -183,7 +183,7 @@ button:active {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
-}
+} */
 
 
 
@@ -404,6 +404,61 @@ p {
 
 .selected-tab {
   border-bottom: 2px solid #4361ee;
+}
+
+/* Base styles for all form elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Focus styles */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #5a67d8; /* A nice indigo */
+  box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.2);
+  background-color: #fff;
+}
+
+/* Placeholder styles */
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Label styling (optional but recommended) */
+label {
+  display: block;
+  margin: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Textarea tweaks */
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+button[type="submit"]:hover {
+  background-color: #434190;
 }
 
 @media (max-width: 975px) {
