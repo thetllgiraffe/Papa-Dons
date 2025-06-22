@@ -22,11 +22,15 @@ logOutBtn.addEventListener('click', () => {
 });
 
 
-eventsBtn.addEventListener('click', () => {
+eventsBtn.addEventListener('click', (e) => {
+  e.target.closest('div').classList.add('selected-tab');
+  scheduleBtn.closest('div').classList.remove('selected-tab');
   eventsContainer.classList.remove('hidden');
   scheduleContainer.classList.add('hidden');
 })
-scheduleBtn.addEventListener('click', () => {
+scheduleBtn.addEventListener('click', (e) => {
+  e.target.closest('div').classList.add('selected-tab');
+  eventsBtn.closest('div').classList.remove('selected-tab');
   scheduleContainer.classList.remove('hidden');
   eventsContainer.classList.add('hidden');
 })

@@ -56,8 +56,21 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 5px;
+  margin: 5px 5px;
   font-size: 14px;
+}
+
+button:hover {
+  opacity: 0.9;
+  transition: background-color 0.3s ease;
+  background-color: #dfe6e9;
+}
+
+
+
+button:active {
+  background-color: #dfe6e9;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
 }
 
 .approve {
@@ -245,7 +258,12 @@ button {
   grid-template-rows: auto; /* row height fits content */
   gap: 20px;
   align-items: center;
+  font-weight: 800;
 }
+
+/* .date-div p {
+  font-weight: 800;
+} */
 
 .day-div h3 {
   grid-column: 1;
@@ -384,6 +402,10 @@ p {
   margin: 0;
 }
 
+.selected-tab {
+  border-bottom: 2px solid #4361ee;
+}
+
 @media (max-width: 975px) {
   .schedule-container {
     display: flex;
@@ -396,5 +418,4 @@ p {
   .hidden {
     display: none;
   }
-
 }
