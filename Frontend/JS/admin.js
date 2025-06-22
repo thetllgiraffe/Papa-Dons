@@ -15,7 +15,9 @@ async function signup(e) {
   const password = document.getElementById('signup-password').value;
   const passwordcheck = document.getElementById('signup-password-check').value;
   if (password !== passwordcheck) {
-    document.getElementById('signup-result').innerText = 'Passwords do not match'
+    signupresult.innerText = 'Passwords do not match'
+    signupresult.classList.add('error-message');
+    signupresult.classList.remove('success-message');
     return
   }
   try {
@@ -37,8 +39,8 @@ async function signup(e) {
     document.getElementById('signup-password').value = '';
     document.getElementById('signup-password-check').value = '';
     signupresult.innerText = '';
-    signupresult.classList.add('success-message');
-    signupresult.classList.remove('error-message');
+    signinresult.classList.add('success-message');
+    signinresult.classList.remove('error-message');
     signinresult.innerText = response;
   } catch (err) {
     console.error('Sign-up error:', err);
