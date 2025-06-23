@@ -61,6 +61,8 @@ const removeDayInterval = (e) => {
   .then(data => {
     console.log("Saved:", data);
   });
+  dayBlock.querySelector('.add-interval').style.display = 'inline'; // Show the add interval button again
+  dayBlock.querySelector('#overlapError').style.display = 'none'; // Hide any error messages
   renderDaySchedule(day);
 }  
 
