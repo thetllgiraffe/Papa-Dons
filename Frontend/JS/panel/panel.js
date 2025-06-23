@@ -1,11 +1,14 @@
 import { DateTime } from 'https://cdn.jsdelivr.net/npm/luxon@3/build/es6/luxon.min.js';
 
 const eventForm = document.getElementById('eventForm');
-const table = document.getElementById('pending-body');
-const schedule = document.getElementById('approved-body');
+const pendingtable = document.getElementById('pending-body');
+const approvedtable = document.getElementById('approved-body');
 const eventModal = document.getElementById('eventModal');
 const cancelBtn = document.getElementById('cancelBtn');
 const closeModal = document.getElementById('closeModal');
+const closeViewModal = document.getElementById('closeViewModal');
+const viewEventModal = document.getElementById('viewEventModal');
+
 // get tab buttons and containers for nav bar function
 const eventsBtn = document.getElementById('eventsBtn');
 const scheduleBtn = document.getElementById('scheduleBtn');
@@ -20,7 +23,6 @@ logOutBtn.addEventListener('click', () => {
     window.location.href = '/admin';
   })
 });
-
 
 eventsBtn.addEventListener('click', (e) => {
   e.target.closest('div').classList.add('selected-tab');
@@ -45,7 +47,8 @@ cancelBtn.addEventListener('click', () => {
 
 
 
-const editEvent = (e) => {
+eventForm.addEventListener('submit', (e) => {
+  e.preventDefault();
   eventModal.style.display = 'none';
 
   fetch('/panel/events/edit', {
@@ -77,9 +80,10 @@ const editEvent = (e) => {
   }).catch(error => {
     console.error('There was a problem with the fetch operation:', error);
   });
-}
+})
 
 const approvedenyEvent = (e) => {
+  e.stopPropagation();
   fetch('/panel/events', {
     method: 'PUT',
     headers: {
@@ -101,13 +105,9 @@ const approvedenyEvent = (e) => {
   });
 }
 
-eventForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  editEvent('edit');
-});
-
 
 const removeEvent = (e) => {
+  e.stopPropagation();
   fetch('/panel/events', {
     method: 'DELETE',
     headers: {
@@ -130,20 +130,38 @@ const removeEvent = (e) => {
 
 
 const openEditEventModal = (e) => {
+  e.stopPropagation();
+  const row = e.target.closest('tr')
   document.querySelector('input[value="public"').checked = false;
   document.querySelector('input[value="private"]').checked = false;
-  document.getElementById('eventId').value = e.target.dataset.id;
-  document.getElementById('eventTitle').value = e.target.dataset.title;
-  document.getElementById('eventDate').value = e.target.dataset.date;
-  document.getElementById('startTime').value = e.target.dataset.starttime;
-  document.getElementById('endTime').value = e.target.dataset.endtime;
-  document.getElementById('eventLocation').value = e.target.dataset.location;
-  document.getElementById('eventDescription').value = e.target.dataset.description;
-  document.getElementById('eventEmail').value = e.target.dataset.email;
-  const eventTypeValue = e.target.dataset.type;
+  document.getElementById('eventId').value = row.dataset.id;
+  document.getElementById('eventTitle').value = row.dataset.title;
+  document.getElementById('eventDate').value = row.dataset.date;
+  document.getElementById('startTime').value = row.dataset.starttime;
+  document.getElementById('endTime').value = row.dataset.endtime;
+  document.getElementById('eventLocation').value = row.dataset.location;
+  document.getElementById('eventDescription').value = row.dataset.description;
+  document.getElementById('eventEmail').value = row.dataset.email;
+  const eventTypeValue = row.dataset.type;
   document.querySelector(`input[value=${eventTypeValue}]`).checked = true;
   
   eventModal.style.display = 'block';
+}
+
+closeViewModal.addEventListener('click', () => {
+    viewEventModal.style.display = 'none';
+});
+
+const openViewEventModal = (e) => {
+		document.getElementById('viewEventTitle').textContent = e.currentTarget.dataset.title;
+		document.getElementById('viewEventDate').textContent = e.currentTarget.dataset.date;
+    document.getElementById('viewEventStartTime').textContent = convertTo12Hour(e.currentTarget.dataset.starttime);
+    document.getElementById('viewEventEndTime').textContent = convertTo12Hour(e.currentTarget.dataset.endtime);
+    document.getElementById('viewEventLocation').textContent = e.currentTarget.dataset.location;
+    document.getElementById('viewEventDescription').textContent = e.currentTarget.dataset.description;
+    document.getElementById('viewEventEmail').textContent = e.currentTarget.dataset.email;
+    document.getElementById('viewEventType').textContent = e.currentTarget.dataset.type;
+		viewEventModal.style.display = 'block';
 }
 
   
@@ -159,88 +177,83 @@ const fetchlist = () => {fetch('/panel/list', {
   }
   return response.json();
 }).then(data => {
-  table.innerHTML = ''; // Clear existing rows
-  schedule.innerHTML = ''; // Clear existing rows
+  pendingtable.innerHTML = ''; // Clear existing rows
+  approvedtable.innerHTML = ''; // Clear existing rows
   // Loop through the data and create table rows
   data.forEach(event => {
     // Check if the event is pending and the date is today or in the future
     const eventDate = DateTime.fromISO(event.date, { zone: 'America/Chicago' });
     const now = DateTime.now().setZone('America/Chicago');
-    if (event.status === 'pending' && eventDate >= now) {
     const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${event.title}</td>
-      <td>${formatToMonDayYear(eventDate)}</td>
-      <td>${convertTo12Hour(event.starttime)}</td>
-      <td>${convertTo12Hour(event.endtime)}</td>
-      <td>${event.location}</td>
-      <td>${event.description}</td>
-      <td>${event.email}</td>
-      <td>${event.type}</td>
-    `;
-    const approveBtn = document.createElement('button');
-    approveBtn.textContent = 'Approve';
-    approveBtn.dataset.id = event.id;
-    approveBtn.dataset.title = event.title;
-    approveBtn.dataset.date = event.date;
-    approveBtn.dataset.starttime = event.starttime;
-    approveBtn.dataset.endtime = event.endtime;
-    approveBtn.dataset.location = event.location;
-    approveBtn.dataset.description = event.description;
-    approveBtn.dataset.type = event.type;
-    approveBtn.dataset.email = event.email;
-    approveBtn.dataset.action = 'approve';
-    approveBtn.addEventListener('click', approvedenyEvent);
+    row.dataset.id = event.id;
+    row.dataset.title = event.title;
+    row.dataset.date = event.date;
+    row.dataset.starttime = event.starttime;
+    row.dataset.endtime = event.endtime;
+    row.dataset.location = event.location;
+    row.dataset.description = event.description;
+    row.dataset.type = event.type;
+    row.dataset.email = event.email;
+    row.addEventListener('click', openViewEventModal);
 
-    const rejectBtn = document.createElement('button');
-    rejectBtn.textContent = 'Reject';
-    rejectBtn.dataset.id = event.id;
-    rejectBtn.dataset.action = 'reject';
-    rejectBtn.addEventListener('click', approvedenyEvent);
-
-    const td = document.createElement('td');
-    td.appendChild(approveBtn);
-    td.appendChild(rejectBtn);
-    row.appendChild(td);
-    // Append the row to the table pending table
-    table.appendChild(row);
-    // check if the event is approved and the date is today or in the future
-    } else if (event.status === 'approved' && eventDate >= now) {
-      const row = document.createElement('tr');
+    if (event.status === 'pending' && eventDate >= now) {
       row.innerHTML = `
         <td>${event.title}</td>
         <td>${formatToMonDayYear(eventDate)}</td>
         <td>${convertTo12Hour(event.starttime)}</td>
         <td>${convertTo12Hour(event.endtime)}</td>
         <td>${event.location}</td>
-        <td>${event.description}</td>
-        <td>${event.email}</td>
-        <td>${event.type}</td>
-      `;
+        `;
+      // <td>${event.description}</td>
+      // <td>${event.email}</td>
+      // <td>${event.type}</td>
+      const approveBtn = document.createElement('button');
+      approveBtn.textContent = 'Approve';
+      approveBtn.dataset.id = event.id;
+      approveBtn.dataset.email = event.email;
+      approveBtn.dataset.action = 'approve';
+      approveBtn.addEventListener('click', approvedenyEvent);
+
+      const rejectBtn = document.createElement('button');
+      rejectBtn.textContent = 'Reject';
+      rejectBtn.dataset.id = event.id;
+      rejectBtn.dataset.email = event.email;
+      rejectBtn.dataset.action = 'reject';
+      rejectBtn.addEventListener('click', approvedenyEvent);
+
+      const td = document.createElement('td');
+      td.appendChild(approveBtn);
+      td.appendChild(rejectBtn);
+      row.appendChild(td);
+      // Append the row to the pending table
+      pendingtable.appendChild(row);
+    // check if the event is approved and the date is today or in the future
+    } else if (event.status === 'approved' && eventDate >= now) {
+      row.innerHTML = `
+        <td>${event.title}</td>
+        <td>${formatToMonDayYear(eventDate)}</td>
+        <td>${convertTo12Hour(event.starttime)}</td>
+        <td>${convertTo12Hour(event.endtime)}</td>
+        <td>${event.location}</td>
+        `;
+        // <td>${event.description}</td>
+        // <td>${event.email}</td>
+        // <td>${event.type}</td>
       const removeBtn = document.createElement('button');
       const editBtn = document.createElement('button');
       editBtn.textContent = 'Edit';
-      editBtn.dataset.id = event.id;
-      editBtn.dataset.title = event.title;
-      editBtn.dataset.date = event.date;
-      editBtn.dataset.starttime = event.starttime;
-      editBtn.dataset.endtime = event.endtime;
-      editBtn.dataset.location = event.location;
-      editBtn.dataset.description = event.description;
-      editBtn.dataset.type = event.type;
-      editBtn.dataset.email = event.email;
       editBtn.addEventListener('click', openEditEventModal);
       removeBtn.textContent = 'Remove';
       removeBtn.dataset.id = event.id;
       removeBtn.dataset.email = event.email;
       removeBtn.addEventListener('click', removeEvent);
-
-      schedule.appendChild(row);
       const td = document.createElement('td');
       td.appendChild(removeBtn);
       td.appendChild(editBtn);
       row.appendChild(td);
+      approvedtable.appendChild(row);
     }
+    // code for responsive pivot table layout for movile screens
     document.querySelectorAll('table').forEach(table => {
       const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent);
       table.querySelectorAll('tbody tr').forEach(row => {

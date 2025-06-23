@@ -19,7 +19,6 @@ const closeModal = document.getElementById('closeModal');
 const closeViewModal = document.getElementById('closeViewModal');
 const eventForm = document.getElementById('eventForm');
 const cancelBtn = document.getElementById('cancelBtn');
-const deleteEventBtn = document.getElementById('deleteEventBtn');
 const eventsList = document.getElementById('eventsList');
 const closeViewBtn = document.getElementById('closeViewBtn');
 

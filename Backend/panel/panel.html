@@ -41,9 +41,9 @@
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Location</th>
-                <th>Description</th>
+                <!-- <th>Description</th>
                 <th>Email</th>
-                <th>Type</th>
+                <th>Type</th> -->
                 <th>Actions</th>
             </tr>
         </thead>
@@ -60,9 +60,9 @@
               <th>Start Time</th>
               <th>End Time</th>
               <th>Location</th>
-              <th>Description</th>
+              <!-- <th>Description</th>
               <th>Email</th>
-              <th>Type</th>
+              <th>Type</th> -->
               <th>Actions</th>
           </tr>
       </thead>
@@ -115,6 +115,21 @@
                 <button type="submit" class="btn btn-primary">Apply</button>
             </div>
         </form>
+    </div>
+  </div>
+  <!-- modal for viewing events -->
+  <div id="viewEventModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="closeViewModal">&times;</span>
+        <h2 id="viewEventTitle"></h2>
+        <p><strong>Date:</strong> <span id="viewEventDate"></span></p>
+        <p><strong>Start:</strong> <span id="viewEventStartTime"></span></p>
+        <p><strong>End:</strong> <span id="viewEventEndTime"></span></p>
+        <p><strong>Location:</strong> <span id="viewEventLocation"></span></p>
+        <p><strong>Description:</strong> <span id="viewEventDescription"></span></p>
+        <p><strong>Email:</strong> <span id="viewEventEmail"></span></p>
+        <p><strong>Type:</strong> <span id="viewEventType"></span></p>
+        <p id="viewEventDescription"></p>
     </div>
 </div>
 
