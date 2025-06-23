@@ -154,7 +154,7 @@ closeViewModal.addEventListener('click', () => {
 
 const openViewEventModal = (e) => {
 		document.getElementById('viewEventTitle').textContent = e.currentTarget.dataset.title;
-		document.getElementById('viewEventDate').textContent = e.currentTarget.dataset.date;
+		document.getElementById('viewEventDate').textContent = formatToMonDayYear(e.currentTarget.dataset.date);
     document.getElementById('viewEventStartTime').textContent = convertTo12Hour(e.currentTarget.dataset.starttime);
     document.getElementById('viewEventEndTime').textContent = convertTo12Hour(e.currentTarget.dataset.endtime);
     document.getElementById('viewEventLocation').textContent = e.currentTarget.dataset.location;
@@ -187,7 +187,7 @@ const fetchlist = () => {fetch('/panel/list', {
     const row = document.createElement('tr');
     row.dataset.id = event.id;
     row.dataset.title = event.title;
-    row.dataset.date = event.date;
+    row.dataset.date = eventDate;
     row.dataset.starttime = event.starttime;
     row.dataset.endtime = event.endtime;
     row.dataset.location = event.location;
