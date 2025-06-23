@@ -127,6 +127,14 @@ body {
   overflow: hidden;
 }
 
+.calendarwrapper {
+  overflow-x: auto;
+}
+
+.week-days, .calendar-grid {
+  min-width: 600px;
+}
+
 .calendar-header {
   display: flex;
   justify-content: space-between;
