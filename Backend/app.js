@@ -1,27 +1,24 @@
 const express = require('express');
-const session = require('express-session');
 const app = express();
 const port = process.env.PORT || 8080;
 const path = require('path');
-
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
 global.appRoot = __dirname;
+
+app.use(cookieParser());
+
 app.use('/', express.static(path.join(__dirname, '../Frontend')));
-
-app.use(session({
-  secret: 'your-very-secure-secret', // Change this to a secure secret
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false }, // Use `true` if using HTTPS
-  // cookie: { maxAge: 30 * 60 * 1000 } // 30 mins
-}));
-
 
 
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
+const panelRouter = require('./routes/panel');
+
+
+
 
 app.use(express.urlencoded({ extended: true })); // For form submissions
 app.use(express.json()); // To parse JSON bodies
@@ -30,6 +27,9 @@ app.use(express.json()); // To parse JSON bodies
 // Routes
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
+app.use('/panel', panelRouter);
+
+
 
 // 404 Handler
 app.use((req, res, next) => {

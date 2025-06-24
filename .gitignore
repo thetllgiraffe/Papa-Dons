@@ -4,3 +4,4 @@ Dockerfile
 .dockerignore
 fly.toml
 .github/
+.env

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="../CSS/admin.css" rel="stylesheet"></link>
+</head>
+<body>
+  <h1>Event Management Sign In</h1>
+
+  <section id="signup-section" class="hidden">
+    <form id="signup-form" onsubmit="signup(event)">
+      <h2>Sign Up</h2>
+      <input id="signup-email" type="email" placeholder="Email">
+      <input id="signup-password" type="password" required
+         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+         title="Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
+         placeholder="Password">
+      <input id="signup-password-check" type="password" required
+         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+         title="Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
+         placeholder="Confirm Password">
+      <p id="signup-result"></p>
+      <button type="submit">Sign Up</button>
+      <button id="signin">Sign In</button>
+    </form>
+  </section>
+
+  <section id="signin-section">
+    <h2>Sign In</h2>
+    <input id="signin-email" type="email" placeholder="Email">
+    <input id="signin-password" type="password" placeholder="Password">
+    <p id="signin-result"></p>
+    <button onclick="signin()">Sign In</button>
+    <button id="create-account">Create Account</button>
+    <button id="forgot-password">Forgot Password</button>
+  </section>
+
+  <section id="forgot-section" class="hidden">
+    <h2>Forgot Password</h2>
+    <input id="forgot-email" type="email" placeholder="Email">
+    <p id="forgot-result"></p>
+    <button onclick="forgotPassword()">Send Reset Link</button>
+  </section>
+
+  <!-- Reset Password form -->
+  <section id="reset-section" class="hidden">
+    <form id="reset-form" onsubmit="resetPassword(event)">
+      <h2>Reset Your Password</h2>
+      <input id="new-password" type="password" required
+         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+         title="Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
+         placeholder="New Password">
+      <input id="new-password-check" type="password" required
+         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+         title="Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
+         placeholder="Confirm Password">
+      <p id="reset-result"></p>
+      <button type="submit">Reset Password</button>
+    </form>
+  </section>
+
+  <script src="../JS/admin.js"></script>
+</body>
+</html>

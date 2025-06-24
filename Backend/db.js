@@ -4,6 +4,31 @@ const cron = require('node-cron');
 // This creates or opens the database file
 const db = new Database('./data/data.db');
 
+
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE,
+    password TEXT
+  )
+`).run();
+
+// Check if the trigger exists
+const triggerExists = db.prepare(`
+  SELECT name FROM sqlite_master WHERE type='trigger' AND name='only_one_user'
+`).get();
+// Create trigger to limit admin users to only one
+if (!triggerExists) {
+  db.exec(`
+    CREATE TRIGGER only_one_user
+    BEFORE INSERT ON users
+    WHEN (SELECT COUNT(*) FROM users) >= 1
+    BEGIN
+      SELECT RAISE(FAIL, 'Only one user allowed');
+    END;
+  `);
+}
+
 // Optional: create table if it doesn't exist
 db.prepare(`
   CREATE TABLE IF NOT EXISTS events (
@@ -14,11 +39,39 @@ db.prepare(`
     endtime TEXT NOT NULL,
     location TEXT,
     description TEXT,
+    email TEXT NOT NULL,
+    type TEXT,
     status TEXT
   )
 `).run();
 
-function deleteOldRecords() {
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS weekly_schedule (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    day TEXT NOT NULL UNIQUE,
+    times TEXT NOT NULL
+  )`).run();
+
+const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
+const insert = db.prepare(`
+  INSERT INTO weekly_schedule (day, times)
+  VALUES (?, '[["09:00", "17:00"]]')
+  ON CONFLICT(day) DO NOTHING
+`);
+
+for (const day of daysOfWeek) {
+  insert.run(day);
+}
+
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS dates_available (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL UNIQUE,
+    times TEXT NOT NULL
+  )`).run();
+
+function deleteOldEvents() {
   const query = `DELETE FROM events WHERE date < datetime('now', '-30 days')`;
 
   try {
@@ -29,12 +82,24 @@ function deleteOldRecords() {
   }
 }
 
+function deleteOldAvailableDates() {
+  const query = `DELETE FROM dates_available WHERE date < datetime('now', '-1 days')`;
+  try {
+    const result = db.prepare(query).run();
+    console.log(`Deleted ${result.changes} rows older than 1 days`);
+  } catch (err) {
+    console.error('Error deleting old records:', err.message);
+  }
+}
+
 // Schedule task to run every day at 2:00 AM
 cron.schedule('0 2 * * *', () => {
   console.log('Running daily cleanup:', new Date().toISOString());
-  deleteOldRecords();
+  deleteOldEvents();
+  deleteOldAvailableDates();
 });
 
-deleteOldRecords(); // Initial cleanup on startup
+deleteOldEvents(); // Initial cleanup on startup
+deleteOldAvailableDates(); // Initial cleanup on startup
 
 module.exports = db;

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="../CSS/panel.css" rel="stylesheet"></link>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <span>
+            <button id="eventsBtn" class="events-btn">Events</button>
+          </span>
+        </li>
+        <li>
+          <span>
+            <button id="scheduleBtn" class="schedule-btn">Schedule</button>
+          </span>
+        </li>
+      </ul>
+    </nav>
+    <div>
+      <button id="logOut">Log out</button>
+    </div>
+  </header>
+  <div class="events-container">
+    <h2>Pending Events</h2>
+    <table id="pending-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="pending-body">
+            <!-- Event rows will be populated here -->
+        </tbody>
+    </table>
+    <h2>Scheduled Events</h2>
+    <table id="approved-table">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Location</th>
+              <th>Description</th>
+              <th>Email</th>
+              <th>Type</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody id="approved-body">
+          <!-- Event rows will be populated here -->
+      </tbody>
+    </table>
+  </div>
+<!-- modal for editing events -->
+  <div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="closeModal">&times;</span>
+        <h2 id="modalTitle">Edit Event</h2>
+        <form id="eventForm" method="POST" action="/">
+            <input type="hidden" id="eventId">
+            <div class="form-group">
+                <label for="eventTitle">Event Title</label>
+                <input type="text" id="eventTitle" name="eventTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="eventDate">Date</label>
+                <input type="date" id="eventDate" name="eventDate" required>
+            </div>
+            <div class="form-group">
+                <label for="startTime">Start Time</label>
+                <input type="time" id="startTime" name="startTime">
+                <label for="endTime">End Time</label>
+                <input type="time" id="endTime" name="endTime">
+            </div>
+            <div class="form-group">
+              <label for="eventLocation">Location</label>
+              <input type="text" id="eventLocation" name="eventLocation" required>
+          </div>
+            <div class="form-group">
+                <label for="eventDescription">Description</label>
+                <textarea id="eventDescription" rows="3" name="eventDescription"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="eventEmail">Email</label>
+                <input id="eventEmail" type="email" name="eventEmail" required>
+            </div>
+            <div class="form-group">
+              <div class="radio-group"><label for="eventTypePubic">Public Event</label id='eventTypePubic'><input type="radio" name="eventType" value="public"> </div>
+              <div class="radio-group"><label for="eventTypePrivate"> Private Event</label id='eventTypePrivate'><input type="radio" name="eventType" value="private"></div>
+            </div>
+            <div class="button-group">
+                <button type="button" id="cancelBtn" class="btn btn-secondary">Cancel</button>
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="schedule-container hidden">
+  <div class="weekly-schedule-container">
+    <h2>Set Weekly Schedule</h2>
+    <div id="weekly-form">
+      <div data-day="monday" class="day-block">
+        <div class="day-div">
+          <h3>Monday</h3>
+          <p>Unavailable</p>
+        </div>
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">Add Interval</button>
+      </div>
+      <div data-day="tuesday" class="day-block">
+        <div class="day-div">
+          <h3>Tuesday</h3>
+          <p>Unavailable</p>
+        </div>
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">Add Interval</button>
+      </div>
+      <div data-day="wednesday" class="day-block">
+        <div class="day-div">
+          <h3>Wednesday</h3>
+          <p>Unavailable</p>
+        </div>
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">Add Interval</button>
+      </div>
+      <div data-day="thursday" class="day-block">
+        <div class="day-div">
+          <h3>Thursday</h3>
+          <p>Unavailable</p>
+        </div>
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">Add Interval</button>
+      </div>
+      <div data-day="friday" class="day-block">
+        <div class="day-div">
+          <h3>Friday</h3>
+          <p>Unavailable</p>
+        </div>
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">Add Interval</button>
+      </div>
+      <div data-day="saturday" class="day-block">
+        <div class="day-div">
+          <h3>Saturday</h3>
+          <p>Unavailable</p>
+        </div>
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">Add Interval</button>
+      </div>
+      <div data-day="sunday" class="day-block">
+        <div class="day-div">
+          <h3>Sunday</h3>
+          <p>Unavailable</p>
+        </div>
+        <div class="intervals">
+          <!-- time interval inputs appear here with add-interval button with js -->
+        </div>
+        <p id="overlapError" style="display: none; color: red"></p>
+        <button type="button" class="add-interval">Add Interval</button>
+      </div>
+    </div>
+  </div>
+  <div class="dates-schedule-container">
+    <h2>Set Schedule For Specific Dates</h2>
+    <div class="dates-form">
+      <div class="nodates-add-date">
+        <p class="no-dates-msg">no dates scheduled</p>
+        <button type="button" id="addDate" class="add-date">Add Date</button>
+      </div>
+      <div id="datesList" class="dates">
+        
+        <!-- scheduled dates appear here with add-date button with js -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- set time interval template -->
+<template id="set-interval-template">
+  <div class="set-interval">
+    <div>
+      <p data-start></p>
+      <p>-</p>
+      <p data-end></p>
+    </div>
+    <button class="remove-interval-btn">X</button>
+  </div>
+</template>
+<!-- time interval input template -->
+<template id="input-interval-template">
+  <div class="input-interval">
+    <div>
+      <label>Start: <input type="time" name="start"></label>
+      <label>End: <input type="time" name="end"></label>
+      <button class="set-interval-btn">Set</button>
+      <button class="remove-interval-btn">Remove</button>
+    </div>
+    <p class="error-message-date"></p>
+  </div>
+</template>
+</body>
+<script type="module" src="../JS/panel/panel.js"></script>
+</html>

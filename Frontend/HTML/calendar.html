@@ -4,21 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Calendar</title>
-    <script src="https://kit.fontawesome.com/62712f857a.js" crossorigin="anonymous"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <link href="../CSS/calender.css" rel="stylesheet"></link>
 </head>
 <body>
-  <div class="navbar">
-    <img src="../images/truckicon.png" alt="Logo" class="logo" style="width: 110px; height: 100px;">
+  <header>
     <nav id="nav">
+      <img
+        src="../images/papa-don-logo.png"
+        width="150"
+        height="100"
+        alt="Papa Don's Burgers & Wings"
+      />
       <ul>
         <li><a href="landing.html">Home</a></li>
-        <li><a href="location/location.html">Visit Us</a></li>
-        <li><a href="calendar.html">Booking</a></li>
         <li><a href="aboutMe.html">About Us</a></li>
+        <li><a href="location.html">Find Us</a></li>
+        <li><a href="calendar.html">Book Us</a></li>
       </ul>
+      <button
+        id="open-menu-btn"
+        type="button"
+        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+      >
+        <span class="sr-only">Open main menu</span>
+        <i class="fa-solid fa-bars fa-2xl" style="color: #ffffff"></i>
+      </button>
     </nav>
-  </div>
+  </header>
   <div class="calendar-container">
       <div class="calendar-header">
           <div class="month-display" id="monthDisplay"></div>
@@ -26,7 +42,7 @@
               <button id="prevMonth">&lt;</button>
               <button id="today">Today</button>
               <button id="nextMonth">&gt;</button>
-              <button id="addEventBtn">+ Event</button>
+              <button id="addEventBtn">Schedule An Event</button>
           </div>
       </div>
       
@@ -77,8 +93,19 @@
                   <label for="eventDescription">Description</label>
                   <textarea id="eventDescription" rows="3" name="eventDescription"></textarea>
               </div>
+              <div class="form-group">
+                  <label for="eventEmail">Email</label>
+                  <input id="eventEmail" type="email" name="eventEmail" required>
+              </div>
+              <div class="form-group">
+                <div class="radio-group"><label for="eventTypePublic">Public Event</label><input id="eventTypePublic" type="radio" name="eventType" value="public"> </div>
+                <div class="radio-group"><label for="eventTypePrivate"> Private Event</label><input id="eventTypePrivate" type="radio" name="eventType" value="private"></div>
+              </div>
+              <div>
+                <p class="client-error"></p>
+              </div>
               <div class="button-group">
-                  <button type="button" id="deleteEventBtn" class="btn btn-danger" style="display: none;">Delete</button>
+                  <!-- <button type="button" id="deleteEventBtn" class="btn btn-danger" style="display: none;">Delete</button> -->
                   <button type="button" id="cancelBtn" class="btn btn-secondary">Cancel</button>
                   <button type="submit" class="btn btn-primary">Save</button>
               </div>
@@ -101,13 +128,18 @@
           </div>
       </div>
     </div>
-    <div class="footer">
-      <ul class="icons">
-        <li class="fa-solid fa-envelope">Contact Us</li>
-        <li class="fa-solid fa-map-location-dot"><a href="location.html">Visit Us</a></li>
+    <footer>
+      <ul>
+        <li>
+          <i class="fa-solid fa-envelope fa-xl" style="color: #000"></i>
+          <span>Contact Us</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-map-location-dot fa-xl" style="color: #000"></i>
+          <a href="./location.html">Visit Us</a>
+        </li>
       </ul>
-      <p>© 2023 Your Company Name. All rights reserved.</p>
-    </div>
-    <script src="../JS/calender.js"></script>
+    </footer>
+    <script type="module" src="../JS/calender.js"></script>
 </body>
 </html>
