@@ -219,18 +219,17 @@ button:hover {
 }
 
 .inactive.clickable {
-  background: radial-gradient(circle, rgb(167, 95, 54), rgb(68, 64, 64));
+  background: radial-gradient(circle, rgb(167, 95, 54) 0%, rgb(68, 64, 64) 70%);
   background-size: 100% 100%;
   background-position: center;
-  transition: background-size 1s ease;
+  transition: background-size 0.5s ease;
 }
 
 .active.clickable {
-  background: radial-gradient(circle, rgb(138, 79, 45), rgb(34, 34, 34));
+  background: radial-gradient(circle at center, rgb(138, 79, 45) 0%, rgb(34, 34, 34) 70%);
   background-size: 100% 100%;
   background-position: center;
-
-  transition: background-size 1s ease;
+  transition: background-size 0.5s ease;
 }
 
 .clickable:hover {
