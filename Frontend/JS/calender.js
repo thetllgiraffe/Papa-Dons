@@ -6,6 +6,7 @@ let events = []
 let schedule = []
 let dates = []
 let times = []
+let selectedSchedule = [];
 // DOM Elements
 const monthDisplay = document.getElementById('monthDisplay');
 const calendarGrid = document.getElementById('calendarGrid');
@@ -150,14 +151,16 @@ function createDayElement(day, dateStr, inactive) {
       if (times[dates.indexOf(dateStr)].length > 0) {
         dayEl.classList.add('clickable');
         dayEl.addEventListener('click', () => {
-            openAddEventModal(dateStr);
+            openAddEventModal(dateStr, times[dates.indexOf(dateStr)]); // pass the times for that date
         });
+        console.log(times[dates.indexOf(dateStr)]);
       }
     } else if (dateStr >= formatDate(new Date()) && schedule[dayofweek].times.length > 0) {
       dayEl.classList.add('clickable');
-      dayEl.addEventListener('click', () => {
-          openAddEventModal(dateStr);
+      dayEl.addEventListener('click', (e) => {
+          openAddEventModal(dateStr, schedule[dayofweek].times);
       });
+      console.log(schedule[dayofweek].times);
     }
 
 		// Add events for this day
@@ -204,7 +207,7 @@ function getContrastColor(hexColor) {
 }
 
 // Open the add event modal
-function openAddEventModal(dateStr = '') {
+function openAddEventModal(dateStr = '', times = []) {
 		document.getElementById('modalTitle').textContent = 'Add New Event';
 		document.getElementById('eventId').value = '';
 		document.getElementById('eventTitle').value = '';
@@ -217,7 +220,7 @@ function openAddEventModal(dateStr = '') {
     document.querySelectorAll('input[name="eventType"]').forEach(input => {
         input.checked = false;
     });
-		
+		selectedSchedule = times; // Store the schedule for this date
 		eventModal.style.display = 'block';
     document.querySelector('.client-error').style.display = 'none';
     eventModal.querySelector('form').style.display = 'block';
@@ -262,6 +265,11 @@ function saveEvent() {
       if (starttime >= endtime ) {
         errormsg.style.display = 'block';
         errormsg.textContent = "start time must be less then end time";
+        return;
+      }
+      if (!checkSchedule(selectedSchedule, starttime, endtime)) {
+        errormsg.style.display = 'block';
+        errormsg.textContent = "time slot is not available";
         return;
       }
     const checked = document.querySelector('input[name="eventType"]:checked')
@@ -464,6 +472,30 @@ async function fetchDates() {
     return {};
   }
 }
+
+// Checking of schedule logic for form input
+function timeToMinutes(t) {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+}
+const checkSchedule = (times, start, end) => {
+  // initialize start and end times being input
+  const newStart = timeToMinutes(start);
+  const newEnd = timeToMinutes(end);
+  // check if inputs fall outside of the schedule
+  for (const time of times) {
+    const existingStartInput = time[0];
+    const existingEndInput = time[1];
+
+    const existingStart = timeToMinutes(existingStartInput);
+    const existingEnd = timeToMinutes(existingEndInput);
+
+    if (newStart >= existingStart && newEnd <= existingEnd) {
+      return true;
+    }
+  }
+  return false;
+};
 
 // Initialize the calendar when the page loads
 (function() {

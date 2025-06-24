@@ -222,14 +222,14 @@ button:hover {
   background: radial-gradient(circle, rgb(167, 95, 54) 0%, rgb(68, 64, 64) 70%);
   background-size: 100% 100%;
   background-position: center;
-  transition: background-size 0.5s ease;
+  transition: background-size 1s ease;
 }
 
 .active.clickable {
   background: radial-gradient(circle at center, rgb(138, 79, 45) 0%, rgb(34, 34, 34) 70%);
   background-size: 100% 100%;
   background-position: center;
-  transition: background-size 0.5s ease;
+  transition: background-size 1s ease;
 }
 
 .clickable:hover {
@@ -454,6 +454,21 @@ input, select, textarea {
   display: flex;
   gap: 10px;
 }
+
+/* Error message style */
+.error-message {
+  color: #b00020;
+  background-color: #f8d7da;
+  border: 1.5px solid #f5c6cb;
+}
+
+/* Success message style */
+.success-message {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1.5px solid #c3e6cb;
+}
+
 /* some mobile styling fo calendar */
 @media screen and (max-width: 768px) {
   .calendar-grid {
