@@ -196,6 +196,7 @@ button:hover {
   min-height: 100px;
   background-color: gray;
   padding: 5px;
+  border-radius: 5px;
   position: relative;
 }
 
@@ -205,26 +206,41 @@ button:hover {
   height: 100%;
 }
 
-/* days that are open for booking */
-
-.clickable:hover {
-background-color: rgb(98, 95, 95);
-cursor: pointer;
-}
-
-/* days that are not of the currently selected month */
 
 .inactive {
   background-color: rgb(68, 64, 64);
   color: var(--white);
 }
 
-/* days that are of the currently selected month */
 
 .active {
   background-color: var(--gray);
   color: var(--white);
 }
+
+.inactive.clickable {
+  background: radial-gradient(circle, rgb(167, 95, 54), rgb(68, 64, 64));
+  background-size: 100% 100%;
+  background-position: center;
+  transition: background-size 1s ease;
+}
+
+.active.clickable {
+  background: radial-gradient(circle, rgb(138, 79, 45), rgb(34, 34, 34));
+  background-size: 100% 100%;
+  background-position: center;
+
+  transition: background-size 1s ease;
+}
+
+.clickable:hover {
+background-size: 200% 200%;
+cursor: pointer;
+}
+
+/* days that are not of the currently selected month */
+
+
 
 .date-num {
   font-size: 0.9rem;
