@@ -227,9 +227,6 @@ button:active {
   font-weight: 800;
 }
 
-/* .date-div p {
-  font-weight: 800;
-} */
 
 .day-div h3 {
   grid-column: 1;
@@ -256,7 +253,11 @@ button:active {
 
 .interval button {
   grid-column: 3;
-  height: 80%;
+  padding: 0 5px;
+}
+
+.add-interval {
+  margin-top: 10px;
 }
 
 /* dates schedule styles */
@@ -281,7 +282,7 @@ button:active {
   text-align: center;
 }
 .intervals p {
-  margin: 5px 10px;
+  margin: 10px 10px;
 }
 
 /* set date interval styling */
@@ -295,6 +296,10 @@ button:active {
   align-items: center; 
 }
 
+.add-interval-btn {
+  margin-top: 10px;
+}
+
 .set-interval div {
   grid-column: 2; /* spans columns 1 to 2 */
   display: flex;
@@ -303,6 +308,7 @@ button:active {
 
 .set-interval button {
   grid-column: 3;
+  padding: 0 5px;
 }
 
 .schedule-container input {
