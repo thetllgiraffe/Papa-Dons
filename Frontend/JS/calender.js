@@ -23,6 +23,13 @@ const cancelBtn = document.getElementById('cancelBtn');
 const eventsList = document.getElementById('eventsList');
 const closeViewBtn = document.getElementById('closeViewBtn');
 
+
+const input = document.getElementById("eventPhone");
+const iti = window.intlTelInput(input, {
+  initialCountry: "auto",
+  utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/utils.js"
+});
+
 // Initialize the calendar
 function initCalendar() {
 		renderCalendar();
@@ -153,14 +160,12 @@ function createDayElement(day, dateStr, inactive) {
         dayEl.addEventListener('click', () => {
             openAddEventModal(dateStr, times[dates.indexOf(dateStr)]); // pass the times for that date
         });
-        console.log(times[dates.indexOf(dateStr)]);
       }
     } else if (dateStr >= formatDate(new Date()) && schedule[dayofweek].times.length > 0) {
       dayEl.classList.add('clickable');
       dayEl.addEventListener('click', (e) => {
           openAddEventModal(dateStr, schedule[dayofweek].times);
       });
-      console.log(schedule[dayofweek].times);
     }
 
 		// Add events for this day
@@ -261,6 +266,13 @@ function saveEvent() {
     const errormsg = document.querySelector('.client-error')
     const email = document.getElementById('eventEmail').value;
     // client side checks for proper times input and checking either public or private event type
+    const e164Number = iti.getNumber(); // returns E.164 format
+    if (!iti.isValidNumber()) {
+      errormsg.style.display = 'block';
+      errormsg.textContent = 'Please enter a valid phone number';
+      return;
+    }
+
     if (starttime === '' || endtime === '') {
         errormsg.style.display = 'block';
         errormsg.textContent = "must fill out time slots";

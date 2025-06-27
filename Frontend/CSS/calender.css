@@ -280,6 +280,7 @@ cursor: pointer;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
 }
 
 #modalTitle {
@@ -298,7 +299,7 @@ cursor: pointer;
 
 .modal-content {
   background-color: rgb(242, 235, 227);
-  margin: 5% auto;
+  margin: 1% auto;
   padding: 20px;
   width: 50%;
   max-width: 500px;
@@ -307,6 +308,8 @@ cursor: pointer;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transition: min-height 0.5s ease;
 }
+
+
 
 .modal-content.collapsed {
   min-height: 120px;
