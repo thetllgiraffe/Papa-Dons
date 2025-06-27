@@ -93,7 +93,7 @@ router.put('/events/edit', authenticateToken, (req, res) => {
 });
 
 router.delete('/events', authenticateToken, (req, res) => {
-  const { id } = req.body;
+  const { id, email } = req.body;
   const stmt = db.prepare('DELETE FROM events WHERE id = ?');
   stmt.run(id);
   res.send('Event deleted');
