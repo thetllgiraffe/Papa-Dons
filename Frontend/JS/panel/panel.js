@@ -187,7 +187,7 @@ const fetchlist = () => {fetch('/panel/list', {
     const row = document.createElement('tr');
     row.dataset.id = event.id;
     row.dataset.title = event.title;
-    row.dataset.date = eventDate;
+    row.dataset.date = eventDate.toISODate();
     row.dataset.starttime = event.starttime;
     row.dataset.endtime = event.endtime;
     row.dataset.location = event.location;
