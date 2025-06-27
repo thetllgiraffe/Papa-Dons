@@ -208,6 +208,7 @@ function getContrastColor(hexColor) {
 
 // Open the add event modal
 function openAddEventModal(dateStr = '', times = []) {
+    document.getElementById('availability').textContent = renderAvailability(times);
 		document.getElementById('modalTitle').textContent = 'Add New Event';
 		document.getElementById('eventId').value = '';
 		document.getElementById('eventTitle').value = '';
@@ -224,6 +225,10 @@ function openAddEventModal(dateStr = '', times = []) {
 		eventModal.style.display = 'block';
     document.querySelector('.client-error').style.display = 'none';
     eventModal.querySelector('form').style.display = 'block';
+}
+
+function renderAvailability(times) {
+  return 'Available times: ' + times.map(t => `${formatTime(t[0])} - ${formatTime(t[1])}`).join(' or ');
 }
 
 
