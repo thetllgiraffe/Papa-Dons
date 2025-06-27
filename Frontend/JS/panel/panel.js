@@ -127,7 +127,11 @@ const removeEvent = (e) => {
     console.error('There was a problem with the fetch operation:', error);
 })}
 
-
+const input = document.getElementById("eventPhone");
+const iti = window.intlTelInput(input, {
+  initialCountry: "auto",
+  utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/utils.js"
+});
 
 const openEditEventModal = (e) => {
   e.stopPropagation();

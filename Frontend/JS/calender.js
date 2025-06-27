@@ -24,11 +24,7 @@ const eventsList = document.getElementById('eventsList');
 const closeViewBtn = document.getElementById('closeViewBtn');
 
 
-const input = document.getElementById("eventPhone");
-const iti = window.intlTelInput(input, {
-  initialCountry: "auto",
-  utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/utils.js"
-});
+
 
 // Initialize the calendar
 function initCalendar() {
@@ -255,6 +251,11 @@ function openViewEventModal(eventId) {
 		viewEventModal.style.display = 'block';
 }
 
+const input = document.getElementById("eventPhone");
+const iti = window.intlTelInput(input, {
+  initialCountry: "auto",
+  utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/utils.js"
+});
 // Save an event
 function saveEvent() {
 		const title = document.getElementById('eventTitle').value;
@@ -267,6 +268,7 @@ function saveEvent() {
     const email = document.getElementById('eventEmail').value;
     // client side checks for proper times input and checking either public or private event type
     const e164Number = iti.getNumber(); // returns E.164 format
+    console.log(e164Number);
     if (!iti.isValidNumber()) {
       errormsg.style.display = 'block';
       errormsg.textContent = 'Please enter a valid phone number';
