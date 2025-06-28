@@ -1,6 +1,6 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8;
+  background-color: rgba(62, 75, 54, 0.2);
   margin: 0;
   color: #333;
 }
@@ -47,7 +47,7 @@ thead {
 }
 
 tbody tr:hover {
-  background-color: #f9f9f9;
+  background-color: #d5cfcf;
 }
 
 button {
@@ -363,7 +363,7 @@ p {
 }
 
 .selected-tab {
-  border-bottom: 2px solid #4361ee;
+  border-bottom: 2px solid #a4ab9b;
 }
 
 /* Base styles for all form elements */
