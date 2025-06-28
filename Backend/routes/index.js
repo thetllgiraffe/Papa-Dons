@@ -38,13 +38,13 @@ router.post('/', (req, res) => {
   res.send('invalid inputs')
 });
 
-router.get('/retrieve', (req, res) => {
+router.get('/retrieve-events', (req, res) => {
   const rows = db.prepare("SELECT * FROM events WHERE status='approved' AND type='public' ORDER BY date, starttime").all();
   res.json(rows);
 });
 
 
-router.get('/schedule', (req, res) => {
+router.get('/weekly-schedule', (req, res) => {
   const stmt = db.prepare('SELECT * FROM weekly_schedule');
   const rows = stmt.all();
   if (rows.length > 0) {
@@ -57,7 +57,7 @@ router.get('/schedule', (req, res) => {
   }
 });
 
-router.get('/dates', (req, res) => {
+router.get('/dates-schedule', (req, res) => {
   const stmt = db.prepare('SELECT * FROM dates_available');
   const rows = stmt.all();
   if (rows.length > 0) {

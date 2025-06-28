@@ -458,7 +458,7 @@ function formatTime(input) {
 
 async function fetchEvents() {
 	try {
-		const res = await fetch('/retrieve');
+		const res = await fetch('/retrieve-events');
 		if (!res.ok) throw new Error('Fetch failed');
 		const data = await res.json();
 		return data;
@@ -470,7 +470,7 @@ async function fetchEvents() {
 
 async function fetchSchedule() {
   try {
-    const res = await fetch('/schedule');
+    const res = await fetch('/weekly-schedule');
     if (!res.ok) throw new Error('Fetch failed');
     const data = await res.json();
     return data;
@@ -482,7 +482,7 @@ async function fetchSchedule() {
 
 async function fetchDates() {
   try {
-    const res = await fetch('/dates');
+    const res = await fetch('/dates-schedule');
     if (!res.ok) throw new Error('Fetch failed');
     const data = await res.json();
     return data;
