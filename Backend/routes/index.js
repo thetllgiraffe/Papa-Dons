@@ -6,28 +6,9 @@ const transporter = require('../mailer.js');
 const xss = require('xss');
 
 
-const receiverEmail = process.env.receiver_email;
-
 router.get('/', (req, res) => {
-  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'landing.html'));
+  res.redirect('HTML/landing.html');
 });
-
-router.get('/landing.html', (req, res) => {
-  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'landing.html'));
-});
-
-router.get('/aboutMe.html', (req, res) => {
-  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'aboutMe.html'));
-});
-
-router.get('/calendar.html', (req, res) => {
-  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'calendar.html'));
-});
-
-router.get('/location.html', (req, res) => {
-  res.sendFile(path.join(global.appRoot, '../Frontend', 'HTML', 'location.html'));
-});
-
 
 router.post('/', (req, res) => {
   const {title, date, starttime, endtime, location, description, type, email, phone} = req.body
