@@ -40,6 +40,7 @@ db.prepare(`
     location TEXT,
     description TEXT,
     email TEXT NOT NULL,
+    phone TEXT NOT NULL,
     type TEXT,
     status TEXT
   )

@@ -74,9 +74,9 @@ router.put('/events', authenticateToken, (req, res) => {
 });
 
 router.put('/events/edit', authenticateToken, (req, res) => {
-  const { id, title, date, starttime, endtime, location, description ,type, email } = req.body;
-  const stmt = db.prepare('UPDATE events SET title = ?, date = ?, starttime = ?, endtime = ?, location = ?, description = ?, type = ?, email = ? WHERE id = ?');
-  stmt.run(title, date, starttime, endtime, location, description, type, email, id,);
+  const { id, title, date, starttime, endtime, location, description ,type, email, phone } = req.body;
+  const stmt = db.prepare('UPDATE events SET title = ?, date = ?, starttime = ?, endtime = ?, location = ?, description = ?, type = ?, email = ?, phone = ? WHERE id = ?');
+  stmt.run(title, date, starttime, endtime, location, description, type, email, phone, id,);
   transporter.sendMail({
       from: '"Scott" <scottlynnfwa@gmail.com>',
       to: email,

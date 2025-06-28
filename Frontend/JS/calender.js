@@ -268,7 +268,6 @@ function saveEvent() {
     const email = document.getElementById('eventEmail').value;
     // client side checks for proper times input and checking either public or private event type
     const e164Number = iti.getNumber(); // returns E.164 format
-    console.log(e164Number);
     if (!iti.isValidNumber()) {
       errormsg.style.display = 'block';
       errormsg.textContent = 'Please enter a valid phone number';
@@ -310,6 +309,7 @@ function saveEvent() {
 						description,
             type,
             email,
+            phone: e164Number
 				};
 				fetch('/', {
 								method: 'POST',

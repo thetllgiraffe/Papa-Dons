@@ -66,6 +66,7 @@ eventForm.addEventListener('submit', (e) => {
       description: document.getElementById('eventDescription').value,
       type: document.querySelector('input[name="eventType"]:checked').value, 
       email: document.getElementById('eventEmail').value,
+      phone: iti.getNumber()
      }),
   })
   .then(response => {
@@ -146,6 +147,7 @@ const openEditEventModal = (e) => {
   document.getElementById('eventLocation').value = row.dataset.location;
   document.getElementById('eventDescription').value = row.dataset.description;
   document.getElementById('eventEmail').value = row.dataset.email;
+  document.getElementById('eventPhone').value = row.dataset.phone;
   const eventTypeValue = row.dataset.type;
   document.querySelector(`input[value=${eventTypeValue}]`).checked = true;
   
@@ -164,6 +166,7 @@ const openViewEventModal = (e) => {
     document.getElementById('viewEventLocation').textContent = e.currentTarget.dataset.location;
     document.getElementById('viewEventDescription').textContent = e.currentTarget.dataset.description;
     document.getElementById('viewEventEmail').textContent = e.currentTarget.dataset.email;
+    document.getElementById('viewEventPhone').textContent = e.currentTarget.dataset.phone;
     document.getElementById('viewEventType').textContent = e.currentTarget.dataset.type;
 		viewEventModal.style.display = 'block';
 }
@@ -198,6 +201,7 @@ const fetchlist = () => {fetch('/panel/list', {
     row.dataset.description = event.description;
     row.dataset.type = event.type;
     row.dataset.email = event.email;
+    row.dataset.phone = event.phone;
     row.addEventListener('click', openViewEventModal);
 
     if (event.status === 'pending' && eventDate >= now) {
