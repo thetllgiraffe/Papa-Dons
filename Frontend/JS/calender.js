@@ -256,94 +256,95 @@ const iti = window.intlTelInput(input, {
   initialCountry: "auto",
   utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/utils.js"
 });
+const errormsg = document.querySelector('.client-error')
+
+
 // Save an event
 function saveEvent() {
-		const title = document.getElementById('eventTitle').value;
-		const date = document.getElementById('eventDate').value;
-		const starttime = document.getElementById('startTime').value;
-    const endtime = document.getElementById('endTime').value;
-    const location = document.getElementById('eventLocation').value;
-		const description = document.getElementById('eventDescription').value;
-    const errormsg = document.querySelector('.client-error')
-    const email = document.getElementById('eventEmail').value;
-    // client side checks for proper times input and checking either public or private event type
-    const e164Number = iti.getNumber(); // returns E.164 format
-    if (!iti.isValidNumber()) {
+  const title = document.getElementById('eventTitle').value;
+  const date = document.getElementById('eventDate').value;
+  const starttime = document.getElementById('startTime').value;
+  const endtime = document.getElementById('endTime').value;
+  const location = document.getElementById('eventLocation').value;
+  const description = document.getElementById('eventDescription').value;
+  const email = document.getElementById('eventEmail').value;
+  // client side checks for proper times input and checking either public or private event type
+  const e164Number = iti.getNumber(); // returns E.164 format
+  if (!iti.isValidNumber()) {
+    errormsg.style.display = 'block';
+    errormsg.textContent = 'Please enter a valid phone number';
+    return;
+  }
+  if (starttime === '' || endtime === '') {
       errormsg.style.display = 'block';
-      errormsg.textContent = 'Please enter a valid phone number';
+      errormsg.textContent = "must fill out time slots";
       return;
     }
+  // Check if interval is not zero
+  if (starttime >= endtime ) {
+    errormsg.style.display = 'block';
+    errormsg.textContent = "start time must be less then end time";
+    return;
+  }
+  if (!checkSchedule(selectedSchedule, starttime, endtime)) {
+    errormsg.style.display = 'block';
+    errormsg.textContent = "time slot is not available";
+    return;
+  }
+  const checked = document.querySelector('input[name="eventType"]:checked')
+  if (!checked) {
+    errormsg.style.display = 'block';
+    errormsg.textContent = "need to check public or private";
+    return;
+  }
+  const type = checked.value
+  // Add new event
+  const newEvent = {
+      title,
+      date,
+      starttime,
+      endtime,
+      location,
+      description,
+      type,
+      email,
+      phone: e164Number
+  };
+  fetch('/', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newEvent)
+  }).then(res => res.text()).then(response => {
+    eventModalResponse(response);
+  }).catch(err => {
+    eventModalResponse('Error submitting event request. Please try again later.');
+    console.error(`Network error: ${err.message}`);
+    return;
+  });
+  // Refresh the calendar and events list
+  renderCalendar();
+  renderEventsList();
+};
 
-    if (starttime === '' || endtime === '') {
-        errormsg.style.display = 'block';
-        errormsg.textContent = "must fill out time slots";
-        return;
-      }
-      // Check if interval is not zero
-      if (starttime >= endtime ) {
-        errormsg.style.display = 'block';
-        errormsg.textContent = "start time must be less then end time";
-        return;
-      }
-      if (!checkSchedule(selectedSchedule, starttime, endtime)) {
-        errormsg.style.display = 'block';
-        errormsg.textContent = "time slot is not available";
-        return;
-      }
-    const checked = document.querySelector('input[name="eventType"]:checked')
-    if (!checked) {
-      errormsg.style.display = 'block';
-      errormsg.textContent = "need to check public or private";
-      return;
-    }
+//function to resize event modal and display success or error message
+function eventModalResponse(response) {
+  // Remove form and show success message
+  eventModal.querySelector('form').style.display = 'none';
+  document.querySelector('.modal-content').classList.add('collapsed');
+  const submitmessage = document.getElementById('modalTitle');
 
-		else {
-        const type = checked.value
-				// Add new event
-				const newEvent = {
-						title,
-						date,
-						starttime,
-            endtime,
-            location,
-						description,
-            type,
-            email,
-            phone: e164Number
-				};
-				fetch('/', {
-								method: 'POST',
-								headers: {
-										'Content-Type': 'application/json'
-								},
-								body: JSON.stringify(newEvent)
-						}).then(res => res.text()).then(response => {
-								console.log('Server response:', response);
-						}).catch(err => {
-								console.error('Fetch error:', err);
-                return;
-						});
-		}
-						
-		// Remove form and show success message
-    eventModal.querySelector('form').style.display = 'none';
-    document.querySelector('.modal-content').classList.add('collapsed');
-    const submitmessage = document.getElementById('modalTitle');
+  // Step 1: Fade out
+  submitmessage.classList.add('hidden');
+  // Step 2: Wait for fade out to finish, then change text
+  setTimeout(() => {
+    submitmessage.textContent = response;
 
-    // Step 1: Fade out
-    submitmessage.classList.add('hidden');
-
-    // Step 2: Wait for fade out to finish, then change text
-    setTimeout(() => {
-      submitmessage.textContent = 'Event Request Submitted';
-
-      // Step 3: Fade back in
-      submitmessage.classList.remove('hidden');
-    }, 500); // match your CSS transition duration
-		errormsg.style.display = 'none';
-		// Refresh the calendar and events list
-		renderCalendar();
-		renderEventsList();
+    // Step 3: Fade back in
+    submitmessage.classList.remove('hidden');
+  }, 500); // match your CSS transition duration
+  errormsg.style.display = 'none';
 }
 
 
@@ -459,7 +460,7 @@ function formatTime(input) {
 async function fetchEvents() {
 	try {
 		const res = await fetch('/retrieve-events');
-		if (!res.ok) throw new Error('Fetch failed');
+		if (!res.ok) throw new Error(res.statusText);
 		const data = await res.json();
 		return data;
 	} catch (err) {

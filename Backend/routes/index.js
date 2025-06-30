@@ -19,8 +19,13 @@ router.post('/', (req, res) => {
       INSERT INTO events (title, date, starttime, endtime, location, description, email, phone, type, status)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    stmt.run(xss(title), date, starttime, endtime, xss(location), xss(description), xss(email), xss(phone), type, 'pending');
-    res.send('data saved');
+    try {
+      stmt.run(xss(title), date, starttime, endtime, xss(location), xss(description), xss(email), xss(phone), type, 'pending');      
+    }
+    catch (err) {
+      console.error('Error inserting event:', err);
+      return res.status(500).send('Error submitting event request. Try again later or call Tony at 250-864-1234');
+    }
     transporter.sendMail({
       from: '"Scott" <scottlynnfwa@gmail.com>',
       to: userEmail,
@@ -33,9 +38,9 @@ router.post('/', (req, res) => {
       subject: "Request Submitted ✔",
       text: "Your event was submitted successfully and is pending approval",
     });
-    return;
+    return res.status(200).send('Event request submitted successfully');
   }
-  res.send('invalid inputs')
+  return res.status(400).send('Event request failed. Issue with input values.');
 });
 
 router.get('/retrieve-events', (req, res) => {
@@ -66,6 +71,7 @@ router.get('/dates-schedule', (req, res) => {
     }
     res.json(rows); 
   } else {
+      // return an empty array if no specific dates are set
       res.json({})
     }
   });
