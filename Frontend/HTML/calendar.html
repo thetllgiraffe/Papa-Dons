@@ -56,119 +56,23 @@
     </div>
   </div>
   <div class="calendar-container">
-      <div class="calendar-header">
-          <div class="month-display" id="monthDisplay"></div>
-          <div class="calendar-nav">
-              <button id="prevMonth">&lt;</button>
-              <button id="today">Today</button>
-              <button id="nextMonth">&gt;</button>
-              <button id="addEventBtn">Schedule An Event</button>
-          </div>
-      </div>
-      
-      <div class="calendarwrapper">
-        <div class="week-days">
-            <div>Sun</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-        </div>
-        
-        <div class="calendar-grid" id="calendarGrid"></div>
-      </div>
+    <div id="calendly-embed" style="min-width:320px;height:700px;"></div>
   </div>
-  
-  <div class="event-list">
-      <h2>Upcoming Events</h2>
-      <div id="eventsList"></div>
-  </div>
-  
-  <!-- Event Modal -->
-  <div id="eventModal" class="modal">
-      <div class="modal-content">
-          <span class="close-button" id="closeModal">&times;</span>
-          <h2 id="modalTitle">Add New Event</h2>
-          <form id="eventForm" method="POST" action="/">
-              <input type="hidden" id="eventId">
-              <div class="form-group">
-                  <label for="eventTitle">Event Title</label>
-                  <input type="text" id="eventTitle" name="eventTitle" required>
-              </div>
-              <div class="form-group">
-                  <label for="eventDate">Date</label>
-                  <input type="date" id="eventDate" name="eventDate" required>
-              </div>
-              <div>
-                <p id="availability"></p>
-              </div>
-              <div class="form-group">
-                  <label for="startTime">Start Time</label>
-                  <input type="time" id="startTime" name="startTime">
-                  <label for="endTime">End Time</label>
-                  <input type="time" id="endTime" name="endTime">
-              </div>
-              <div class="form-group">
-                <label for="eventLocation">Location</label>
-                <input type="text" id="eventLocation" name="eventLocation" required>
-            </div>
-              <div class="form-group">
-                  <label for="eventDescription">Description</label>
-                  <textarea id="eventDescription" rows="3" name="eventDescription"></textarea>
-              </div>
-              <div class="form-group">
-                  <label for="eventEmail">Email</label>
-                  <input id="eventEmail" type="email" name="eventEmail" required>
-              </div>
-              <div class="form-group">
-                <label for="eventPhone">Phone</label>
-                <input id="eventPhone" type="tel" name="eventPhone" required>
-              </div>
-              <div class="form-group">
-                <div class="radio-group"><label for="eventTypePublic">Public Event</label><input id="eventTypePublic" type="radio" name="eventType" value="public"> </div>
-                <div class="radio-group"><label for="eventTypePrivate"> Private Event</label><input id="eventTypePrivate" type="radio" name="eventType" value="private"></div>
-              </div>
-              <div>
-                <p class="client-error error-message"></p>
-              </div>
-              <div class="button-group">
-                  <button type="button" id="cancelBtn" class="btn btn-secondary">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Save</button>
-              </div>
-          </form>
-      </div>
-  </div>
-  
-  <!-- View Event Modal -->
-  <div id="viewEventModal" class="modal">
-    <div class="modal-content">
-        <span class="close-button" id="closeViewModal">&times;</span>
-        <h2 id="viewEventTitle"></h2>
-        <p><strong>Date:</strong> <span id="viewEventDate"></span></p>
-        <p><strong>Time:</strong> <span id="viewEventTime"></span></p>
-        <p><strong>Location:</strong> <span id="viewEventLocation"></span></p>
-        <p id="viewEventDescription"></p>
-        <div class="button-group">
-          <button type="button" id="closeViewBtn" class="btn btn-secondary">Close</button>
-        </div>
-    </div>
-  </div>
-    <footer>
-      <ul>
-        <li>
-          <i class="fa-solid fa-envelope fa-xl" style="color: #000"></i>
-          <span>Contact Us</span>
-        </li>
-        <li>
-          <i class="fa-solid fa-map-location-dot fa-xl" style="color: #000"></i>
-          <a href="./location.html">Visit Us</a>
-        </li>
-      </ul>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/intlTelInput.min.js"></script>
-    <script type="module" src="../JS/calender.js"></script>
-    <script src="../JS/main.js"></script>
+  <footer>
+    <ul>
+      <li>
+        <i class="fa-solid fa-envelope fa-xl" style="color: #000"></i>
+        <span>Contact Us</span>
+      </li>
+      <li>
+        <i class="fa-solid fa-map-location-dot fa-xl" style="color: #000"></i>
+        <a href="./location.html">Visit Us</a>
+      </li>
+    </ul>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/intlTelInput.min.js"></script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
+  <script type="module" src="../JS/calender.js"></script>
+  <script src="../JS/main.js"></script>
 </body>
 </html>
