@@ -101,6 +101,69 @@ header {
 }
 /* Navigation END */
 
+/* Mobile Menu */
+.mobile-menu {
+  display: none;
+
+  .mobile-menu-content {
+    box-shadow: -5px 0 15px black;
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+    z-index: 10;
+    width: 100%;
+    overflow-y: auto;
+    background: var(--gray);
+    padding-inline: 1.5rem;
+    padding-block: 1.5rem;
+
+    @media (width >= 40rem) {
+      max-width: 20rem;
+    }
+
+    #close-menu-btn {
+      background: none;
+      border: none;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      margin-inline-start: auto;
+      display: block;
+    }
+
+    .mobile-menu-content-links {
+      margin-block-start: 1.5rem;
+
+      ul {
+        font-family: 'Sriracha';
+        font-size: 1.3rem;
+        color: hsla(0, 0%, 90%);
+
+        li {
+          padding-block: 1rem;
+          border-radius: 10px;
+          padding-inline: 0.75rem;
+
+          a {
+            display: block;
+            color: inherit;
+            background: none;
+          }
+
+          &:hover {
+            color: var(--accent);
+            background: hsl(0, 0%, 10%);
+          }
+        }
+      }
+    }
+
+    @media (width >= 768px) {
+      display: none;
+    }
+  }
+}
+/* Mobile Menu  END */
 
 body {
   display: flex;

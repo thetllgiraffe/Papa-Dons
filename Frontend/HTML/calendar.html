@@ -36,6 +36,25 @@
       </button>
     </nav>
   </header>
+   <!-- Mobile menu -->
+  <div class="mobile-menu" role="dialog" aria-modal="true">
+    <div class="mobile-menu-content">
+      <button id="close-menu-btn" type="button">
+        <span class="sr-only">Close menu</span>
+        <i class="fa-solid fa-xmark fa-2xl" style="color: #ffffff"></i>
+      </button>
+      <div class="mobile-menu-content-links">
+        <ul class="space-y-2 py-6">
+          <ul>
+            <li><a href="landing.html">Home</a></li>
+            <li><a href="aboutMe.html">About Us</a></li>
+            <li><a href="location.html">Find Us</a></li>
+            <li><a href="calendar.html">Book Us</a></li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
   <div class="calendar-container">
       <div class="calendar-header">
           <div class="month-display" id="monthDisplay"></div>
@@ -150,5 +169,6 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/intlTelInput.min.js"></script>
     <script type="module" src="../JS/calender.js"></script>
+    <script src="../JS/main.js"></script>
 </body>
 </html>
