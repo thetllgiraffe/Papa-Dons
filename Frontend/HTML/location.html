@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Papa Don's Location</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://kit.fontawesome.com/ac8549dc60.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/Frontend/CSS/main.css">
+  <link rel="stylesheet" href="../CSS/locationStyle.css" />
+</head>
+<body>
+  <header>
+      <nav id="nav">
+        <img
+          src="../images/papa-don-logo.png"
+          width="150"
+          height="100"
+          alt="Papa Don's Burgers & Wings"
+        />
+        <ul>
+          <li><a href="landing.html">Home</a></li>
+          <li><a href="aboutMe.html">About Us</a></li>
+          <li><a href="location.html">Find Us</a></li>
+          <li><a href="calendar.html">Book Us</a></li>
+        </ul>
+        <button
+          id="open-menu-btn"
+          type="button"
+          class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+        >
+          <span class="sr-only">Open main menu</span>
+          <i class="fa-solid fa-bars fa-2xl" style="color: #ffffff"></i>
+        </button>
+      </nav>
+    </header>
+        <!-- Mobile menu -->
+    <div class="mobile-menu" role="dialog" aria-modal="true">
+      <div class="mobile-menu-content">
+        <button id="close-menu-btn" type="button">
+          <span class="sr-only">Close menu</span>
+          <i class="fa-solid fa-xmark fa-2xl" style="color: #ffffff"></i>
+        </button>
+        <div class="mobile-menu-content-links">
+          <ul class="space-y-2 py-6">
+            <ul>
+              <li><a href="landing.html">Home</a></li>
+              <li><a href="aboutMe.html">About Us</a></li>
+              <li><a href="location.html">Find Us</a></li>
+              <li><a href="calendar.html">Book Us</a></li>
+            </ul>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- --------main section--------- -->
+  <main>
+    <h1>WHERE ARE WE <br />TODAY ?</h1>
+  </main>
+
+  <div id="googleMapsBox">
+    <h2 id="currentLocation">
+      <i class="fa-solid fa-location-dot"></i><br />Our Current Location
+    </h2>
+    <iframe
+      src="https://www.google.com/maps/d/embed?mid=1XL85coYhL71KcGyKey8k-Yocoj8cUPs&ehbc=2E312F" width="640" height="480"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </div>
+
+  <footer> 
+      <ul>
+        <li>
+          <i class="fa-solid fa-envelope fa-xl" style="color: #000"></i>
+          <span>Contact Us</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-map-location-dot fa-xl" style="color: #000"></i>
+          <a href="./location.html">Visit Us</a>
+        </li>
+      </ul>
+    </footer>
+
+  <script src='../JS/location.js'></script>
+</body>
+</html>
