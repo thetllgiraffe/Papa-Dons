@@ -8,10 +8,6 @@ const jwt = require('jsonwebtoken');
 const isProduction = process.env.NODE_ENV === 'production';
 
 
-
-const receiverEmail = process.env.receiver_email;
-
-
 function authenticateToken(req, res, next) {
   const token = req.cookies.token; // Read from cookie (requires cookie-parser)
 
